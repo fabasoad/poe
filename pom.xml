@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.poe</groupId>
+    <artifactId>poe-root</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>poe-runner</module>
+        <module>poe-entities-api</module>
+        <module>poe-entities-impl</module>
+    </modules>
+
+    <properties>
+        <sikuli-api.version>1.2.0</sikuli-api.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.sikuli</groupId>
+                <artifactId>sikuli-api</artifactId>
+                <version>${sikuli-api.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
