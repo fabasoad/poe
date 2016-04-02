@@ -14,8 +14,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.sikuli</groupId>
-            <artifactId>sikuli-api</artifactId>
+            <groupId>org.poe</groupId>
+            <artifactId>poe-entities</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

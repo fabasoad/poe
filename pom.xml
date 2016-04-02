@@ -10,13 +10,34 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>poe-runner</module>
-        <module>poe-entities-api</module>
-        <module>poe-entities-impl</module>
+        <module>poe-entities</module>
     </modules>
 
     <properties>
         <sikuli-api.version>1.2.0</sikuli-api.version>
+        <sikuli-setup.version>1.1.0</sikuli-setup.version>
+        <google-guava.version>19.0</google-guava.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>local-repository</id>
+            <url>file://D:/Sources/repository</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencyManagement>
         <dependencies>
@@ -24,6 +45,16 @@
                 <groupId>org.sikuli</groupId>
                 <artifactId>sikuli-api</artifactId>
                 <version>${sikuli-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.sikuli</groupId>
+                <artifactId>sikuli-setup</artifactId>
+                <version>${sikuli-setup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${google-guava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

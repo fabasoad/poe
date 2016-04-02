@@ -9,19 +9,21 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>poe-entities-impl</artifactId>
+    <artifactId>poe-entities</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>org.poe</groupId>
-            <artifactId>poe-entities-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.sikuli</groupId>
             <artifactId>sikuli-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.sikuli</groupId>
+            <artifactId>sikuli-setup</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
     </dependencies>
 
