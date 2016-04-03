@@ -9,6 +9,6 @@ import org.poe.collectors.ResourceCollector;
 public class Runner {
 
     public static void main(String[] args) {
-        while (true) ResourceCollector.getInstance().collect("resource");
+        while (true) ResourceCollector.getInstance().collect();
     }
 }

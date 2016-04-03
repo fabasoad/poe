@@ -14,6 +14,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.poe</groupId>
+            <artifactId>poe-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.sikuli</groupId>
             <artifactId>sikuli-api</artifactId>
         </dependency>

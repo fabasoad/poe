@@ -11,6 +11,7 @@
     <modules>
         <module>poe-runner</module>
         <module>poe-entities</module>
+        <module>poe-core</module>
     </modules>
 
     <properties>
