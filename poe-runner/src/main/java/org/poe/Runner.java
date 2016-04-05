@@ -1,6 +1,8 @@
 package org.poe;
 
-import org.poe.collectors.ResourceCollector;
+import org.poe.entities.food.FoodManager;
+import org.poe.entities.resources.ResourceManager;
+import org.poe.entities.validation.ValidationManager;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -9,6 +11,11 @@ import org.poe.collectors.ResourceCollector;
 public class Runner {
 
     public static void main(String[] args) {
-        while (true) ResourceCollector.getInstance().collect();
+        while (true) {
+            ValidationManager.validateAnotherClient();
+
+            ResourceManager.collect();
+            FoodManager.growCarrot();
+        }
     }
 }

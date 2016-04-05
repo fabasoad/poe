@@ -11,5 +11,11 @@
 
     <artifactId>poe-core</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.sikuli</groupId>
+            <artifactId>sikuli-setup</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
