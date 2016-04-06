@@ -1,9 +1,11 @@
 package org.poe.entities.food;
 
+import org.poe.Logger;
 import org.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import static org.poe.entities.food.FoodType.*;
 
@@ -14,6 +16,7 @@ import static org.poe.entities.food.FoodType.*;
 public class FoodManager extends ElementsManager {
 
     private final static FoodType[] FOOD_TYPES = { CARROT, CABBAGE, WHEAT, GRAPE, RICE, OLIVES };
+    private final static long COLLECT_WAIT_TIME = TimeUnit.SECONDS.toMillis(1);
 
     public static void grow() {
         grow(FOOD_TYPES, CARROT);
@@ -23,13 +26,24 @@ public class FoodManager extends ElementsManager {
         grow(new FoodType[] { CARROT }, CARROT);
     }
 
-    private static void grow(FoodType[] foodTypes, FoodType foodToGrow) {
+    private static void grow(FoodType[] foodToCollect, FoodType foodToGrow) {
         int index = 0;
-        while (index < foodTypes.length) {
-            Optional<Match> matchToCollect = findToCollect(foodTypes[index]);
-            if (matchToCollect.isPresent()) {
-                matchToCollect.get().click();
-            } else {
+        while (index < foodToCollect.length) {
+            while (true) {
+                Optional<Match> matchToCollect = findToCollect(foodToCollect[index]);
+                if (matchToCollect.isPresent()) {
+                    matchToCollect.get().click();
+                    try {
+                        Thread.sleep(COLLECT_WAIT_TIME);
+                    } catch (InterruptedException e) {
+                        Logger.getInstance().error(FoodManager.class, e.getMessage());
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+            while (true) {
                 Optional<Match> emptyField = findEmptyField();
                 if (emptyField.isPresent()) {
                     emptyField.get().click();
@@ -40,32 +54,36 @@ public class FoodManager extends ElementsManager {
                         if (matchToGrow.isPresent()) {
                             matchToGrow.get().click();
                         }
+                    } else {
+                        break;
                     }
+                } else {
+                    break;
                 }
-                index++;
             }
+            index++;
         }
     }
 
     private static Optional<Match> findToGrow(FoodType foodType) {
-        return find(FoodManager.class, "garden", foodType.getDisplayName(), foodType.getGrowImageName());
+        return find(FoodManager.class, "food", foodType.getDisplayName(), foodType.getGrowImageName());
     }
 
     private static Optional<Match> findToCollect(FoodType foodType) {
-        return find(FoodManager.class, "garden", foodType.getDisplayName(), foodType.getCollectImageName());
+        return find(FoodManager.class, "food", foodType.getDisplayName(), foodType.getCollectImageName());
     }
 
     private static Optional<Match> findEmptyField() {
         final String EMPTY_FIELD_IMAGE_NAME = "empty_field";
         final String EMPTY_FIELD_DISPLAY_NAME = "Empty field";
 
-        return find(FoodManager.class, "garden", EMPTY_FIELD_DISPLAY_NAME, EMPTY_FIELD_IMAGE_NAME);
+        return find(FoodManager.class, "food", EMPTY_FIELD_DISPLAY_NAME, EMPTY_FIELD_IMAGE_NAME);
     }
 
     private static Optional<Match> findButtonCollect() {
         final String BUTTON_COLLECT_IMAGE_NAME = "button_collect";
-        final String BUTTON_COLLECT_DISPLAY_NAME = "Button 'Collect'";
+        final String BUTTON_COLLECT_DISPLAY_NAME = "'Collect' button";
 
-        return find(FoodManager.class, "garden", BUTTON_COLLECT_DISPLAY_NAME, BUTTON_COLLECT_IMAGE_NAME);
+        return find(FoodManager.class, "food", BUTTON_COLLECT_DISPLAY_NAME, BUTTON_COLLECT_IMAGE_NAME);
     }
 }

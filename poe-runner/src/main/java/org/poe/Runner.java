@@ -13,6 +13,8 @@ public class Runner {
     public static void main(String[] args) {
         while (true) {
             ValidationManager.validateAnotherClient();
+            ValidationManager.validateServerConnectionError();
+            ValidationManager.validateError17();
 
             ResourceManager.collect();
             FoodManager.growCarrot();
