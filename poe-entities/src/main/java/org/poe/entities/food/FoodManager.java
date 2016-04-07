@@ -1,6 +1,5 @@
 package org.poe.entities.food;
 
-import org.poe.Logger;
 import org.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
 
@@ -17,6 +16,7 @@ public class FoodManager extends ElementsManager {
 
     private final static FoodType[] FOOD_TYPES = { CARROT, CABBAGE, WHEAT, GRAPE, RICE, OLIVES };
     private final static long COLLECT_WAIT_TIME = TimeUnit.SECONDS.toMillis(1);
+    private final static long GROW_WAIT_TIME = TimeUnit.SECONDS.toMillis(1);
 
     public static void grow() {
         grow(FOOD_TYPES, CARROT);
@@ -33,10 +33,7 @@ public class FoodManager extends ElementsManager {
                 Optional<Match> matchToCollect = findToCollect(foodToCollect[index]);
                 if (matchToCollect.isPresent()) {
                     matchToCollect.get().click();
-                    try {
-                        Thread.sleep(COLLECT_WAIT_TIME);
-                    } catch (InterruptedException e) {
-                        Logger.getInstance().error(FoodManager.class, e.getMessage());
+                    if (!sleep(FoodManager.class, COLLECT_WAIT_TIME)) {
                         break;
                     }
                 } else {
@@ -55,6 +52,9 @@ public class FoodManager extends ElementsManager {
                             matchToGrow.get().click();
                         }
                     } else {
+                        break;
+                    }
+                    if (!sleep(FoodManager.class, GROW_WAIT_TIME)) {
                         break;
                     }
                 } else {

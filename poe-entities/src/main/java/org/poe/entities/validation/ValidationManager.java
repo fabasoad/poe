@@ -1,6 +1,5 @@
 package org.poe.entities.validation;
 
-import org.poe.Logger;
 import org.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
 
@@ -13,9 +12,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class ValidationManager extends ElementsManager {
 
-    private final static String RELOAD_BUTTON_DISPLAY_NAME = "'Another client' button";
-    private final static String RELOAD_BUTTON_IMAGE_NAME = "reload_button";
-
     public static void validateAnotherClient() {
         final long ANOTHER_CLIENT_WAIT_TIME = TimeUnit.MINUTES.toMillis(2);
         final String ANOTHER_CLIENT_MESSAGE_DISPLAY_NAME = "'Another client' message";
@@ -27,34 +23,27 @@ public class ValidationManager extends ElementsManager {
                 ANOTHER_CLIENT_MESSAGE_DISPLAY_NAME,
                 ANOTHER_CLIENT_MESSAGE_IMAGE_NAME);
         if (matchAnotherClientMessage.isPresent()) {
-            try {
-                Thread.sleep(ANOTHER_CLIENT_WAIT_TIME);
-            } catch (InterruptedException e) {
-                Logger.getInstance().error(ValidationManager.class, e.getMessage());
-            } finally {
-                Optional<Match> matchReloadButton = find(
-                        ValidationManager.class,
-                        "validation",
-                        RELOAD_BUTTON_DISPLAY_NAME,
-                        RELOAD_BUTTON_IMAGE_NAME);
-                if (matchReloadButton.isPresent()) {
-                    matchReloadButton.get().click();
-                }
+            sleep(ValidationManager.class, ANOTHER_CLIENT_WAIT_TIME);
+
+            Optional<Match> matchReloadButton = find(
+                    ValidationManager.class,
+                    "validation",
+                    ButtonType.RELOAD.getDisplayName(),
+                    ButtonType.RELOAD.getImageName());
+            if (matchReloadButton.isPresent()) {
+                matchReloadButton.get().click();
             }
         }
     }
 
     public static void validateServerConnectionError() {
-        final String SERVER_CONNECTION_ERROR_MESSAGE_DISPLAY_NAME = "'Server connection error' message";
+        final String SERVER_CONNECTION_ERROR_MESSAGE_DISPLAY_NAME = "'Server connection' error";
         final String SERVER_CONNECTION_ERROR_MESSAGE_IMAGE_NAME = "server_connection_error_message";
-        final String SERVER_CONNECTION_ERROR_BUTTON_DISPLAY_NAME = "'Server connection error' button";
-        final String SERVER_CONNECTION_ERROR_BUTTON_IMAGE_NAME = "server_connection_error_button";
 
         validateError(
                 SERVER_CONNECTION_ERROR_MESSAGE_DISPLAY_NAME,
                 SERVER_CONNECTION_ERROR_MESSAGE_IMAGE_NAME,
-                SERVER_CONNECTION_ERROR_BUTTON_DISPLAY_NAME,
-                SERVER_CONNECTION_ERROR_BUTTON_IMAGE_NAME);
+                ButtonType.REPEAT);
     }
 
     public static void validateError17() {
@@ -64,14 +53,12 @@ public class ValidationManager extends ElementsManager {
         validateError(
                 ERROR_17_MESSAGE_DISPLAY_NAME,
                 ERROR_17_MESSAGE_IMAGE_NAME,
-                RELOAD_BUTTON_DISPLAY_NAME,
-                RELOAD_BUTTON_IMAGE_NAME);
+                ButtonType.RELOAD);
     }
 
     private static void validateError(String messageDisplayName,
                                      String messageImageName,
-                                     String buttonDisplayName,
-                                     String buttonImageName) {
+                                     ButtonType buttonType) {
         Optional<Match> matchErrorMessage = find(
                 ValidationManager.class,
                 "validation",
@@ -81,8 +68,8 @@ public class ValidationManager extends ElementsManager {
             Optional<Match> matchButton = find(
                     ValidationManager.class,
                     "validation",
-                    buttonDisplayName,
-                    buttonImageName);
+                    buttonType.getDisplayName(),
+                    buttonType.getImageName());
             if (matchButton.isPresent()) {
                 matchButton.get().click();
             }

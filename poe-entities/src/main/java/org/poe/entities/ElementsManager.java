@@ -44,4 +44,14 @@ public abstract class ElementsManager {
         Logger.getInstance().info(clazz, displayName + " is not found.");
         return Optional.empty();
     }
+
+    protected static <T extends ElementsManager> boolean sleep(Class<T> clazz, long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Logger.getInstance().error(clazz, e.getMessage());
+            return false;
+        }
+        return true;
+    }
 }

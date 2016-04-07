@@ -18,6 +18,7 @@
         <sikuli-api.version>1.2.0</sikuli-api.version>
         <sikuli-setup.version>1.1.0</sikuli-setup.version>
         <google-guava.version>19.0</google-guava.version>
+        <maven-jar-plugin.version>2.5</maven-jar-plugin.version>
     </properties>
 
     <repositories>
@@ -35,6 +36,33 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <finalName>uber-${artifactId}-${version}</finalName>
+            </configuration>
+        </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.poe.Runner</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

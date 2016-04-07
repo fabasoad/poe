@@ -1,8 +1,6 @@
 package org.poe.entities.resources;
 
-import org.poe.Logger;
 import org.poe.entities.ElementsManager;
-import org.poe.entities.food.FoodManager;
 import org.sikuli.script.Match;
 
 import java.util.Optional;
@@ -28,10 +26,7 @@ public class ResourceManager extends ElementsManager {
                 }
                 element.get().click();
 
-                try {
-                    Thread.sleep(COLLECT_WAIT_TIME);
-                } catch (InterruptedException e) {
-                    Logger.getInstance().error(ResourceManager.class, e.getMessage());
+                if (!sleep(ResourceManager.class, COLLECT_WAIT_TIME)) {
                     break;
                 }
             }
