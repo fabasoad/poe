@@ -14,12 +14,12 @@ import static org.poe.entities.food.FoodType.*;
  */
 public class FoodManager extends ElementsManager {
 
-    private final static FoodType[] FOOD_TYPES = { CARROT, CABBAGE, WHEAT, GRAPE, RICE, OLIVES };
     private final static long COLLECT_WAIT_TIME = TimeUnit.SECONDS.toMillis(1);
     private final static long GROW_WAIT_TIME = TimeUnit.SECONDS.toMillis(1);
 
+    @SuppressWarnings("unused")
     public static void grow() {
-        grow(FOOD_TYPES, CARROT);
+        grow(FoodType.values(), CARROT);
     }
 
     public static void growCarrot() {

@@ -1,5 +1,6 @@
 package org.poe.entities.validation;
 
+import org.poe.entities.ButtonType;
 import org.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
 
@@ -27,7 +28,7 @@ public class ValidationManager extends ElementsManager {
 
             Optional<Match> matchReloadButton = find(
                     ValidationManager.class,
-                    "validation",
+                    "buttons",
                     ButtonType.RELOAD.getDisplayName(),
                     ButtonType.RELOAD.getImageName());
             if (matchReloadButton.isPresent()) {
@@ -67,7 +68,7 @@ public class ValidationManager extends ElementsManager {
         if (matchErrorMessage.isPresent()) {
             Optional<Match> matchButton = find(
                     ValidationManager.class,
-                    "validation",
+                    "buttons",
                     buttonType.getDisplayName(),
                     buttonType.getImageName());
             if (matchButton.isPresent()) {

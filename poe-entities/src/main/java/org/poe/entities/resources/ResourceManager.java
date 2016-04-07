@@ -6,19 +6,16 @@ import org.sikuli.script.Match;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static org.poe.entities.resources.ResourceType.*;
-
 /**
  * @author Yevhen Fabizhevskyi
  * @date 05.04.2016.
  */
 public class ResourceManager extends ElementsManager {
 
-    private final static ResourceType[] RESOURCE_TYPES = { GOLD, WOOD, IRON };
     private final static long COLLECT_WAIT_TIME = TimeUnit.SECONDS.toMillis(1);
 
     public static void collect() {
-        for (ResourceType resourceType : RESOURCE_TYPES) {
+        for (ResourceType resourceType : ResourceType.values()) {
             while (true) {
                 Optional<Match> element = find(resourceType);
                 if (!element.isPresent()) {
