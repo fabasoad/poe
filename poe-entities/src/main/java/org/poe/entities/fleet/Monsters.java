@@ -5,7 +5,7 @@ package org.poe.entities.fleet;
  * @date 07.04.2016.
  */
 enum Monsters {
-    BIRD_RA_1("Bird RA Green", "monster_bird_ra_green");
+    BIRD_RA_GREEN("Bird RA Green", "monster_bird_ra_green");
 
     private String displayName;
     private String imageName;

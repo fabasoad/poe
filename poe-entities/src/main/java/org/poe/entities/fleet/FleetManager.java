@@ -1,5 +1,6 @@
 package org.poe.entities.fleet;
 
+import org.poe.Logger;
 import org.poe.entities.ButtonType;
 import org.poe.entities.ElementsManager;
 import org.poe.entities.fleet.exceptions.FleetException;
@@ -15,9 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -29,24 +28,19 @@ public class FleetManager extends ElementsManager {
     private static final Map<Fleets, Location> attackedMonstersMap = new HashMap<>();
 
     public static void sendFreeFleets() {
-        while (true) {
-            try {
-                sendFleet(Fleets.FREE, true);
-            } catch (MonsterNotFoundException e) {
-                Optional<Match> matchRandomSectorButton = find(
-                        FleetManager.class,
-                        "buttons",
-                        ButtonType.RANDOM_SECTOR.getDisplayName(),
-                        ButtonType.RANDOM_SECTOR.getImageName());
-                if (matchRandomSectorButton.isPresent()) {
-                    attackedMonstersList.clear();
-                    matchRandomSectorButton.get().click();
-                } else {
-                    break;
-                }
-            } catch (FleetException e) {
-                break;
+        try {
+            sendFleet(Fleets.FREE, true);
+        } catch (MonsterNotFoundException e) {
+            Optional<Match> matchRandomSectorButton = find(
+                    FleetManager.class,
+                    "buttons",
+                    ButtonType.RANDOM_SECTOR.getDisplayName(),
+                    ButtonType.RANDOM_SECTOR.getImageName());
+            if (matchRandomSectorButton.isPresent()) {
+                attackedMonstersList.clear();
+                matchRandomSectorButton.get().click();
             }
+        } catch (FleetException ignored) {
         }
     }
 
@@ -95,12 +89,19 @@ public class FleetManager extends ElementsManager {
             Optional<Match> matchMonster = find(
                     FleetManager.class,
                     "monsters",
-                    Monsters.BIRD_RA_1.getDisplayName(),
-                    Monsters.BIRD_RA_1.getImageName());
+                    Monsters.BIRD_RA_GREEN.getDisplayName(),
+                    Monsters.BIRD_RA_GREEN.getImageName());
             if (matchMonster.isPresent()) {
-                if (!attackedMonstersContains.test(matchMonster.get().getTarget())) {
-                    attackedMonstersAdd.accept(fleet, matchMonster.get().getTarget());
-                    matchMonster.get().click();
+                Match monster = matchMonster.get();
+                if (attackedMonstersContains.test(monster.getTarget())) {
+                    Logger.getInstance().info(FleetManager.class, String.format(
+                            "Monster '%s' [%s, %s] already attacked.",
+                            Monsters.BIRD_RA_GREEN.getDisplayName(),
+                            monster.getTarget().getX(),
+                            monster.getTarget().getY()));
+                } else {
+                    attackedMonstersAdd.accept(fleet, monster.getTarget());
+                    monster.click();
                     Optional<Match> matchAttackButton = find(
                             FleetManager.class,
                             "buttons",
@@ -108,7 +109,6 @@ public class FleetManager extends ElementsManager {
                             ButtonType.ATTACK.getImageName());
                     if (matchAttackButton.isPresent()) {
                         matchAttackButton.get().click();
-                        throw new FleetException();
                     }
                 }
             } else {
