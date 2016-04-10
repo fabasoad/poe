@@ -25,23 +25,27 @@ public class Runner {
             ValidationManager.validateServerConnectionError();
             ValidationManager.validateError17();
 
-            if (cmd.hasOption("c")) {
+            if (cmd.hasOption("resources")) {
                 ResourceManager.collect();
             }
-            if (cmd.hasOption("g")) {
+            if (cmd.hasOption("food")) {
                 FoodManager.growCarrot();
             }
-            if (cmd.hasOption("f")) {
-                FleetManager.sendFreeFleets();
+            if (cmd.hasOption("fleet")) {
+                if (cmd.getOptionValue("fleet", "free").equals("free")) {
+                    FleetManager.sendFreeFleets();
+                } else {
+                    FleetManager.sendFleets();
+                }
             }
         }
     }
 
     private static Options buildOptions() {
         Options options = new Options();
-        options.addOption("f", "fleet", false, "Command to send the fleet.");
-        options.addOption("c", "collect", false, "Command to collect the resources.");
-        options.addOption("g", "grow", false, "Command to grow the food.");
+        options.addOption("fl", "fleet", true, "Command to send the fleet.");
+        options.addOption("fo", "food", false, "Command to grow the food.");
+        options.addOption("r", "resources", false, "Command to collect the resources.");
         return options;
     }
 }
