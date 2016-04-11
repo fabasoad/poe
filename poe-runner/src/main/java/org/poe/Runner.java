@@ -5,10 +5,19 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.poe.entities.fleet.Fleet;
 import org.poe.entities.fleet.FleetManager;
+import org.poe.entities.fleet.Monster;
 import org.poe.entities.food.FoodManager;
 import org.poe.entities.resources.ResourceManager;
 import org.poe.entities.validation.ValidationManager;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -32,10 +41,12 @@ public class Runner {
                 FoodManager.growCarrot();
             }
             if (cmd.hasOption("fleet")) {
+                Collection<Monster> monsters = Arrays.asList(Monster.values());
                 if (cmd.getOptionValue("fleet", "free").equals("free")) {
-                    FleetManager.sendFreeFleets();
+                    FleetManager.sendFleets(Collections.singletonList(Fleet.FREE), monsters);
                 } else {
-                    FleetManager.sendFleets();
+                    FleetManager.sendFleets(Stream.of(Fleet.values())
+                            .filter(f -> f != Fleet.FREE).collect(Collectors.toList()), monsters);
                 }
             }
         }
@@ -44,6 +55,7 @@ public class Runner {
     private static Options buildOptions() {
         Options options = new Options();
         options.addOption("fl", "fleet", true, "Command to send the fleet.");
+        options.addOption("m", "monsters", true, "Command to send the fleet.");
         options.addOption("fo", "food", false, "Command to grow the food.");
         options.addOption("r", "resources", false, "Command to collect the resources.");
         return options;

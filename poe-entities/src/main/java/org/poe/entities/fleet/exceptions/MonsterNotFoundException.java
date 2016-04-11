@@ -1,9 +1,6 @@
 package org.poe.entities.fleet.exceptions;
 
-import com.sun.deploy.util.StringUtils;
 import org.poe.entities.fleet.Monster;
-
-import java.util.Arrays;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -11,7 +8,7 @@ import java.util.Arrays;
  */
 public class MonsterNotFoundException extends FleetException {
 
-    public MonsterNotFoundException(Monster[] monsters) {
-        super(StringUtils.join(Arrays.asList(monsters), ", ") + " is (are) not found.");
+    public MonsterNotFoundException(Monster monster) {
+        super(monster.getDisplayName() + " is not found.");
     }
 }
