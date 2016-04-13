@@ -10,6 +10,7 @@ import org.poe.entities.fleet.FleetManager;
 import org.poe.entities.fleet.Monster;
 import org.poe.entities.food.FoodManager;
 import org.poe.entities.resources.ResourceManager;
+import org.poe.entities.temp.TempManager;
 import org.poe.entities.validation.ValidationManager;
 
 import java.util.ArrayList;
@@ -30,34 +31,46 @@ public class Runner {
         CommandLine cmd = parser.parse(buildOptions(), args);
 
         while (true) {
-            ValidationManager.validateAnotherClient();
-            ValidationManager.validateServerConnectionError();
-            ValidationManager.validateError17();
+            if (cmd.hasOption("test")) {
+                TempManager.getInstance().test();
+                continue;
+            }
+            ValidationManager.getInstance().validateAnotherClient();
+            ValidationManager.getInstance().validateServerConnectionError();
+            ValidationManager.getInstance().validateError17();
 
             if (cmd.hasOption("resources")) {
-                ResourceManager.collect();
+                ResourceManager.getInstance().collect();
             }
             if (cmd.hasOption("food")) {
-                FoodManager.growCarrot();
+                FoodManager.getInstance().growCarrot();
             }
             if (cmd.hasOption("fleet")) {
-                Collection<Monster> monsters = Arrays.asList(Monster.FISHANGER_1, Monster.GIANT_AGLA_KILLER_1);
-                if (cmd.getOptionValue("fleet", "free").equals("free")) {
-                    FleetManager.sendFleets(Collections.singletonList(Fleet.FREE), monsters);
-                } else {
-                    FleetManager.sendFleets(Stream.of(Fleet.values())
-                            .filter(f -> f != Fleet.FREE).collect(Collectors.toList()), monsters);
-                }
+                FleetManager.getInstance().sendFleets(getMonsters(cmd));
             }
         }
     }
 
+    private static Collection<Monster> getMonsters(CommandLine cmd) {
+        Collection<Monster> monsters;
+        if (cmd.hasOption("monsters")) {
+            String defaultMonsters = Monster.getDefaultAsString();
+            monsters = Arrays.stream(cmd.getOptionValue("monsters", defaultMonsters).split(","))
+                    .map(v -> Monster.valueOf(v.trim()))
+                    .collect(Collectors.toList());
+        } else {
+            monsters = Monster.getDefaultAsCollection();
+        }
+        return monsters;
+    }
+
     private static Options buildOptions() {
         Options options = new Options();
-        options.addOption("fl", "fleet", true, "Command to send the fleet.");
-        options.addOption("m", "monsters", true, "Command to send the fleet.");
+        options.addOption("fl", "fleet", false, "Command to send the fleet.");
+        options.addOption("m", "monsters", true, "List of monsters to attack.");
         options.addOption("fo", "food", false, "Command to grow the food.");
         options.addOption("r", "resources", false, "Command to collect the resources.");
+        options.addOption("t", "test", false, "Command to test the lib.");
         return options;
     }
 }

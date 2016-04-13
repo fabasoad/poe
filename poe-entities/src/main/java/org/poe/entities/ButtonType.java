@@ -9,7 +9,8 @@ public enum ButtonType {
     REPEAT("'Repeat' button", "repeat_button"),
     ATTACK("'Attack' button", "attack_button"),
     RANDOM_SECTOR("'Random sector' button", "random_sector_button"),
-    REPAIR("'Repair' button", "repair_button");
+    REPAIR("'Repair' button", "repair_button"),
+    COLLECT_FOOD("'Collect food' button", "collect_food_button");
 
     private String displayName;
     private String imageName;

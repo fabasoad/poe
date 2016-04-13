@@ -1,8 +1,11 @@
 package org.poe.entities.resources;
 
+import com.google.common.collect.Iterators;
 import org.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -12,25 +15,30 @@ import java.util.concurrent.TimeUnit;
  */
 public class ResourceManager extends ElementsManager {
 
-    private final static long COLLECT_WAIT_TIME = TimeUnit.SECONDS.toMillis(1);
+    private static final ResourceManager instance = new ResourceManager();
 
-    public static void collect() {
-        for (ResourceType resourceType : ResourceType.values()) {
-            while (true) {
-                Optional<Match> element = find(resourceType);
-                if (!element.isPresent()) {
-                    break;
-                }
-                element.get().click();
-
-                if (!sleep(ResourceManager.class, COLLECT_WAIT_TIME)) {
-                    break;
-                }
-            }
-        }
+    public static ResourceManager getInstance() {
+        return instance;
     }
 
-    private static Optional<Match> find(ResourceType resourceType) {
-        return find(ResourceManager.class, "resources", resourceType.getDisplayName(), resourceType.getImageName());
+    private ResourceManager() {
+    }
+
+    public void collect() {
+        findAll(ResourceType.values()).ifPresent(iterator -> {
+            while (iterator.hasNext()) {
+                iterator.next().click();
+            }
+        });
+    }
+
+    private Optional<Iterator<Match>> findAll(ResourceType[] resources) {
+        @SuppressWarnings("unchecked")
+        final Iterator<Match>[] result = new Iterator[1];
+        for (ResourceType resource : resources) {
+            findAll("resources", resource.getDisplayName(), resource.getImageName()).ifPresent(iterator ->
+                    result[0] = result[0] == null ? iterator : Iterators.concat(result[0], iterator));
+        }
+        return Optional.ofNullable(result[0]);
     }
 }

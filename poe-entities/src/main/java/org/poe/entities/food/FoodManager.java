@@ -1,8 +1,12 @@
 package org.poe.entities.food;
 
+import com.google.common.collect.Iterators;
+import org.poe.entities.ButtonType;
 import org.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
+import org.sikuli.script.Region;
 
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -14,76 +18,59 @@ import static org.poe.entities.food.FoodType.*;
  */
 public class FoodManager extends ElementsManager {
 
-    private final static long COLLECT_WAIT_TIME = TimeUnit.SECONDS.toMillis(1);
-    private final static long GROW_WAIT_TIME = TimeUnit.SECONDS.toMillis(1);
+    private static final FoodManager instance = new FoodManager();
 
-    @SuppressWarnings("unused")
-    public static void grow() {
-        grow(FoodType.values(), CARROT);
+    public static FoodManager getInstance() {
+        return instance;
     }
 
-    public static void growCarrot() {
+    private FoodManager() {
+    }
+
+    public void growCarrot() {
         grow(new FoodType[] { CARROT }, CARROT);
     }
 
-    private static void grow(FoodType[] foodToCollect, FoodType foodToGrow) {
-        int index = 0;
-        while (index < foodToCollect.length) {
-            while (true) {
-                Optional<Match> matchToCollect = findToCollect(foodToCollect[index]);
-                if (matchToCollect.isPresent()) {
-                    matchToCollect.get().click();
-                    if (!sleep(FoodManager.class, COLLECT_WAIT_TIME)) {
-                        break;
-                    }
-                } else {
-                    break;
-                }
+    private void grow(FoodType[] foodToCollect, FoodType foodToGrow) {
+        findAllFoodToCollect(foodToCollect).ifPresent(iterator -> {
+            while (iterator.hasNext()) {
+                iterator.next().click();
             }
-            while (true) {
-                Optional<Match> emptyField = findEmptyField();
-                if (emptyField.isPresent()) {
-                    emptyField.get().click();
-                    Optional<Match> buttonCollect = findButtonCollect();
-                    if (buttonCollect.isPresent()) {
-                        buttonCollect.get().click();
-                        Optional<Match> matchToGrow = findToGrow(foodToGrow);
-                        if (matchToGrow.isPresent()) {
-                            matchToGrow.get().click();
-                        }
-                    } else {
-                        break;
-                    }
-                    if (!sleep(FoodManager.class, GROW_WAIT_TIME)) {
-                        break;
-                    }
-                } else {
-                    break;
-                }
+        });
+
+        findEmptyFields().ifPresent(emptyFieldIterator -> {
+            while (emptyFieldIterator.hasNext()) {
+                emptyFieldIterator.next().click();
+                findCollectButton().ifPresent(matchCollectButton -> {
+                    matchCollectButton.click();
+                    findToGrow(foodToGrow).ifPresent(Region::click);
+                });
             }
-            index++;
-        }
+        });
     }
 
-    private static Optional<Match> findToGrow(FoodType foodType) {
-        return find(FoodManager.class, "food", foodType.getDisplayName(), foodType.getGrowImageName());
+    private Optional<Match> findToGrow(FoodType foodType) {
+        return find("food", foodType.getDisplayName(), foodType.getGrowImageName());
     }
 
-    private static Optional<Match> findToCollect(FoodType foodType) {
-        return find(FoodManager.class, "food", foodType.getDisplayName(), foodType.getCollectImageName());
-    }
-
-    private static Optional<Match> findEmptyField() {
+    private Optional<Iterator<Match>> findEmptyFields() {
         final String EMPTY_FIELD_IMAGE_NAME = "empty_field";
         final String EMPTY_FIELD_DISPLAY_NAME = "Empty field";
 
-        return find(FoodManager.class, "food", EMPTY_FIELD_DISPLAY_NAME, EMPTY_FIELD_IMAGE_NAME);
+        return findAll("food", EMPTY_FIELD_DISPLAY_NAME, EMPTY_FIELD_IMAGE_NAME);
     }
 
-    private static Optional<Match> findButtonCollect() {
-        final String BUTTON_COLLECT_IMAGE_NAME = "button_collect";
-        final String BUTTON_COLLECT_DISPLAY_NAME = "'Collect' button";
+    private Optional<Match> findCollectButton() {
+        return find("buttons", ButtonType.COLLECT_FOOD.getDisplayName(), ButtonType.COLLECT_FOOD.getImageName());
+    }
 
-        return find(FoodManager.class, "food", BUTTON_COLLECT_DISPLAY_NAME, BUTTON_COLLECT_IMAGE_NAME);
+    private Optional<Iterator<Match>> findAllFoodToCollect(FoodType[] foodTypes) {
+        @SuppressWarnings("unchecked")
+        final Iterator<Match>[] result = new Iterator[1];
+        for (FoodType foodType : foodTypes) {
+            findAll("food", foodType.getDisplayName(), foodType.getCollectImageName()).ifPresent(iterator ->
+                    result[0] = result[0] == null ? iterator : Iterators.concat(result[0], iterator));
+        }
+        return Optional.ofNullable(result[0]);
     }
 }

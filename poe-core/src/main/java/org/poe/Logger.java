@@ -21,8 +21,8 @@ public class Logger {
         log(System.err, clazz, "ERROR", message);
     }
 
-    public void warning(Class clazz, String message) {
-        log(System.out, clazz, "WARNING", message);
+    public void flow(Class clazz, String message) {
+        log(System.out, clazz, "FLOW", message);
     }
 
     public void info(Class clazz, String message) {
