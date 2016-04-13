@@ -87,16 +87,10 @@ public class FleetManager extends ElementsManager {
     }
 
     private void checkIfRepairRequired() {
-        int counter = Fleet.values().length - 1;
-        while (counter > 0) {
-            Optional<Match> matchRepairButton =
-                    find("fleet", ButtonType.REPAIR.getDisplayName(), ButtonType.REPAIR.getImageName());
-            if (matchRepairButton.isPresent()) {
-                matchRepairButton.get().click();
-                counter--;
-            } else {
-                break;
+        findAll("fleet", ButtonType.REPAIR.getDisplayName(), ButtonType.REPAIR.getImageName()).ifPresent(iterator -> {
+            while (iterator.hasNext()) {
+                iterator.next().click();
             }
-        }
+        });
     }
 }
