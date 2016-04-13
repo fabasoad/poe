@@ -5,8 +5,9 @@ package org.poe.entities.fleet;
  * @date 07.04.2016.
  */
 public enum Monster {
-    BIRD_RA_GREEN("Bird RA Green", "monster_bird_ra_green"),
-    FISH_1("Fish lvl.1", "monster_fish_1");
+    BIRD_RA_1("Bird RA lvl.1", "monster_bird_ra_1"),
+    FISHANGER_1("Fish lvl.1", "monster_fishanger_1"),
+    GIANT_AGLA_KILLER_1("Giant Agla Killer lvl.1", "monster_giant_agla_killer_1");
 
     private String displayName;
     private String imageName;

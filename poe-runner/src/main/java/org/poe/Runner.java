@@ -41,7 +41,7 @@ public class Runner {
                 FoodManager.growCarrot();
             }
             if (cmd.hasOption("fleet")) {
-                Collection<Monster> monsters = Arrays.asList(Monster.values());
+                Collection<Monster> monsters = Arrays.asList(Monster.FISHANGER_1, Monster.GIANT_AGLA_KILLER_1);
                 if (cmd.getOptionValue("fleet", "free").equals("free")) {
                     FleetManager.sendFleets(Collections.singletonList(Fleet.FREE), monsters);
                 } else {
