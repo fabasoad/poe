@@ -5,6 +5,7 @@ package org.poe.entities;
  * @date 07.04.2016.
  */
 public enum ButtonType {
+    OK("'OK' button", "ok_button"),
     RELOAD("'Reload' button", "reload_button"),
     REPEAT("'Repeat' button", "repeat_button"),
     ATTACK("'Attack' button", "attack_button"),

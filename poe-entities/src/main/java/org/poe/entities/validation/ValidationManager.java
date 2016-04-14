@@ -3,6 +3,7 @@ package org.poe.entities.validation;
 import org.poe.entities.ButtonType;
 import org.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
+import org.sikuli.script.Region;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -64,21 +65,21 @@ public class ValidationManager extends ElementsManager {
                 ButtonType.RELOAD);
     }
 
+    public void validateLevelUp() {
+        final String LEVEL_UP_MESSAGE_DISPLAY_NAME = "'Level up' message";
+        final String LEVEL_UP_MESSAGE_IMAGE_NAME = "level_up_message";
+
+        validateError(
+                LEVEL_UP_MESSAGE_DISPLAY_NAME,
+                LEVEL_UP_MESSAGE_IMAGE_NAME,
+                ButtonType.OK);
+    }
+
     private void validateError(String messageDisplayName,
-                                     String messageImageName,
-                                     ButtonType buttonType) {
-        Optional<Match> matchErrorMessage = find(
-                "validation",
-                messageDisplayName,
-                messageImageName);
-        if (matchErrorMessage.isPresent()) {
-            Optional<Match> matchButton = find(
-                    "buttons",
-                    buttonType.getDisplayName(),
-                    buttonType.getImageName());
-            if (matchButton.isPresent()) {
-                matchButton.get().click();
-            }
-        }
+                               String messageImageName,
+                               ButtonType buttonType) {
+        find("validation", messageDisplayName, messageImageName)
+                .ifPresent(m -> find("buttons", buttonType.getDisplayName(), buttonType.getImageName())
+                        .ifPresent(Region::click));
     }
 }
