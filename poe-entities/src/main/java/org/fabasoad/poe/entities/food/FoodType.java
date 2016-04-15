@@ -1,4 +1,4 @@
-package org.poe.entities.food;
+package org.fabasoad.poe.entities.food;
 
 /**
  * @author Yevhen Fabizhevskyi

@@ -1,6 +1,6 @@
-package org.poe.entities.temp;
+package org.fabasoad.poe.entities.temp;
 
-import org.poe.entities.ElementsManager;
+import org.fabasoad.poe.entities.ElementsManager;
 
 /**
  * @author Yevhen Fabizhevskyi

@@ -1,8 +1,8 @@
-package org.poe.entities.fleet;
+package org.fabasoad.poe.entities.fleet;
 
 import com.google.common.collect.Iterators;
-import org.poe.entities.ButtonType;
-import org.poe.entities.ElementsManager;
+import org.fabasoad.poe.entities.ButtonType;
+import org.fabasoad.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 

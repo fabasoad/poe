@@ -1,4 +1,4 @@
-package org.poe.entities;
+package org.fabasoad.poe.entities;
 
 /**
  * @author Yevhen Fabizhevskyi

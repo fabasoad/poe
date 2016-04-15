@@ -1,18 +1,20 @@
-package org.poe.entities.resources;
+package org.fabasoad.poe.entities.fleet;
 
 /**
  * @author Yevhen Fabizhevskyi
- * @date 05.04.2016.
+ * @date 07.04.2016.
  */
-public enum ResourceType {
-    GOLD("Gold", "gold"),
-    WOOD("Wood", "iron"),
-    IRON("Iron", "wood");
+public enum Fleet {
+    BLUE("'Blue' fleet", "fleet_blue"),
+    GREEN("'Green' fleet", "fleet_green"),
+    RED("'Red' fleet", "fleet_red"),
+    PURPLE("'Purple' fleet", "fleet_purple"),
+    FREE("Free fleet", "fleet_free");
 
     private final String displayName;
     private final String imageName;
 
-    ResourceType(String displayName, String imageName) {
+    Fleet(String displayName, String imageName) {
         this.displayName = displayName;
         this.imageName = imageName;
     }

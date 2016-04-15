@@ -1,13 +1,11 @@
-package org.poe.entities.resources;
+package org.fabasoad.poe.entities.resources;
 
 import com.google.common.collect.Iterators;
-import org.poe.entities.ElementsManager;
+import org.fabasoad.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Yevhen Fabizhevskyi

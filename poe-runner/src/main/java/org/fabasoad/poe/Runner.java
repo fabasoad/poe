@@ -1,16 +1,16 @@
-package org.poe;
+package org.fabasoad.poe;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.poe.entities.fleet.FleetManager;
-import org.poe.entities.fleet.Monster;
-import org.poe.entities.food.FoodManager;
-import org.poe.entities.resources.ResourceManager;
-import org.poe.entities.temp.TempManager;
-import org.poe.entities.validation.ValidationManager;
+import org.fabasoad.poe.entities.fleet.FleetManager;
+import org.fabasoad.poe.entities.fleet.Monster;
+import org.fabasoad.poe.entities.food.FoodManager;
+import org.fabasoad.poe.entities.resources.ResourceManager;
+import org.fabasoad.poe.entities.temp.TempManager;
+import org.fabasoad.poe.entities.validation.ValidationManager;
 
 import java.util.Arrays;
 import java.util.Collection;

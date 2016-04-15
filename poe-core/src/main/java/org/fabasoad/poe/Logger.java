@@ -1,4 +1,4 @@
-package org.poe;
+package org.fabasoad.poe;
 
 import java.io.PrintStream;
 

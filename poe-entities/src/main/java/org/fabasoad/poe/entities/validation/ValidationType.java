@@ -1,4 +1,4 @@
-package org.poe.entities.validation;
+package org.fabasoad.poe.entities.validation;
 
 /**
  * @author Yevhen Fabizhevskyi

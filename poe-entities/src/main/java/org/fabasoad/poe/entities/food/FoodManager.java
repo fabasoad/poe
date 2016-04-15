@@ -1,16 +1,15 @@
-package org.poe.entities.food;
+package org.fabasoad.poe.entities.food;
 
 import com.google.common.collect.Iterators;
-import org.poe.entities.ButtonType;
-import org.poe.entities.ElementsManager;
+import org.fabasoad.poe.entities.ButtonType;
+import org.fabasoad.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 
 import java.util.Iterator;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
-import static org.poe.entities.food.FoodType.*;
+import static org.fabasoad.poe.entities.food.FoodType.*;
 
 /**
  * @author Yevhen Fabizhevskyi

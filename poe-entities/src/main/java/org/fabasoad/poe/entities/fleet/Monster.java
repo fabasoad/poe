@@ -1,12 +1,12 @@
-package org.poe.entities.fleet;
+package org.fabasoad.poe.entities.fleet;
 
-import org.poe.entities.resources.ResourceType;
+import org.fabasoad.poe.entities.resources.ResourceType;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import static org.poe.entities.resources.ResourceType.*;
+import static org.fabasoad.poe.entities.resources.ResourceType.*;
 
 /**
  * @author Yevhen Fabizhevskyi

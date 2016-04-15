@@ -1,7 +1,7 @@
-package org.poe.entities.validation;
+package org.fabasoad.poe.entities.validation;
 
-import org.poe.entities.ButtonType;
-import org.poe.entities.ElementsManager;
+import org.fabasoad.poe.entities.ButtonType;
+import org.fabasoad.poe.entities.ElementsManager;
 import org.sikuli.script.Region;
 
 import java.util.concurrent.TimeUnit;
