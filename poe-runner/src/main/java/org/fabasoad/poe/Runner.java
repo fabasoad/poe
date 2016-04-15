@@ -11,6 +11,7 @@ import org.fabasoad.poe.entities.food.FoodManager;
 import org.fabasoad.poe.entities.resources.ResourceManager;
 import org.fabasoad.poe.entities.temp.TempManager;
 import org.fabasoad.poe.entities.validation.ValidationManager;
+import org.sikuli.script.ImagePath;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,7 +23,13 @@ import java.util.stream.Collectors;
  */
 public class Runner {
 
+    private static void setUp() {
+        ImagePath.add("org.fabasoad.poe.Runner/img");
+    }
+
     public static void main(String[] args) throws ParseException {
+        setUp();
+
         CommandLineParser parser = new BasicParser();
         CommandLine cmd = parser.parse(buildOptions(), args);
 

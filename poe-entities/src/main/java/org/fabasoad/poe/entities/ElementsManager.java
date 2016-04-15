@@ -16,13 +16,8 @@ import java.util.Optional;
 public abstract class ElementsManager {
 
     protected Optional<Match> find(String folderName, String displayName, String imageName) {
-        URL resource = ClassLoader.getSystemResource(
-                String.format("img/%s/%s.png", folderName, imageName));
-        if (resource == null) {
-            Logger.getInstance().flow(getClass(), String.format("'%s' image is not found.", imageName));
-            return Optional.empty();
-        }
-        Match match = ScreenInstance.get().exists(resource.getPath());
+        String fullImageName = String.format("%s/%s.png", folderName, imageName);
+        Match match = ScreenInstance.get().exists(fullImageName);
         if (match == null) {
             Logger.getInstance().flow(getClass(), displayName + " does not exist.");
             return Optional.empty();
@@ -31,20 +26,15 @@ public abstract class ElementsManager {
     }
 
     protected Optional<Iterator<Match>> findAll(String folderName, String displayName, String imageName) {
-        URL resource = ClassLoader.getSystemResource(
-                String.format("img/%s/%s.png", folderName, imageName));
-        if (resource == null) {
-            Logger.getInstance().flow(getClass(), String.format("'%s' image is not found.", imageName));
-            return Optional.empty();
-        }
-        Match match = ScreenInstance.get().exists(resource.getPath());
+        String fullImageName = String.format("%s/%s.png", folderName, imageName);
+        Match match = ScreenInstance.get().exists(fullImageName);
         if (match == null) {
             Logger.getInstance().flow(getClass(), displayName + " does not exist.");
             return Optional.empty();
         }
         Iterator<Match> foundElements;
         try {
-            foundElements = ScreenInstance.get().findAll(resource.getPath());
+            foundElements = ScreenInstance.get().findAll(fullImageName);
         } catch (FindFailed e) {
             Logger.getInstance().error(getClass(), e.getMessage());
             return Optional.empty();
