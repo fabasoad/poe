@@ -21,6 +21,14 @@ public class ValidationManager extends ElementsManager {
     private ValidationManager() {
     }
 
+    public void validateAll() {
+        validateAnotherClient();
+        validateServerConnectionError();
+        validateError17();
+        validateLevelUp();
+        validateRating();
+    }
+
     public void validateAnotherClient() {
         final long ANOTHER_CLIENT_WAIT_TIME = TimeUnit.MINUTES.toMillis(2);
 
@@ -43,6 +51,11 @@ public class ValidationManager extends ElementsManager {
 
     public void validateLevelUp() {
         validate(ValidationType.LEVEL_UP, ButtonType.OK);
+    }
+
+    public void validateRating() {
+        validate(ValidationType.RATING_1, ButtonType.NO_THANKS);
+        validate(ValidationType.RATING_2, ButtonType.NO_THANKS);
     }
 
     private void validate(ValidationType validationType,

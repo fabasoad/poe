@@ -3,6 +3,7 @@ package org.fabasoad.poe.entities.resources;
 import com.google.common.collect.Iterators;
 import org.fabasoad.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
+import org.sikuli.script.Region;
 
 import java.util.Iterator;
 import java.util.Optional;
@@ -23,11 +24,7 @@ public class ResourceManager extends ElementsManager {
     }
 
     public void collect() {
-        findAll(ResourceType.values()).ifPresent(iterator -> {
-            while (iterator.hasNext()) {
-                iterator.next().click();
-            }
-        });
+        findAll(ResourceType.values()).ifPresent(i -> i.forEachRemaining(Region::click));
     }
 
     private Optional<Iterator<Match>> findAll(ResourceType[] resources) {

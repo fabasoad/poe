@@ -1,6 +1,7 @@
 package org.fabasoad.poe.entities.buttons;
 
 import org.fabasoad.poe.entities.ElementsManager;
+import org.sikuli.script.Region;
 
 /**
  * @author Eugene Fabizhevsky
@@ -29,10 +30,7 @@ public class ButtonsManager extends ElementsManager {
     }
 
     public void clickMany(ButtonType buttonType) {
-        findAll("buttons", buttonType.getDisplayName(), buttonType.getImageName()).ifPresent(iterator -> {
-            while (iterator.hasNext()) {
-                iterator.next().click();
-            }
-        });
+        findAll("buttons", buttonType.getDisplayName(), buttonType.getImageName())
+                .ifPresent(i -> i.forEachRemaining(Region::click));
     }
 }

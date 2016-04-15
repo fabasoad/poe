@@ -32,15 +32,11 @@ public class FoodManager extends ElementsManager {
     }
 
     private void grow(FoodType[] foodToCollect, FoodType foodToGrow) {
-        findAllFoodToCollect(foodToCollect).ifPresent(iterator -> {
-            while (iterator.hasNext()) {
-                iterator.next().click();
-            }
-        });
+        findAllFoodToCollect(foodToCollect).ifPresent(i -> i.forEachRemaining(Region::click));
 
-        findEmptyFields().ifPresent(emptyFieldIterator -> {
-            while (emptyFieldIterator.hasNext()) {
-                emptyFieldIterator.next().click();
+        findEmptyFields().ifPresent(i -> {
+            while (i.hasNext()) {
+                i.next().click();
                 ButtonsManager.getInstance().click(
                         ButtonType.COLLECT_FOOD,
                         () -> findToGrow(foodToGrow).ifPresent(Region::click));

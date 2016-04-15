@@ -38,10 +38,7 @@ public class Runner {
                 TempManager.getInstance().test();
                 continue;
             }
-            ValidationManager.getInstance().validateAnotherClient();
-            ValidationManager.getInstance().validateServerConnectionError();
-            ValidationManager.getInstance().validateError17();
-            ValidationManager.getInstance().validateLevelUp();
+            ValidationManager.getInstance().validateAll();
 
             if (cmd.hasOption("resources")) {
                 ResourceManager.getInstance().collect();
