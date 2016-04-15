@@ -19,8 +19,7 @@ public abstract class ElementsManager {
         URL resource = ClassLoader.getSystemResource(
                 String.format("img/%s/%s.png", folderName, imageName));
         if (resource == null) {
-            Logger.getInstance().flow(
-                    getClass(), String.format("'%s' image is not found.", imageName));
+            Logger.getInstance().flow(getClass(), String.format("'%s' image is not found.", imageName));
             return Optional.empty();
         }
         Match match = ScreenInstance.get().exists(resource.getPath());
@@ -35,8 +34,7 @@ public abstract class ElementsManager {
         URL resource = ClassLoader.getSystemResource(
                 String.format("img/%s/%s.png", folderName, imageName));
         if (resource == null) {
-            Logger.getInstance().flow(
-                    getClass(), String.format("'%s' image is not found.", imageName));
+            Logger.getInstance().flow(getClass(), String.format("'%s' image is not found.", imageName));
             return Optional.empty();
         }
         Match match = ScreenInstance.get().exists(resource.getPath());
@@ -58,7 +56,7 @@ public abstract class ElementsManager {
         return Optional.empty();
     }
 
-    protected boolean sleep(long millis) {
+    protected final boolean sleep(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
