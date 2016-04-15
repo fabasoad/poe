@@ -5,7 +5,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.poe.entities.fleet.Fleet;
 import org.poe.entities.fleet.FleetManager;
 import org.poe.entities.fleet.Monster;
 import org.poe.entities.food.FoodManager;
@@ -13,12 +12,9 @@ import org.poe.entities.resources.ResourceManager;
 import org.poe.entities.temp.TempManager;
 import org.poe.entities.validation.ValidationManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Yevhen Fabizhevskyi
