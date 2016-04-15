@@ -34,8 +34,8 @@ public class ResourceManager extends ElementsManager {
         @SuppressWarnings("unchecked")
         final Iterator<Match>[] result = new Iterator[1];
         for (ResourceType resource : resources) {
-            findAll("resources", resource.getDisplayName(), resource.getImageName()).ifPresent(iterator ->
-                    result[0] = result[0] == null ? iterator : Iterators.concat(result[0], iterator));
+            findAll("resources", resource.getDisplayName(), resource.getImageName()).ifPresent(i ->
+                    result[0] = Optional.ofNullable(result[0]).map(r -> Iterators.concat(r, i)).orElse(i));
         }
         return Optional.ofNullable(result[0]);
     }

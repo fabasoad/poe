@@ -1,8 +1,8 @@
 package org.fabasoad.poe.entities.validation;
 
-import org.fabasoad.poe.entities.ButtonType;
+import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.ElementsManager;
-import org.sikuli.script.Region;
+import org.fabasoad.poe.entities.buttons.ButtonsManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,12 +25,11 @@ public class ValidationManager extends ElementsManager {
         final long ANOTHER_CLIENT_WAIT_TIME = TimeUnit.MINUTES.toMillis(2);
 
         find("validation",
-             ValidationType.ANOTHER_CLIENT.getDisplayName(),
-             ValidationType.ANOTHER_CLIENT.getImageName()).ifPresent(m -> {
+                ValidationType.ANOTHER_CLIENT.getDisplayName(),
+                ValidationType.ANOTHER_CLIENT.getImageName()).ifPresent(m -> {
             sleep(ANOTHER_CLIENT_WAIT_TIME);
 
-            find("buttons", ButtonType.RELOAD.getDisplayName(), ButtonType.RELOAD.getImageName())
-                    .ifPresent(Region::click);
+            ButtonsManager.getInstance().click(ButtonType.RELOAD);
         });
     }
 
@@ -49,7 +48,6 @@ public class ValidationManager extends ElementsManager {
     private void validate(ValidationType validationType,
                           ButtonType buttonType) {
         find("validation", validationType.getDisplayName(), validationType.getImageName())
-                .ifPresent(m -> find("buttons", buttonType.getDisplayName(), buttonType.getImageName())
-                        .ifPresent(Region::click));
+                .ifPresent(m -> ButtonsManager.getInstance().click(buttonType));
     }
 }

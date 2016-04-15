@@ -1,8 +1,9 @@
 package org.fabasoad.poe.entities.food;
 
 import com.google.common.collect.Iterators;
-import org.fabasoad.poe.entities.ButtonType;
+import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.ElementsManager;
+import org.fabasoad.poe.entities.buttons.ButtonsManager;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 
@@ -40,10 +41,9 @@ public class FoodManager extends ElementsManager {
         findEmptyFields().ifPresent(emptyFieldIterator -> {
             while (emptyFieldIterator.hasNext()) {
                 emptyFieldIterator.next().click();
-                findCollectButton().ifPresent(matchCollectButton -> {
-                    matchCollectButton.click();
-                    findToGrow(foodToGrow).ifPresent(Region::click);
-                });
+                ButtonsManager.getInstance().click(
+                        ButtonType.COLLECT_FOOD,
+                        () -> findToGrow(foodToGrow).ifPresent(Region::click));
             }
         });
     }
@@ -59,16 +59,12 @@ public class FoodManager extends ElementsManager {
         return findAll("food", EMPTY_FIELD_DISPLAY_NAME, EMPTY_FIELD_IMAGE_NAME);
     }
 
-    private Optional<Match> findCollectButton() {
-        return find("buttons", ButtonType.COLLECT_FOOD.getDisplayName(), ButtonType.COLLECT_FOOD.getImageName());
-    }
-
     private Optional<Iterator<Match>> findAllFoodToCollect(FoodType[] foodTypes) {
         @SuppressWarnings("unchecked")
         final Iterator<Match>[] result = new Iterator[1];
         for (FoodType foodType : foodTypes) {
-            findAll("food", foodType.getDisplayName(), foodType.getCollectImageName()).ifPresent(iterator ->
-                    result[0] = result[0] == null ? iterator : Iterators.concat(result[0], iterator));
+            findAll("food", foodType.getDisplayName(), foodType.getCollectImageName()).ifPresent(i ->
+                    result[0] = Optional.ofNullable(result[0]).map(r -> Iterators.concat(r, i)).orElse(i));
         }
         return Optional.ofNullable(result[0]);
     }
