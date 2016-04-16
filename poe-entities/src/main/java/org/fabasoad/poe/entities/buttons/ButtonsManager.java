@@ -23,14 +23,14 @@ public class ButtonsManager extends ElementsManager {
     }
 
     public void click(ButtonType buttonType, Runnable postClick) {
-        find("buttons", buttonType.getDisplayName(), buttonType.getImageName()).ifPresent(b -> {
+        find(ButtonType.getFolderName(), buttonType.getDisplayName(), buttonType.getImageName()).ifPresent(b -> {
             b.click();
             postClick.run();
         });
     }
 
     public void clickMany(ButtonType buttonType) {
-        findAll("buttons", buttonType.getDisplayName(), buttonType.getImageName())
+        findAll(ButtonType.getFolderName(), buttonType.getDisplayName(), buttonType.getImageName())
                 .ifPresent(i -> i.forEachRemaining(Region::click));
     }
 }

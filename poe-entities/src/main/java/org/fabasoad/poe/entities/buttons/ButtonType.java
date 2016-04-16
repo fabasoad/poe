@@ -29,4 +29,8 @@ public enum ButtonType {
     public String getImageName() {
         return imageName;
     }
+
+    public static String getFolderName() {
+        return "buttons";
+    }
 }

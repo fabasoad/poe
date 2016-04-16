@@ -5,7 +5,6 @@ import org.fabasoad.poe.ScreenInstance;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Match;
 
-import java.net.URL;
 import java.util.Iterator;
 import java.util.Optional;
 

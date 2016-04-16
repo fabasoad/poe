@@ -4,6 +4,8 @@ import com.google.common.collect.Iterators;
 import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.ElementsManager;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;
+import org.fabasoad.poe.entities.views.ViewType;
+import org.fabasoad.poe.entities.views.ViewsManager;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 
@@ -16,7 +18,7 @@ import static org.fabasoad.poe.entities.food.FoodType.*;
  * @author Yevhen Fabizhevskyi
  * @date 05.04.2016.
  */
-public class FoodManager extends ElementsManager {
+public class FoodManager extends ViewsManager {
 
     private static final FoodManager instance = new FoodManager();
 
@@ -27,11 +29,19 @@ public class FoodManager extends ElementsManager {
     private FoodManager() {
     }
 
+    @Override
+    protected ViewType getCurrentView() {
+        return ViewType.CITY;
+    }
+
     public void growCarrot() {
         grow(new FoodType[] { CARROT }, CARROT);
     }
 
     private void grow(FoodType[] foodToCollect, FoodType foodToGrow) {
+        // Check if we are on a 'City' view
+        goToCurrentView();
+
         findAllFoodToCollect(foodToCollect).ifPresent(i -> i.forEachRemaining(Region::click));
 
         findEmptyFields().ifPresent(i -> {
@@ -45,7 +55,7 @@ public class FoodManager extends ElementsManager {
     }
 
     private Optional<Match> findToGrow(FoodType foodType) {
-        return find("food", foodType.getDisplayName(), foodType.getGrowImageName());
+        return find(FoodType.getFolderName(), foodType.getDisplayName(), foodType.getGrowImageName());
     }
 
     private Optional<Iterator<Match>> findEmptyFields() {
@@ -59,7 +69,7 @@ public class FoodManager extends ElementsManager {
         @SuppressWarnings("unchecked")
         final Iterator<Match>[] result = new Iterator[1];
         for (FoodType foodType : foodTypes) {
-            findAll("food", foodType.getDisplayName(), foodType.getCollectImageName()).ifPresent(i ->
+            findAll(FoodType.getFolderName(), foodType.getDisplayName(), foodType.getCollectImageName()).ifPresent(i ->
                     result[0] = Optional.ofNullable(result[0]).map(r -> Iterators.concat(r, i)).orElse(i));
         }
         return Optional.ofNullable(result[0]);

@@ -33,4 +33,8 @@ public enum FoodType {
     public String getGrowImageName() {
         return growImageName;
     }
+
+    public static String getFolderName() {
+        return "food";
+    }
 }

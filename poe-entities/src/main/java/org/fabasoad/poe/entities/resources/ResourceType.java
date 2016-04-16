@@ -24,4 +24,8 @@ public enum ResourceType {
     public String getImageName() {
         return imageName;
     }
+
+    public static String getFolderName() {
+        return "resources";
+    }
 }

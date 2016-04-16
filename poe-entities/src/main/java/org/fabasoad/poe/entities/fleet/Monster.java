@@ -38,6 +38,10 @@ public enum Monster {
         return imageName;
     }
 
+    public static String getFolderName() {
+        return "monsters";
+    }
+
     public static String getDefaultAsString() {
         return getDefaultAsCollection().stream().map(Monster::name).collect(Collectors.joining(","));
     }

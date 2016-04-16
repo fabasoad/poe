@@ -32,11 +32,10 @@ public class ValidationManager extends ElementsManager {
     public void validateAnotherClient() {
         final long ANOTHER_CLIENT_WAIT_TIME = TimeUnit.MINUTES.toMillis(2);
 
-        find("validation",
+        find(ValidationType.getFolderName(),
                 ValidationType.ANOTHER_CLIENT.getDisplayName(),
                 ValidationType.ANOTHER_CLIENT.getImageName()).ifPresent(m -> {
             sleep(ANOTHER_CLIENT_WAIT_TIME);
-
             ButtonsManager.getInstance().click(ButtonType.RELOAD);
         });
     }
@@ -60,7 +59,7 @@ public class ValidationManager extends ElementsManager {
 
     private void validate(ValidationType validationType,
                           ButtonType buttonType) {
-        find("validation", validationType.getDisplayName(), validationType.getImageName())
+        find(ValidationType.getFolderName(), validationType.getDisplayName(), validationType.getImageName())
                 .ifPresent(m -> ButtonsManager.getInstance().click(buttonType));
     }
 }
