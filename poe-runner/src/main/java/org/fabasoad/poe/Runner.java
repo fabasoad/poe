@@ -38,7 +38,9 @@ public class Runner {
                 TempManager.getInstance().test();
                 continue;
             }
-            ValidationManager.getInstance().validateAll();
+            if (!cmd.hasOption("sv")) {
+                ValidationManager.getInstance().validateAll();
+            }
 
             if (cmd.hasOption("resources")) {
                 ResourceManager.getInstance().collect();
@@ -72,6 +74,7 @@ public class Runner {
         options.addOption("fo", "food", false, "Command to grow the food.");
         options.addOption("r", "resources", false, "Command to collect the resources.");
         options.addOption("t", "test", false, "Command to test the lib.");
+        options.addOption("sv", "skipValidation", false, "Command to skip validation.");
         return options;
     }
 }

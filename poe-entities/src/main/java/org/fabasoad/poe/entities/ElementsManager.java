@@ -54,4 +54,23 @@ public abstract class ElementsManager {
         }
         return true;
     }
+
+    protected final void trySwitchView() {
+        Class clazz = getClass();
+
+        if (clazz.isAnnotationPresent(ViewAware.class)) {
+            ViewAware viewAware = (ViewAware) clazz.getAnnotation(ViewAware.class);
+
+            if (!viewAware.type().isNone()) {
+                findView(viewAware.type()).ifPresent(v -> {
+                    v.click();
+                    Logger.getInstance().flow(getClass(), String.format("View switched to '%s'", viewAware.type().name()));
+                });
+            }
+        }
+    }
+
+    private Optional<Match> findView(ViewType viewType) {
+        return find(ViewType.getFolderName(), viewType.getDisplayName(), viewType.getImageToGoName());
+    }
 }

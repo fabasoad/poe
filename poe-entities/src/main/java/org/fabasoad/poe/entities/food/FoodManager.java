@@ -1,11 +1,11 @@
 package org.fabasoad.poe.entities.food;
 
 import com.google.common.collect.Iterators;
+import org.fabasoad.poe.entities.ViewAware;
+import org.fabasoad.poe.entities.ViewType;
 import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.ElementsManager;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;
-import org.fabasoad.poe.entities.views.ViewType;
-import org.fabasoad.poe.entities.views.ViewsManager;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 
@@ -18,7 +18,8 @@ import static org.fabasoad.poe.entities.food.FoodType.*;
  * @author Yevhen Fabizhevskyi
  * @date 05.04.2016.
  */
-public class FoodManager extends ViewsManager {
+@ViewAware(type = ViewType.CITY)
+public final class FoodManager extends ElementsManager {
 
     private static final FoodManager instance = new FoodManager();
 
@@ -29,19 +30,12 @@ public class FoodManager extends ViewsManager {
     private FoodManager() {
     }
 
-    @Override
-    protected ViewType getCurrentView() {
-        return ViewType.CITY;
-    }
-
     public void growCarrot() {
         grow(new FoodType[] { CARROT }, CARROT);
     }
 
     private void grow(FoodType[] foodToCollect, FoodType foodToGrow) {
-        // Check if we are on a 'City' view
-        goToCurrentView();
-
+        trySwitchView();
         findAllFoodToCollect(foodToCollect).ifPresent(i -> i.forEachRemaining(Region::click));
 
         findEmptyFields().ifPresent(i -> {

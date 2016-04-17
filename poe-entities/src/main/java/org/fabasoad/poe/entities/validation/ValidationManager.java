@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  * @author Yevhen Fabizhevskyi
  * @date 05.04.2016.
  */
-public class ValidationManager extends ElementsManager {
+public final class ValidationManager extends ElementsManager {
 
     private static final ValidationManager instance = new ValidationManager();
 
@@ -27,9 +27,10 @@ public class ValidationManager extends ElementsManager {
         validateError17();
         validateLevelUp();
         validateRating();
+        validateInternetConnectionError();
     }
 
-    public void validateAnotherClient() {
+    private void validateAnotherClient() {
         final long ANOTHER_CLIENT_WAIT_TIME = TimeUnit.MINUTES.toMillis(2);
 
         find(ValidationType.getFolderName(),
@@ -40,21 +41,25 @@ public class ValidationManager extends ElementsManager {
         });
     }
 
-    public void validateServerConnectionError() {
+    private void validateServerConnectionError() {
         validate(ValidationType.SERVER_CONNECTION, ButtonType.REPEAT);
     }
 
-    public void validateError17() {
+    private void validateError17() {
         validate(ValidationType.ERROR_17, ButtonType.RELOAD);
     }
 
-    public void validateLevelUp() {
+    private void validateLevelUp() {
         validate(ValidationType.LEVEL_UP, ButtonType.OK);
     }
 
-    public void validateRating() {
+    private void validateRating() {
         validate(ValidationType.RATING_1, ButtonType.NO_THANKS);
         validate(ValidationType.RATING_2, ButtonType.NO_THANKS);
+    }
+
+    private void validateInternetConnectionError() {
+        validate(ValidationType.INTERNET_CONNECTION, ButtonType.REPEAT);
     }
 
     private void validate(ValidationType validationType,

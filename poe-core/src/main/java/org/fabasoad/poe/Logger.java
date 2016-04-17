@@ -1,6 +1,8 @@
 package org.fabasoad.poe;
 
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -8,6 +10,7 @@ import java.io.PrintStream;
  */
 public class Logger {
 
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static Logger instance = new Logger();
 
     public static Logger getInstance() {
@@ -30,6 +33,7 @@ public class Logger {
     }
 
     private static void log(PrintStream printStream, Class clazz, String logType, String message) {
-        printStream.println(String.format("[%s] [%s] %s", logType, clazz.getSimpleName(), message));
+        printStream.println(String.format("[%s] [%s] [%s] %s",
+                dateFormat.format(new Date()), logType, clazz.getSimpleName(), message));
     }
 }

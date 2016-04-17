@@ -7,7 +7,7 @@ import org.sikuli.script.Region;
  * @author Eugene Fabizhevsky
  * @date 4/15/2016
  */
-public class ButtonsManager extends ElementsManager {
+public final class ButtonsManager extends ElementsManager {
 
     private static final ButtonsManager instance = new ButtonsManager();
 
