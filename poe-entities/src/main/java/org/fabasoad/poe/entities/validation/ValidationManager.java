@@ -29,8 +29,7 @@ public final class ValidationManager extends ElementsManager {
     private ValidationManager() {
     }
 
-    private final Path PROCESS_FULL_PATH = Paths.get(System.getenv("ProgramFiles"), "WindowsApps",
-            "D613A6F8.PiratesofEverseas_2015.508.1054.0_x64__btmtanmd0c15y", "Pirates.UAP.exe");
+    private final String PROCESS_NAME = "Pirates.UAP.exe";
 
     public void validateAll() {
         validateProcessIsRunning();
@@ -54,9 +53,8 @@ public final class ValidationManager extends ElementsManager {
                 }
             }
 
-            String processName = PROCESS_FULL_PATH.getFileName().toString();
-            if (pidInfo.contains(processName)) {
-                Logger.getInstance().flow(getClass(), String.format("'%s' process is running.", processName));
+            if (pidInfo.contains(PROCESS_NAME)) {
+                Logger.getInstance().flow(getClass(), String.format("'%s' process exists.", PROCESS_NAME));
             } else {
                 findSystemElement(SystemElement.WIN_LOGO).ifPresent(winLogo -> {
                     winLogo.click();
