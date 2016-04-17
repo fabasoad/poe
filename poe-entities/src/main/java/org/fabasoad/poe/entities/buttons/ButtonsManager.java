@@ -1,7 +1,10 @@
 package org.fabasoad.poe.entities.buttons;
 
 import org.fabasoad.poe.entities.ElementsManager;
+import org.sikuli.script.Match;
 import org.sikuli.script.Region;
+
+import java.util.Optional;
 
 /**
  * @author Eugene Fabizhevsky
@@ -16,6 +19,10 @@ public final class ButtonsManager extends ElementsManager {
     }
 
     private ButtonsManager() {
+    }
+
+    public Optional<Match> find(ButtonType buttonType) {
+        return find(ButtonType.getFolderName(), buttonType.getDisplayName(), buttonType.getImageName());
     }
 
     public void click(ButtonType buttonType) {

@@ -7,8 +7,8 @@ package org.fabasoad.poe.entities;
 public enum ViewType {
 
     NONE(null, null),
-    CITY("'City' view", "fleet_view"),
-    OCEAN("'Fleet' view", "city_view");
+    CITY("'City' view", "ocean_view"),
+    OCEAN("'Ocean' view", "city_view");
 
     private String displayName;
     private String imageToGoName;

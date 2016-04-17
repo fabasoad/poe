@@ -64,7 +64,7 @@ public abstract class ElementsManager {
             if (!viewAware.type().isNone()) {
                 findView(viewAware.type()).ifPresent(v -> {
                     v.click();
-                    Logger.getInstance().flow(getClass(), String.format("View switched to '%s'", viewAware.type().name()));
+                    Logger.getInstance().flow(getClass(), "Switched to " + viewAware.type().getDisplayName());
                 });
             }
         }

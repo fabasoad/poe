@@ -47,7 +47,7 @@ public enum Monster {
     }
 
     public static Collection<Monster> getDefaultAsCollection() {
-        return Arrays.asList(Monster.FISHANGER_1, Monster.GIANT_AGLA_KILLER_1);
+        return Arrays.asList(Monster.FISHANGER_1);
     }
 
     public ResourceType[] getResourceTypes() {

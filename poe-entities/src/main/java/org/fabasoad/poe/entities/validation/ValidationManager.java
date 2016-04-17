@@ -1,9 +1,17 @@
 package org.fabasoad.poe.entities.validation;
 
+import org.fabasoad.poe.Logger;
 import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.ElementsManager;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;
+import org.sikuli.script.Match;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,13 +29,52 @@ public final class ValidationManager extends ElementsManager {
     private ValidationManager() {
     }
 
+    private final Path PROCESS_FULL_PATH = Paths.get(System.getenv("ProgramFiles"), "WindowsApps",
+            "D613A6F8.PiratesofEverseas_2015.508.1054.0_x64__btmtanmd0c15y", "Pirates.UAP.exe");
+
     public void validateAll() {
+        validateProcessIsRunning();
         validateAnotherClient();
         validateServerConnectionError();
         validateError17();
         validateLevelUp();
         validateRating();
         validateInternetConnectionError();
+    }
+
+    private void validateProcessIsRunning() {
+        Path taskListPath = Paths.get(System.getenv("windir"), "system32", "tasklist.exe");
+        try {
+            Process taskListProcess = Runtime.getRuntime().exec(taskListPath.toString());
+
+            String line, pidInfo = "";
+            try (BufferedReader input = new BufferedReader(new InputStreamReader(taskListProcess.getInputStream()))) {
+                while ((line = input.readLine()) != null) {
+                    pidInfo += line;
+                }
+            }
+
+            String processName = PROCESS_FULL_PATH.getFileName().toString();
+            if (pidInfo.contains(processName)) {
+                Logger.getInstance().flow(getClass(), String.format("'%s' process is running.", processName));
+            } else {
+                findSystemElement(SystemElement.WIN_LOGO).ifPresent(winLogo -> {
+                    winLogo.click();
+                    findSystemElement(SystemElement.GAME_TILE).ifPresent(gameTile -> {
+                        gameTile.click();
+
+                        final long WAIT_TIME = TimeUnit.SECONDS.toMillis(10);
+                        sleep(WAIT_TIME);
+                    });
+                });
+            }
+        } catch (IOException e) {
+            Logger.getInstance().error(getClass(), e.getMessage());
+        }
+    }
+
+    private Optional<Match> findSystemElement(SystemElement systemElement) {
+        return find(SystemElement.getFolderName(), systemElement.getDisplayName(), systemElement.getImageName());
     }
 
     private void validateAnotherClient() {
