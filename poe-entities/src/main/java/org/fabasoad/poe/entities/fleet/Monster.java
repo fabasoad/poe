@@ -18,6 +18,7 @@ public enum Monster {
     FISHANGER_1("Fishanger lvl.1", "monster_fishanger_1", GOLD),
     GIANT_AGLA_KILLER_1("Giant Agla Killer lvl.1", "monster_giant_agla_killer_1", WOOD),
     CRAB_MUTANT_1("Crab-mutant lvl.1", "monster_crab_mutant_1", WOOD),
+    OGRS_HAND_1("Ogr's hand lvl.1", "monster_ogrs_hand_1", GOLD),
     FIERCE_QUID_1("Fierce Quid lvl.1", "monster_fierce_quid_1", GOLD, WOOD, IRON);
 
     private final String displayName;
@@ -47,7 +48,7 @@ public enum Monster {
     }
 
     public static Collection<Monster> getDefaultAsCollection() {
-        return Arrays.asList(Monster.FISHANGER_1);
+        return Arrays.asList(FISHANGER_1, OGRS_HAND_1);
     }
 
     public ResourceType[] getResourceTypes() {
