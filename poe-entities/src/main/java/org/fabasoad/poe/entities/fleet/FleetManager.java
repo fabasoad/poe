@@ -1,12 +1,12 @@
 package org.fabasoad.poe.entities.fleet;
 
 import com.google.common.collect.Iterators;
-import org.fabasoad.poe.entities.ElementsManager;
-import org.fabasoad.poe.entities.ViewAware;
-import org.fabasoad.poe.entities.ViewType;
+import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
+import org.fabasoad.poe.entities.views.ViewType;
 import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;
 import org.fabasoad.poe.entities.monsters.Monster;
+import org.fabasoad.poe.statistics.SupportedStatistics;
 import org.sikuli.script.Match;
 
 import java.util.ArrayList;
@@ -18,8 +18,7 @@ import java.util.Optional;
  * @author Yevhen Fabizhevskyi
  * @date 07.04.2016.
  */
-@ViewAware(type = ViewType.OCEAN)
-public final class FleetManager extends ElementsManager {
+public final class FleetManager extends ViewAwareElementsManager implements SupportedStatistics {
 
     private static final FleetManager instance = new FleetManager();
 
@@ -30,7 +29,19 @@ public final class FleetManager extends ElementsManager {
     private FleetManager() {
     }
 
+    // todo: is it needed?
     private final Collection<Match> attackedMonsters = new ArrayList<>();
+    private int statistics = 0;
+
+    @Override
+    protected ViewType getViewType() {
+        return ViewType.OCEAN;
+    }
+
+    @Override
+    public String getResults() {
+        return "Attacked monsters count: " + statistics;
+    }
 
     public void sendFleets(Collection<Monster> monsters) {
         trySwitchView();
@@ -67,6 +78,7 @@ public final class FleetManager extends ElementsManager {
 
     private void attack(Match fleet, Match monster) {
         attackedMonsters.add(monster);
+        statistics++;
 
         fleet.click();
         monster.click();

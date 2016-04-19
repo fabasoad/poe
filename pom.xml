@@ -17,7 +17,7 @@
     <properties>
         <sikuli-api.version>1.2.0</sikuli-api.version>
         <sikuli-setup.version>1.1.0</sikuli-setup.version>
-        <google-guava.version>19.0</google-guava.version>
+        <guava.version>19.0</guava.version>
         <commons-cli.version>1.2</commons-cli.version>
         <maven-jar-plugin.version>2.5</maven-jar-plugin.version>
     </properties>
@@ -84,7 +84,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>${google-guava.version}</version>
+                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-cli</groupId>

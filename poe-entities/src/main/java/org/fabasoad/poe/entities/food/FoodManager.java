@@ -1,11 +1,11 @@
 package org.fabasoad.poe.entities.food;
 
 import com.google.common.collect.Iterators;
-import org.fabasoad.poe.entities.ViewAware;
-import org.fabasoad.poe.entities.ViewType;
+import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
+import org.fabasoad.poe.entities.views.ViewType;
 import org.fabasoad.poe.entities.buttons.ButtonType;
-import org.fabasoad.poe.entities.ElementsManager;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;
+import org.fabasoad.poe.statistics.SupportedStatistics;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 
@@ -18,8 +18,7 @@ import static org.fabasoad.poe.entities.food.FoodType.*;
  * @author Yevhen Fabizhevskyi
  * @date 05.04.2016.
  */
-@ViewAware(type = ViewType.CITY)
-public final class FoodManager extends ElementsManager {
+public final class FoodManager extends ViewAwareElementsManager implements SupportedStatistics {
 
     private static final FoodManager instance = new FoodManager();
 
@@ -28,6 +27,18 @@ public final class FoodManager extends ElementsManager {
     }
 
     private FoodManager() {
+    }
+
+    private int statistics = 0;
+
+    @Override
+    protected ViewType getViewType() {
+        return ViewType.CITY;
+    }
+
+    @Override
+    public String getResults() {
+        return "Collected food count: " + statistics;
     }
 
     public void growCarrot() {
@@ -41,6 +52,7 @@ public final class FoodManager extends ElementsManager {
         findEmptyFields().ifPresent(i -> {
             while (i.hasNext()) {
                 i.next().click();
+                statistics++;
                 ButtonsManager.getInstance().click(
                         ButtonType.COLLECT_FOOD,
                         () -> findToGrow(foodToGrow).ifPresent(Region::click));

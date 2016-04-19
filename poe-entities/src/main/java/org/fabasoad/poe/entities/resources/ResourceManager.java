@@ -1,11 +1,10 @@
 package org.fabasoad.poe.entities.resources;
 
 import com.google.common.collect.Iterators;
-import org.fabasoad.poe.entities.ElementsManager;
-import org.fabasoad.poe.entities.ViewAware;
-import org.fabasoad.poe.entities.ViewType;
+import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
+import org.fabasoad.poe.entities.views.ViewType;
+import org.fabasoad.poe.statistics.SupportedStatistics;
 import org.sikuli.script.Match;
-import org.sikuli.script.Region;
 
 import java.util.Iterator;
 import java.util.Optional;
@@ -14,8 +13,7 @@ import java.util.Optional;
  * @author Yevhen Fabizhevskyi
  * @date 05.04.2016.
  */
-@ViewAware(type = ViewType.CITY)
-public final class ResourceManager extends ElementsManager {
+public final class ResourceManager extends ViewAwareElementsManager implements SupportedStatistics {
 
     private static final ResourceManager instance = new ResourceManager();
 
@@ -26,9 +24,26 @@ public final class ResourceManager extends ElementsManager {
     private ResourceManager() {
     }
 
+    private int statistics = 0;
+
+    @Override
+    protected ViewType getViewType() {
+        return ViewType.CITY;
+    }
+
+    @Override
+    public String getResults() {
+        return "Collected resources count: " + statistics;
+    }
+
     public void collect() {
         trySwitchView();
-        findAll(ResourceType.values()).ifPresent(i -> i.forEachRemaining(Region::click));
+        findAll(ResourceType.values()).ifPresent(i -> {
+            while (i.hasNext()) {
+                i.next().click();
+                statistics++;
+            }
+        });
     }
 
     private Optional<Iterator<Match>> findAll(ResourceType[] resources) {

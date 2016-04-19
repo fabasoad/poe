@@ -1,4 +1,4 @@
-package org.fabasoad.poe.entities;
+package org.fabasoad.poe.entities.views;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -6,7 +6,6 @@ package org.fabasoad.poe.entities;
  */
 public enum ViewType {
 
-    NONE(null, null),
     CITY("'City' view", "ocean_view"),
     OCEAN("'Ocean' view", "city_view");
 
@@ -28,9 +27,5 @@ public enum ViewType {
 
     public static String getFolderName() {
         return "views";
-    }
-
-    public boolean isNone() {
-        return this == ViewType.NONE;
     }
 }
