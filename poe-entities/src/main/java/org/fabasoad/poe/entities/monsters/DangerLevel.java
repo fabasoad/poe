@@ -5,5 +5,5 @@ package org.fabasoad.poe.entities.monsters;
  * @date 19.04.2016.
  */
 enum DangerLevel {
-    LOW, MEDIUM, HIGH
+    VERY_LOW, LOW, MEDIUM, HIGH, VERY_HIGH
 }

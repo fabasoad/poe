@@ -14,14 +14,14 @@ import static org.fabasoad.poe.entities.monsters.DangerLevel.*;
  * @date 07.04.2016.
  */
 public enum Monster {
-    BIRD_RA_1("Bird RA lvl.1", "monster_bird_ra_1", LOW, WOOD),
+    BIRD_RA_1("Bird RA lvl.1", "monster_bird_ra_1", VERY_LOW, WOOD),
     BIRD_RA_2("Bird RA lvl.2", "monster_bird_ra_2", LOW, WOOD),
     FISHANGER_1("Fishanger lvl.1", "monster_fishanger_1", LOW, GOLD),
     GIANT_AGLA_KILLER_1("Giant Agla Killer lvl.1", "monster_giant_agla_killer_1", LOW, WOOD),
     CRAB_MUTANT_1("Crab-mutant lvl.1", "monster_crab_mutant_1", LOW, WOOD),
-    OGRS_HAND_1("Ogr's hand lvl.1", "monster_ogrs_hand_1", LOW, GOLD),
+    OGRS_HAND_1("Ogr's Hand lvl.1", "monster_ogrs_hand_1", LOW, GOLD),
     FIERCE_QUID_1("Fierce Quid lvl.1", "monster_fierce_quid_1", HIGH, GOLD, WOOD, IRON),
-    FIERCE_QUID_2("Fierce Quid lvl.2", "monster_fierce_quid_2", HIGH, GOLD, WOOD, IRON);
+    FIERCE_QUID_2("Fierce Quid lvl.2", "monster_fierce_quid_2", VERY_HIGH, GOLD, WOOD, IRON);
 
     private final String displayName;
     private final String imageName;
@@ -53,7 +53,7 @@ public enum Monster {
 
     public static Collection<Monster> getDefaultAsCollection() {
         Filter filter = new Filter();
-        filter.setDangerLevels(LOW);
+        filter.setDangerLevels(VERY_LOW, LOW);
         filter.setResourceTypes(GOLD);
         return getMonsters(filter);
     }
