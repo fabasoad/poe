@@ -6,7 +6,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.fabasoad.poe.entities.fleet.FleetManager;
-import org.fabasoad.poe.entities.fleet.Monster;
+import org.fabasoad.poe.entities.monsters.Monster;
 import org.fabasoad.poe.entities.food.FoodManager;
 import org.fabasoad.poe.entities.resources.ResourceManager;
 import org.fabasoad.poe.entities.temp.TempManager;

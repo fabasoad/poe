@@ -6,6 +6,7 @@ import org.fabasoad.poe.entities.ViewAware;
 import org.fabasoad.poe.entities.ViewType;
 import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;
+import org.fabasoad.poe.entities.monsters.Monster;
 import org.sikuli.script.Match;
 
 import java.util.ArrayList;
