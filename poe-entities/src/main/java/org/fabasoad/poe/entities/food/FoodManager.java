@@ -1,6 +1,7 @@
 package org.fabasoad.poe.entities.food;
 
 import com.google.common.collect.Iterators;
+import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
 import org.fabasoad.poe.entities.views.ViewType;
 import org.fabasoad.poe.entities.buttons.ButtonType;
@@ -18,7 +19,8 @@ import static org.fabasoad.poe.entities.food.FoodType.*;
  * @author Yevhen Fabizhevskyi
  * @date 05.04.2016.
  */
-public final class FoodManager extends ViewAwareElementsManager implements SupportedStatistics {
+@SupportedStatistics
+public final class FoodManager extends ViewAwareElementsManager {
 
     private static final FoodManager instance = new FoodManager();
 
@@ -36,8 +38,8 @@ public final class FoodManager extends ViewAwareElementsManager implements Suppo
         return ViewType.CITY;
     }
 
-    @Override
-    public String getResults() {
+    @UsedViaReflection
+    public String getStatistics() {
         return "Collected food count: " + statistics;
     }
 

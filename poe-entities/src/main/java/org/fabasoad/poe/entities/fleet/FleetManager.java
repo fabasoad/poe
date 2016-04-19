@@ -1,6 +1,7 @@
 package org.fabasoad.poe.entities.fleet;
 
 import com.google.common.collect.Iterators;
+import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
 import org.fabasoad.poe.entities.views.ViewType;
 import org.fabasoad.poe.entities.buttons.ButtonType;
@@ -18,7 +19,8 @@ import java.util.Optional;
  * @author Yevhen Fabizhevskyi
  * @date 07.04.2016.
  */
-public final class FleetManager extends ViewAwareElementsManager implements SupportedStatistics {
+@SupportedStatistics
+public final class FleetManager extends ViewAwareElementsManager {
 
     private static final FleetManager instance = new FleetManager();
 
@@ -29,8 +31,6 @@ public final class FleetManager extends ViewAwareElementsManager implements Supp
     private FleetManager() {
     }
 
-    // todo: is it needed?
-    private final Collection<Match> attackedMonsters = new ArrayList<>();
     private int statistics = 0;
 
     @Override
@@ -38,8 +38,8 @@ public final class FleetManager extends ViewAwareElementsManager implements Supp
         return ViewType.OCEAN;
     }
 
-    @Override
-    public String getResults() {
+    @UsedViaReflection
+    public String getStatistics() {
         return "Attacked monsters count: " + statistics;
     }
 
@@ -53,21 +53,13 @@ public final class FleetManager extends ViewAwareElementsManager implements Supp
 
     private void sendFleetsInternal(Collection<Monster> monsters) {
         Collection<Match> foundMonsters = new ArrayList<>();
-        findAllMonsters(monsters).ifPresent(monstersIterator -> {
-            while (monstersIterator.hasNext()) {
-                Match matchMonster = monstersIterator.next();
-                if (!attackedMonsters.contains(matchMonster)) {
-                    foundMonsters.add(matchMonster);
-                }
-            }
-        });
+        findAllMonsters(monsters).ifPresent(i -> i.forEachRemaining(foundMonsters::add));
 
         findFreeFleets().ifPresent(fleetsIterator -> {
             if (foundMonsters.isEmpty()) {
                 ButtonsManager.getInstance().click(ButtonType.RANDOM_SECTOR);
                 sendFleetsInternal(monsters);
             } else {
-                attackedMonsters.clear();
                 Iterator<Match> monstersIterator = foundMonsters.iterator();
                 while (fleetsIterator.hasNext() && monstersIterator.hasNext()) {
                     attack(fleetsIterator.next(), monstersIterator.next());
@@ -77,7 +69,6 @@ public final class FleetManager extends ViewAwareElementsManager implements Supp
     }
 
     private void attack(Match fleet, Match monster) {
-        attackedMonsters.add(monster);
         statistics++;
 
         fleet.click();

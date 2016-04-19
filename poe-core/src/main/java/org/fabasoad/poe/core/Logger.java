@@ -1,4 +1,4 @@
-package org.fabasoad.poe;
+package org.fabasoad.poe.core;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;

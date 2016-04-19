@@ -1,6 +1,6 @@
 package org.fabasoad.poe.entities;
 
-import org.fabasoad.poe.Logger;
+import org.fabasoad.poe.core.Logger;
 import org.fabasoad.poe.ScreenInstance;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Match;

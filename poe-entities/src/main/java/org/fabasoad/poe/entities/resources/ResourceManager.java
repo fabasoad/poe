@@ -1,6 +1,7 @@
 package org.fabasoad.poe.entities.resources;
 
 import com.google.common.collect.Iterators;
+import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
 import org.fabasoad.poe.entities.views.ViewType;
 import org.fabasoad.poe.statistics.SupportedStatistics;
@@ -13,7 +14,8 @@ import java.util.Optional;
  * @author Yevhen Fabizhevskyi
  * @date 05.04.2016.
  */
-public final class ResourceManager extends ViewAwareElementsManager implements SupportedStatistics {
+@SupportedStatistics
+public final class ResourceManager extends ViewAwareElementsManager {
 
     private static final ResourceManager instance = new ResourceManager();
 
@@ -31,8 +33,8 @@ public final class ResourceManager extends ViewAwareElementsManager implements S
         return ViewType.CITY;
     }
 
-    @Override
-    public String getResults() {
+    @UsedViaReflection
+    public String getStatistics() {
         return "Collected resources count: " + statistics;
     }
 

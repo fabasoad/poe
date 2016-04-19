@@ -46,16 +46,15 @@ public class Runner {
 
             if (cmd.hasOption("resources")) {
                 ResourceManager.getInstance().collect();
-                StatisticsStorage.getInstance().add(ResourceManager.getInstance());
             }
             if (cmd.hasOption("food")) {
                 FoodManager.getInstance().growCarrot();
-                StatisticsStorage.getInstance().add(FoodManager.getInstance());
             }
             if (cmd.hasOption("fleet")) {
                 FleetManager.getInstance().sendFleets(getMonsters(cmd));
-                StatisticsStorage.getInstance().add(FleetManager.getInstance());
             }
+
+            StatisticsStorage.getInstance().print();
         }
     }
 
