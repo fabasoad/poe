@@ -11,7 +11,7 @@ import org.fabasoad.poe.entities.food.FoodManager;
 import org.fabasoad.poe.entities.resources.ResourceManager;
 import org.fabasoad.poe.entities.temp.TempManager;
 import org.fabasoad.poe.entities.validation.ValidationManager;
-import org.fabasoad.poe.statistics.StatisticsStorage;
+import org.fabasoad.poe.statistics.StatisticsCollector;
 import org.sikuli.script.ImagePath;
 
 import java.util.Arrays;
@@ -26,7 +26,7 @@ public class Runner {
 
     private static void setUp() {
         ImagePath.add("org.fabasoad.poe.Runner/img");
-        Runtime.getRuntime().addShutdownHook(new Thread(StatisticsStorage.getInstance()::print));
+        Runtime.getRuntime().addShutdownHook(new Thread(StatisticsCollector.getInstance()::print));
     }
 
     public static void main(String[] args) throws ParseException {
@@ -54,7 +54,7 @@ public class Runner {
                 FleetManager.getInstance().sendFleets(getMonsters(cmd));
             }
 
-            StatisticsStorage.getInstance().print();
+            StatisticsCollector.getInstance().print();
         }
     }
 
