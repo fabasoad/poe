@@ -42,7 +42,7 @@ public final class ValidationManager extends ElementsManager {
 
     @UsedViaReflection
     public String getStatistics() {
-        return statistics.entrySet().stream().map(entry -> String.format("[%s] %s: %s",
+        return statistics.isEmpty() ? "" : statistics.entrySet().stream().map(entry -> String.format("[%s] %s: %s",
                     getClass().getSimpleName(),
                     entry.getKey(),
                     entry.getValue().stream().map(v -> "[" + v + "]").collect(Collectors.joining(", "))))

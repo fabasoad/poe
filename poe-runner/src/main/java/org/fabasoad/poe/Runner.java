@@ -25,23 +25,23 @@ import java.util.stream.Collectors;
  */
 public class Runner {
 
-    private static Options cmdOptions;
-
     private static void setUp() {
         ImagePath.add("org.fabasoad.poe.Runner/img");
-
         Runtime.getRuntime().addShutdownHook(new Thread(StatisticsCollector.getInstance()::print));
-
-        cmdOptions = buildOptions();
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("java jar -<jar_name> <options>", cmdOptions);
     }
 
     public static void main(String[] args) throws ParseException {
-        setUp();
-
         CommandLineParser parser = new BasicParser();
+        Options cmdOptions = buildOptions();
         CommandLine cmd = parser.parse(cmdOptions, args);
+
+        if (cmd.hasOption("h")) {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("java -jar <jar_name> <options>", cmdOptions);
+            return;
+        }
+
+        setUp();
 
         while (true) {
             if (cmd.hasOption("test")) {
@@ -81,6 +81,7 @@ public class Runner {
 
     private static Options buildOptions() {
         Options options = new Options();
+        options.addOption("h", "help", false, "Help information.");
         options.addOption("fl", "fleet", false, "Command to send the fleet.");
         String monstersDescription = String.format("List of monsters to attack.%1$sDefault: %2$s.%1$sPossible values: %3$s.",
                 System.getProperty("line.separator"), Monster.defaultAsString(), Monster.valuesAsString());
