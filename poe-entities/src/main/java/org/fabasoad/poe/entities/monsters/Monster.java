@@ -54,11 +54,15 @@ public enum Monster {
         return "monsters";
     }
 
-    public static String getDefaultAsString() {
-        return getDefaultAsCollection().stream().map(Monster::name).collect(Collectors.joining(","));
+    public static String defaultAsString() {
+        return defaultAsCollection().stream().map(m -> m.name().toLowerCase()).collect(Collectors.joining(", "));
     }
 
-    public static Collection<Monster> getDefaultAsCollection() {
+    public static String valuesAsString() {
+        return Arrays.stream(values()).map(m -> m.name().toLowerCase()).collect(Collectors.joining(", "));
+    }
+
+    public static Collection<Monster> defaultAsCollection() {
         Filter filter = new Filter();
         filter.setDangerLevels(LOW);
         filter.setResourceTypes(GOLD, IRON);

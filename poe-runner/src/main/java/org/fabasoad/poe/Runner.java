@@ -3,6 +3,7 @@ package org.fabasoad.poe;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.fabasoad.poe.entities.fleet.FleetManager;
@@ -24,16 +25,23 @@ import java.util.stream.Collectors;
  */
 public class Runner {
 
+    private static Options cmdOptions;
+
     private static void setUp() {
         ImagePath.add("org.fabasoad.poe.Runner/img");
+
         Runtime.getRuntime().addShutdownHook(new Thread(StatisticsCollector.getInstance()::print));
+
+        cmdOptions = buildOptions();
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("java jar -<jar_name> <options>", cmdOptions);
     }
 
     public static void main(String[] args) throws ParseException {
         setUp();
 
         CommandLineParser parser = new BasicParser();
-        CommandLine cmd = parser.parse(buildOptions(), args);
+        CommandLine cmd = parser.parse(cmdOptions, args);
 
         while (true) {
             if (cmd.hasOption("test")) {
@@ -61,12 +69,12 @@ public class Runner {
     private static Collection<Monster> getMonsters(CommandLine cmd) {
         Collection<Monster> monsters;
         if (cmd.hasOption("monsters")) {
-            String defaultMonsters = Monster.getDefaultAsString();
+            String defaultMonsters = Monster.defaultAsString();
             monsters = Arrays.stream(cmd.getOptionValue("monsters", defaultMonsters).split(","))
                     .map(v -> Monster.valueOf(v.trim().toUpperCase()))
                     .collect(Collectors.toList());
         } else {
-            monsters = Monster.getDefaultAsCollection();
+            monsters = Monster.defaultAsCollection();
         }
         return monsters;
     }
@@ -74,7 +82,9 @@ public class Runner {
     private static Options buildOptions() {
         Options options = new Options();
         options.addOption("fl", "fleet", false, "Command to send the fleet.");
-        options.addOption("m", "monsters", true, "List of monsters to attack.");
+        String monstersDescription = String.format("List of monsters to attack.%1$sDefault: %2$s.%1$sPossible values: %3$s.",
+                System.getProperty("line.separator"), Monster.defaultAsString(), Monster.valuesAsString());
+        options.addOption("m", "monsters", true, monstersDescription);
         options.addOption("fo", "food", false, "Command to grow the food.");
         options.addOption("r", "resources", false, "Command to collect the resources.");
         options.addOption("t", "test", false, "Command to test the lib.");
