@@ -1,9 +1,11 @@
 package org.fabasoad.poe.entities.validation;
 
 import org.fabasoad.poe.core.Logger;
-import org.fabasoad.poe.entities.buttons.ButtonType;
+import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.ElementsManager;
+import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;
+import org.fabasoad.poe.statistics.SupportedStatistics;
 import org.sikuli.script.Match;
 
 import java.io.BufferedReader;
@@ -11,13 +13,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author Yevhen Fabizhevskyi
  * @date 05.04.2016.
  */
+@SupportedStatistics
 public final class ValidationManager extends ElementsManager {
 
     private static final ValidationManager instance = new ValidationManager();
@@ -29,7 +38,23 @@ public final class ValidationManager extends ElementsManager {
     private ValidationManager() {
     }
 
-    private final String PROCESS_NAME = "Pirates.UAP.exe";
+    private final Map<String, Collection<String>> statistics = new HashMap<>();
+
+    @UsedViaReflection
+    public String getStatistics() {
+        return statistics.entrySet().stream().map(entry -> String.format("[%s] %s: %s",
+                    getClass().getSimpleName(),
+                    entry.getKey(),
+                    entry.getValue().stream().map(v -> "[" + v + "]").collect(Collectors.joining(", "))))
+                .collect(Collectors.joining(System.getProperty("line.separator")));
+    }
+
+    private void saveStatistics(String methodName) {
+        if (!statistics.containsKey(methodName)) {
+            statistics.put(methodName, new ArrayList<>());
+        }
+        statistics.get(methodName).add(Logger.DATE_FORMAT.format(new Date()));
+    }
 
     public void validateAll() {
         validateProcessIsRunning();
@@ -42,20 +67,22 @@ public final class ValidationManager extends ElementsManager {
     }
 
     private void validateProcessIsRunning() {
-        Path taskListPath = Paths.get(System.getenv("windir"), "system32", "tasklist.exe");
+        final Path taskListPath = Paths.get(System.getenv("windir"), "system32", "tasklist.exe");
         try {
             Process taskListProcess = Runtime.getRuntime().exec(taskListPath.toString());
 
-            String line, pidInfo = "";
+            String pidInfo;
             try (BufferedReader input = new BufferedReader(new InputStreamReader(taskListProcess.getInputStream()))) {
-                while ((line = input.readLine()) != null) {
-                    pidInfo += line;
-                }
+                pidInfo = input.lines().collect(Collectors.joining());
             }
+
+            final String PROCESS_NAME = new String(
+                    new byte[] { 80, 105, 114, 97, 116, 101, 115, 46, 85, 65, 80, 46, 101, 120, 101 });
 
             if (pidInfo.contains(PROCESS_NAME)) {
                 Logger.getInstance().flow(getClass(), String.format("'%s' process exists.", PROCESS_NAME));
             } else {
+                saveStatistics("validateProcessIsRunning");
                 findSystemElement(SystemElement.WIN_LOGO).ifPresent(winLogo -> {
                     winLogo.click();
                     findSystemElement(SystemElement.GAME_TILE).ifPresent(gameTile -> {
@@ -80,36 +107,41 @@ public final class ValidationManager extends ElementsManager {
 
         find(ValidationType.getFolderName(),
                 ValidationType.ANOTHER_CLIENT.getDisplayName(),
-                ValidationType.ANOTHER_CLIENT.getImageName()).ifPresent(m -> {
+                ValidationType.ANOTHER_CLIENT.getImageName()).ifPresent(ignored -> {
+            saveStatistics("validateAnotherClient");
             sleep(ANOTHER_CLIENT_WAIT_TIME);
             ButtonsManager.getInstance().click(ButtonType.RELOAD);
         });
     }
 
     private void validateServerConnectionError() {
-        validate(ValidationType.SERVER_CONNECTION, ButtonType.REPEAT);
+        validate("validateServerConnectionError", ValidationType.SERVER_CONNECTION, ButtonType.REPEAT);
     }
 
     private void validateError17() {
-        validate(ValidationType.ERROR_17, ButtonType.RELOAD);
+        validate("validateError17", ValidationType.ERROR_17, ButtonType.RELOAD);
     }
 
     private void validateLevelUp() {
-        validate(ValidationType.LEVEL_UP, ButtonType.OK);
+        validate("validateLevelUp", ValidationType.LEVEL_UP, ButtonType.OK);
     }
 
     private void validateRating() {
-        validate(ValidationType.RATING_1, ButtonType.NO_THANKS);
-        validate(ValidationType.RATING_2, ButtonType.NO_THANKS);
+        validate("validateRating", ValidationType.RATING_1, ButtonType.NO_THANKS);
+        validate("validateRating", ValidationType.RATING_2, ButtonType.NO_THANKS);
     }
 
     private void validateInternetConnectionError() {
-        validate(ValidationType.INTERNET_CONNECTION, ButtonType.REPEAT);
+        validate("validateInternetConnectionError", ValidationType.INTERNET_CONNECTION, ButtonType.REPEAT);
     }
 
-    private void validate(ValidationType validationType,
+    private void validate(String methodName,
+                          ValidationType validationType,
                           ButtonType buttonType) {
         find(ValidationType.getFolderName(), validationType.getDisplayName(), validationType.getImageName())
-                .ifPresent(m -> ButtonsManager.getInstance().click(buttonType));
+                .ifPresent(ignored -> {
+                    saveStatistics(methodName);
+                    ButtonsManager.getInstance().click(buttonType);
+                });
     }
 }

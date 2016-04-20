@@ -45,13 +45,11 @@ public abstract class ElementsManager {
         return Optional.empty();
     }
 
-    protected final boolean sleep(long millis) {
+    protected final void sleep(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
             Logger.getInstance().error(getClass(), e.getMessage());
-            return false;
         }
-        return true;
     }
 }

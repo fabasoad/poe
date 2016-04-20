@@ -10,7 +10,8 @@ import java.util.Date;
  */
 public class Logger {
 
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     private static Logger instance = new Logger();
 
     public static Logger getInstance() {
@@ -34,6 +35,6 @@ public class Logger {
 
     private static void log(PrintStream printStream, Class clazz, String logType, String message) {
         printStream.println(String.format("[%s] [%s] [%s] %s",
-                dateFormat.format(new Date()), logType, clazz.getSimpleName(), message));
+                DATE_FORMAT.format(new Date()), logType, clazz.getSimpleName(), message));
     }
 }
