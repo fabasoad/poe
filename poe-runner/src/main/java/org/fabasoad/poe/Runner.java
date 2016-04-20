@@ -63,7 +63,7 @@ public class Runner {
         if (cmd.hasOption("monsters")) {
             String defaultMonsters = Monster.getDefaultAsString();
             monsters = Arrays.stream(cmd.getOptionValue("monsters", defaultMonsters).split(","))
-                    .map(v -> Monster.valueOf(v.trim()))
+                    .map(v -> Monster.valueOf(v.trim().toUpperCase()))
                     .collect(Collectors.toList());
         } else {
             monsters = Monster.getDefaultAsCollection();

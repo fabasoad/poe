@@ -24,6 +24,7 @@ public enum Monster {
     GIANT_AGLA_KILLER_1("Giant Agla Killer lvl.1", "monster_giant_agla_killer_1", VERY_LOW, WOOD),
     GIANT_AGLA_KILLER_2("Giant Agla Killer lvl.2", "monster_giant_agla_killer_2", LOW, WOOD),
     BEAKLIMB_1("Beaklimb lvl.1", "monster_beaklimb_1", MEDIUM, GOLD),
+    BEAKLIMB_2("Beaklimb lvl.2", "monster_beaklimb_2", HIGH, GOLD),
     CRAB_MUTANT_1("Crab-mutant lvl.1", "monster_crab_mutant_1", LOW, WOOD),
     OGRS_HAND_1("Ogr's Hand lvl.1", "monster_ogrs_hand_1", LOW, GOLD),
     FIERCE_QUID_1("Fierce Quid lvl.1", "monster_fierce_quid_1", HIGH, GOLD, WOOD, IRON),
@@ -60,7 +61,7 @@ public enum Monster {
     public static Collection<Monster> getDefaultAsCollection() {
         Filter filter = new Filter();
         filter.setDangerLevels(LOW);
-        filter.setResourceTypes(GOLD, WOOD, IRON);
+        filter.setResourceTypes(GOLD, IRON);
         return getMonsters(filter);
     }
 
