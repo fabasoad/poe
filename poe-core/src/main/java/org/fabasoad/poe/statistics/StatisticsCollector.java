@@ -1,5 +1,6 @@
 package org.fabasoad.poe.statistics;
 
+import org.apache.commons.lang3.StringUtils;
 import org.fabasoad.poe.core.Logger;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -35,7 +36,9 @@ public final class StatisticsCollector {
     public void print() {
         System.out.println();
         System.out.println("=============== Statistics ===============");
-        collectStatistics().forEach(System.out::println);
+        collectStatistics().stream()
+                .filter(s -> StringUtils.isNotEmpty(s) && !s.equals(System.getProperty("line.separator")))
+                .forEach(System.out::println);
         System.out.println();
     }
 

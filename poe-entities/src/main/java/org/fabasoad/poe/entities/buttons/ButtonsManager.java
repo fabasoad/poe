@@ -4,6 +4,7 @@ import org.fabasoad.poe.entities.ElementsManager;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 /**
@@ -21,8 +22,8 @@ public final class ButtonsManager extends ElementsManager {
     private ButtonsManager() {
     }
 
-    public Optional<Match> find(ButtonType buttonType) {
-        return find(ButtonType.getFolderName(), buttonType.getDisplayName(), buttonType.getImageName());
+    public Optional<Iterator<Match>> findAll(ButtonType buttonType) {
+        return findAll(ButtonType.getFolderName(), buttonType.getDisplayName(), buttonType.getImageName());
     }
 
     public void click(ButtonType buttonType) {

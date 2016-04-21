@@ -1,6 +1,7 @@
 package org.fabasoad.poe.entities.fleet;
 
 import com.google.common.collect.Iterators;
+import org.apache.commons.lang3.tuple.Pair;
 import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
 import org.fabasoad.poe.entities.views.ViewType;
@@ -11,9 +12,11 @@ import org.fabasoad.poe.statistics.SupportedStatistics;
 import org.sikuli.script.Match;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -28,10 +31,14 @@ public final class FleetManager extends ViewAwareElementsManager {
         return instance;
     }
 
+    @SuppressWarnings("unchecked")
     private FleetManager() {
+        Pair<String, Integer> attackPair = Pair.of("Attacked monsters count: ", 0);
+        Pair<String, Integer> repairPair = Pair.of("Repairing count: ", 0);
+        statistics = new Pair[] { attackPair, repairPair };
     }
 
-    private int statistics = 0;
+    private final Pair<String, Integer>[] statistics;
 
     @Override
     protected ViewType getViewType() {
@@ -40,13 +47,21 @@ public final class FleetManager extends ViewAwareElementsManager {
 
     @UsedViaReflection
     public String getStatistics() {
-        return "Attacked monsters count: " + statistics;
+        return Arrays.stream(statistics)
+                .filter(pair -> pair.getValue() > 0)
+                .map(pair -> pair.getKey() + pair.getValue() + ".")
+                .collect(Collectors.joining(System.getProperty("line.separator")));
     }
 
     public void sendFleets(Collection<Monster> monsters) {
         trySwitchView();
         // Check if repair required
-        ButtonsManager.getInstance().clickMany(ButtonType.REPAIR);
+        ButtonsManager.getInstance().findAll(ButtonType.REPAIR).ifPresent(i -> {
+            while (i.hasNext()) {
+                statistics[1].setValue(statistics[1].getValue() + 1);
+                i.next().click();
+            }
+        });
 
         sendFleetsInternal(monsters);
     }
@@ -69,7 +84,7 @@ public final class FleetManager extends ViewAwareElementsManager {
     }
 
     private void attack(Match fleet, Match monster) {
-        statistics++;
+        statistics[0].setValue(statistics[0].getValue() + 1);
 
         fleet.click();
         monster.click();
