@@ -86,9 +86,9 @@ public class Runner {
             if (resultCollect.isPresent() && resultGrow.isPresent()) {
                 try {
                     foodToCollect = Arrays.stream(resultCollect.get())
-                            .map(v -> FoodType.valueOf(v.toUpperCase()))
+                            .map(v -> FoodType.valueOf(v.trim().toUpperCase()))
                             .collect(Collectors.toList());
-                    foodToGrow = FoodType.valueOf(resultGrow.get()[0].toUpperCase());
+                    foodToGrow = FoodType.valueOf(resultGrow.get()[0].trim().toUpperCase());
                 } catch (IllegalArgumentException e) {
                     Logger.getInstance().warning(Runner.class, e.getMessage() + ". Default values applied.");
                     applyDefaultValues = true;
