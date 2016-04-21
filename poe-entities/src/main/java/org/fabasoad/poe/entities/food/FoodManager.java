@@ -1,6 +1,7 @@
 package org.fabasoad.poe.entities.food;
 
 import com.google.common.collect.Iterators;
+import org.apache.commons.lang3.tuple.Pair;
 import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
 import org.fabasoad.poe.entities.views.ViewType;
@@ -10,6 +11,7 @@ import org.fabasoad.poe.statistics.SupportedStatistics;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -43,13 +45,9 @@ public final class FoodManager extends ViewAwareElementsManager {
         return "Collected food count: " + statistics;
     }
 
-    public void growCarrot() {
-        grow(new FoodType[] { CARROT }, CARROT);
-    }
-
-    private void grow(FoodType[] foodToCollect, FoodType foodToGrow) {
+    public void grow(Pair<Collection<FoodType>, FoodType> food) {
         trySwitchView();
-        findAllFoodToCollect(foodToCollect).ifPresent(i -> i.forEachRemaining(Region::click));
+        findAllFoodToCollect(food.getLeft()).ifPresent(i -> i.forEachRemaining(Region::click));
 
         findEmptyFields().ifPresent(i -> {
             while (i.hasNext()) {
@@ -57,7 +55,7 @@ public final class FoodManager extends ViewAwareElementsManager {
                 statistics++;
                 ButtonsManager.getInstance().click(
                         ButtonType.COLLECT_FOOD,
-                        () -> findToGrow(foodToGrow).ifPresent(Region::click));
+                        () -> findToGrow(food.getRight()).ifPresent(Region::click));
             }
         });
     }
@@ -73,7 +71,7 @@ public final class FoodManager extends ViewAwareElementsManager {
         return findAll("food", EMPTY_FIELD_DISPLAY_NAME, EMPTY_FIELD_IMAGE_NAME);
     }
 
-    private Optional<Iterator<Match>> findAllFoodToCollect(FoodType[] foodTypes) {
+    private Optional<Iterator<Match>> findAllFoodToCollect(Collection<FoodType> foodTypes) {
         @SuppressWarnings("unchecked")
         final Iterator<Match>[] result = new Iterator[1];
         for (FoodType foodType : foodTypes) {

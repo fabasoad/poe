@@ -29,8 +29,8 @@ public class Logger {
         log(System.out, clazz, "FLOW", message);
     }
 
-    public void info(Class clazz, String message) {
-        log(System.out, clazz, "INFO", message);
+    public void warning(Class clazz, String message) {
+        log(System.out, clazz, "WARNING", message);
     }
 
     private static void log(PrintStream printStream, Class clazz, String logType, String message) {

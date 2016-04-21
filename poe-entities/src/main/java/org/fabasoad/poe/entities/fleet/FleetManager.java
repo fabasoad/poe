@@ -76,8 +76,7 @@ public final class FleetManager extends ViewAwareElementsManager {
 
         findFreeFleets().ifPresent(fleetsIterator -> {
             if (foundMonsters.isEmpty()) {
-                ButtonsManager.getInstance().click(ButtonType.RANDOM_SECTOR);
-                sendFleetsInternal(monsters);
+                ButtonsManager.getInstance().click(ButtonType.RANDOM_SECTOR, () -> sendFleetsInternal(monsters));
             } else {
                 Iterator<Match> monstersIterator = foundMonsters.iterator();
                 while (fleetsIterator.hasNext() && monstersIterator.hasNext()) {

@@ -1,5 +1,10 @@
 package org.fabasoad.poe.entities.food;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
 /**
  * @author Yevhen Fabizhevskyi
  * @date 05.04.2016.
@@ -36,5 +41,25 @@ public enum FoodType {
 
     public static String getFolderName() {
         return "food";
+    }
+
+    public static String defaultToCollectAsString() {
+        return defaultToCollectAsCollection().stream().map(m -> m.name().toLowerCase()).collect(Collectors.joining(", "));
+    }
+
+    public static Collection<FoodType> defaultToCollectAsCollection() {
+        return Collections.singletonList(CARROT);
+    }
+
+    public static String defaultToGrowAsString() {
+        return defaultToGrow().name().toLowerCase();
+    }
+
+    public static FoodType defaultToGrow() {
+        return CARROT;
+    }
+
+    public static String valuesAsString() {
+        return Arrays.stream(values()).map(m -> m.name().toLowerCase()).collect(Collectors.joining(", "));
     }
 }
