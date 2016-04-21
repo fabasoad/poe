@@ -1,20 +1,20 @@
 package org.fabasoad.poe.entities.fleet;
 
 import com.google.common.collect.Iterators;
-import org.apache.commons.lang3.tuple.Pair;
 import org.fabasoad.poe.core.UsedViaReflection;
-import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
-import org.fabasoad.poe.entities.views.ViewType;
 import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;
 import org.fabasoad.poe.entities.monsters.Monster;
+import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
+import org.fabasoad.poe.entities.views.ViewType;
 import org.fabasoad.poe.statistics.SupportedStatistics;
 import org.sikuli.script.Match;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -25,20 +25,22 @@ import java.util.stream.Collectors;
 @SupportedStatistics
 public final class FleetManager extends ViewAwareElementsManager {
 
+    private final Map<String, Integer> statistics;
+
+    private static final String ATTACK_STATISTICS_KEY = "Attacked monsters count: ";
+    private static final String REPAIR_STATISTICS_KEY = "Repairing count: ";
+
     private static final FleetManager instance = new FleetManager();
 
     public static FleetManager getInstance() {
         return instance;
     }
 
-    @SuppressWarnings("unchecked")
     private FleetManager() {
-        Pair<String, Integer> attackPair = Pair.of("Attacked monsters count: ", 0);
-        Pair<String, Integer> repairPair = Pair.of("Repairing count: ", 0);
-        statistics = new Pair[] { attackPair, repairPair };
+        statistics = new HashMap<>();
+        statistics.put(ATTACK_STATISTICS_KEY, 0);
+        statistics.put(REPAIR_STATISTICS_KEY, 0);
     }
-
-    private final Pair<String, Integer>[] statistics;
 
     @Override
     protected ViewType getViewType() {
@@ -47,22 +49,24 @@ public final class FleetManager extends ViewAwareElementsManager {
 
     @UsedViaReflection
     public String getStatistics() {
-        return Arrays.stream(statistics)
-                .filter(pair -> pair.getValue() > 0)
-                .map(pair -> pair.getKey() + pair.getValue() + ".")
+        return statistics.entrySet().stream()
+                .filter(e -> e.getValue() > 0)
+                .map(e -> e.getKey() + e.getValue() + ".")
                 .collect(Collectors.joining(System.getProperty("line.separator")));
     }
 
-    public void sendFleets(Collection<Monster> monsters) {
-        trySwitchView();
-        // Check if repair required
-        ButtonsManager.getInstance().findAll(ButtonType.REPAIR).ifPresent(i -> {
-            while (i.hasNext()) {
-                statistics[1].setValue(statistics[1].getValue() + 1);
-                i.next().click();
-            }
-        });
+    private void updateStatistics(String key) {
+        statistics.merge(key, 1, Integer::sum);
+    }
 
+    public void sendFleets(Collection<Monster> monsters) {
+        // Try switching view to 'OCEAN'
+        trySwitchView();
+
+        // Check if repair required
+        ButtonsManager.getInstance().clickMany(ButtonType.REPAIR, () -> updateStatistics(REPAIR_STATISTICS_KEY));
+
+        // Send fleets to the journey
         sendFleetsInternal(monsters);
     }
 
@@ -84,7 +88,7 @@ public final class FleetManager extends ViewAwareElementsManager {
     }
 
     private void attack(Match fleet, Match monster) {
-        statistics[0].setValue(statistics[0].getValue() + 1);
+        updateStatistics(ATTACK_STATISTICS_KEY);
 
         fleet.click();
         monster.click();

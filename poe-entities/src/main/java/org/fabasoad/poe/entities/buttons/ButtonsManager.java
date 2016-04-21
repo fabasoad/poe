@@ -22,10 +22,6 @@ public final class ButtonsManager extends ElementsManager {
     private ButtonsManager() {
     }
 
-    public Optional<Iterator<Match>> findAll(ButtonType buttonType) {
-        return findAll(ButtonType.getFolderName(), buttonType.getDisplayName(), buttonType.getImageName());
-    }
-
     public void click(ButtonType buttonType) {
         click(buttonType, () -> {});
     }
@@ -37,8 +33,12 @@ public final class ButtonsManager extends ElementsManager {
         });
     }
 
-    public void clickMany(ButtonType buttonType) {
-        findAll(ButtonType.getFolderName(), buttonType.getDisplayName(), buttonType.getImageName())
-                .ifPresent(i -> i.forEachRemaining(Region::click));
+    public void clickMany(ButtonType buttonType, Runnable postClick) {
+        findAll(ButtonType.getFolderName(), buttonType.getDisplayName(), buttonType.getImageName()).ifPresent(i -> {
+            while (i.hasNext()) {
+                i.next().click();
+                postClick.run();
+            }
+        });
     }
 }
