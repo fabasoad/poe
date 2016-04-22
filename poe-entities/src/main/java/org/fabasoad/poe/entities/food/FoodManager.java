@@ -45,9 +45,9 @@ public final class FoodManager extends ViewAwareElementsManager {
         return "Collected food count: " + statistics;
     }
 
-    public void grow(Pair<Collection<FoodType>, FoodType> food) {
+    public void collectAndGrow(Collection<FoodType> foodToCollect, FoodType foodToGrow) {
         trySwitchView();
-        findAllFoodToCollect(food.getLeft()).ifPresent(i -> i.forEachRemaining(Region::click));
+        findAllFoodToCollect(foodToCollect).ifPresent(i -> i.forEachRemaining(Region::click));
 
         findEmptyFields().ifPresent(i -> {
             while (i.hasNext()) {
@@ -55,7 +55,7 @@ public final class FoodManager extends ViewAwareElementsManager {
                 statistics++;
                 ButtonsManager.getInstance().click(
                         ButtonType.COLLECT_FOOD,
-                        () -> findToGrow(food.getRight()).ifPresent(Region::click));
+                        () -> findToGrow(foodToGrow).ifPresent(Region::click));
             }
         });
     }

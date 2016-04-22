@@ -50,7 +50,7 @@ public class Runner {
                 ResourceManager.getInstance().collect();
             }
             if (OptionFood.has(cmd)) {
-                FoodManager.getInstance().grow(OptionFood.parse(cmd));
+                FoodManager.getInstance().collectAndGrow(OptionCollect.parse(cmd), OptionGrow.parse(cmd));
             }
             if (OptionFleet.has(cmd)) {
                 FleetManager.getInstance().sendFleets(OptionMonsters.parse(cmd));
@@ -66,6 +66,8 @@ public class Runner {
         options.addOption(new OptionFleet());
         options.addOption(new OptionMonsters());
         options.addOption(new OptionFood());
+        options.addOption(new OptionCollect());
+        options.addOption(new OptionGrow());
         options.addOption(new OptionResources());
         options.addOption(new OptionTest());
         options.addOption(new OptionSkipValidation());

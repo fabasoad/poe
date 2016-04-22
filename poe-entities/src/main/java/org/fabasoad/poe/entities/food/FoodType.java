@@ -47,7 +47,7 @@ public enum FoodType {
         return defaultToCollectAsCollection().stream().map(m -> m.name().toLowerCase()).collect(Collectors.joining(", "));
     }
 
-    public static Collection<FoodType> defaultToCollectAsCollection() {
+    private static Collection<FoodType> defaultToCollectAsCollection() {
         return Collections.singletonList(CARROT);
     }
 
@@ -55,7 +55,7 @@ public enum FoodType {
         return defaultToGrow().name().toLowerCase();
     }
 
-    public static FoodType defaultToGrow() {
+    private static FoodType defaultToGrow() {
         return CARROT;
     }
 

@@ -62,7 +62,7 @@ public enum Monster {
         return Arrays.stream(values()).map(m -> m.name().toLowerCase()).collect(Collectors.joining(", "));
     }
 
-    public static Collection<Monster> defaultAsCollection() {
+    private static Collection<Monster> defaultAsCollection() {
         Filter filter = new Filter();
         filter.setDangerLevels(LOW);
         filter.setResourceTypes(GOLD, IRON);

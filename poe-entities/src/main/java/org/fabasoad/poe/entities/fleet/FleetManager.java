@@ -51,7 +51,7 @@ public final class FleetManager extends ViewAwareElementsManager {
     public String getStatistics() {
         return statistics.entrySet().stream()
                 .filter(e -> e.getValue() > 0)
-                .map(e -> e.getKey() + e.getValue() + ".")
+                .map(e -> e.getKey() + e.getValue())
                 .collect(Collectors.joining(System.getProperty("line.separator")));
     }
 

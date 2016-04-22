@@ -20,26 +20,15 @@ public class OptionMonsters extends Option {
         super(COMMAND, "monsters", true, buildMonstersDescription());
     }
 
-    public static boolean has(CommandLine cmd) {
-        return cmd.hasOption(COMMAND);
-    }
-
     private static String buildMonstersDescription() {
         return String.format("List of monsters to attack. Used only in combination with -fl command.%1$s" +
-                "Default: %2$s.%1$sPossible values: %3$s.", System.getProperty("line.separator"),
-                Monster.defaultAsString(), Monster.valuesAsString());
+                "Usage: -fl -m <monster_1,monster2,...>.%1$sDefault: %2$s.%1$sPossible values: %3$s.",
+                System.getProperty("line.separator"), Monster.defaultAsString(), Monster.valuesAsString());
     }
 
     public static Collection<Monster> parse(CommandLine cmd) {
-        Collection<Monster> monsters;
-        if (cmd.hasOption("m")) {
-            String defaultMonsters = Monster.defaultAsString();
-            monsters = Arrays.stream(cmd.getOptionValue("monsters", defaultMonsters).split(","))
+        return Arrays.stream(cmd.getOptionValue(COMMAND, Monster.defaultAsString()).split(","))
                     .map(v -> Monster.valueOf(v.trim().toUpperCase()))
                     .collect(Collectors.toList());
-        } else {
-            monsters = Monster.defaultAsCollection();
-        }
-        return monsters;
     }
 }
