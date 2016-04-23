@@ -3,15 +3,27 @@ package org.fabasoad.poe;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.fabasoad.poe.cmd.*;
+import org.fabasoad.poe.cmd.OptionCollect;
+import org.fabasoad.poe.cmd.OptionFleet;
+import org.fabasoad.poe.cmd.OptionFood;
+import org.fabasoad.poe.cmd.OptionGrow;
+import org.fabasoad.poe.cmd.OptionHelp;
+import org.fabasoad.poe.cmd.OptionMonsters;
+import org.fabasoad.poe.cmd.OptionResources;
+import org.fabasoad.poe.cmd.OptionSkipValidation;
+import org.fabasoad.poe.cmd.OptionTest;
+import org.fabasoad.poe.core.Logger;
 import org.fabasoad.poe.entities.fleet.FleetManager;
 import org.fabasoad.poe.entities.food.FoodManager;
 import org.fabasoad.poe.entities.resources.ResourceManager;
 import org.fabasoad.poe.entities.temp.TempManager;
 import org.fabasoad.poe.entities.validation.ValidationManager;
 import org.fabasoad.poe.statistics.StatisticsCollector;
+import org.fabasoad.poe.utils.ReflectionUtils;
+import org.fabasoad.poe.utils.StreamUtils;
 import org.sikuli.script.ImagePath;
 
 /**
@@ -62,15 +74,13 @@ public class Runner {
 
     private static Options buildOptions() {
         Options options = new Options();
-        options.addOption(new OptionHelp());
-        options.addOption(new OptionFleet());
-        options.addOption(new OptionMonsters());
-        options.addOption(new OptionFood());
-        options.addOption(new OptionCollect());
-        options.addOption(new OptionGrow());
-        options.addOption(new OptionResources());
-        options.addOption(new OptionTest());
-        options.addOption(new OptionSkipValidation());
+        ReflectionUtils.getSubTypesOf(Option.class).stream()
+                .map(c -> StreamUtils.map(c, Class::newInstance, Runner::logException))
+                .forEach(o -> o.ifPresent(options::addOption));
         return options;
+    }
+
+    private static void logException(Throwable e) {
+        Logger.getInstance().error(Runner.class, e.getMessage());
     }
 }

@@ -2,11 +2,7 @@ package org.fabasoad.poe.statistics;
 
 import org.apache.commons.lang3.StringUtils;
 import org.fabasoad.poe.core.Logger;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
+import org.fabasoad.poe.utils.ReflectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,16 +17,12 @@ import java.util.Collection;
 public final class StatisticsCollector {
 
     private static final StatisticsCollector instance = new StatisticsCollector();
-    private final Reflections reflections;
 
     public static StatisticsCollector getInstance() {
         return instance;
     }
 
     private StatisticsCollector() {
-        reflections = new Reflections(new ConfigurationBuilder()
-                .setUrls(ClasspathHelper.forPackage("org.fabasoad.poe"))
-                .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner()));
     }
 
     public void print() {
@@ -82,7 +74,7 @@ public final class StatisticsCollector {
      */
     private Collection<String> collectStatistics() {
         Collection<String> result = new ArrayList<>();
-        reflections.getTypesAnnotatedWith(SupportedStatistics.class).forEach(type -> {
+        ReflectionUtils.getTypesAnnotatedWith(SupportedStatistics.class).forEach(type -> {
             SupportedStatistics annotation = type.getAnnotation(SupportedStatistics.class);
 
             try {
