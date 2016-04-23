@@ -4,7 +4,7 @@ package org.fabasoad.poe.entities.validation;
  * @author Yevhen Fabizhevskyi
  * @date 14.04.2016.
  */
-public enum ValidationType {
+enum ValidationType {
 
     ANOTHER_CLIENT("'Another client' message", "another_client_message"),
     SERVER_CONNECTION("'Server connection' error", "server_connection_error_message"),
@@ -22,15 +22,15 @@ public enum ValidationType {
         this.imageName = imageName;
     }
 
-    public String getDisplayName() {
+    String getDisplayName() {
         return displayName;
     }
 
-    public String getImageName() {
+    String getImageName() {
         return imageName;
     }
 
-    public static String getFolderName() {
+    static String getFolderName() {
         return "validation";
     }
 }

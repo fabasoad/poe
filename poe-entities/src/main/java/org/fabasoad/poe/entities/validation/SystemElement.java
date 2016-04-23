@@ -4,7 +4,7 @@ package org.fabasoad.poe.entities.validation;
  * @author Yevhen Fabizhevskyi
  * @date 18.04.2016.
  */
-public enum SystemElement {
+enum SystemElement {
 
     GAME_TILE("Game tile", "game_tile"),
     WIN_LOGO("'Win' logo", "win_logo");
@@ -17,15 +17,15 @@ public enum SystemElement {
         this.imageName = imageName;
     }
 
-    public String getDisplayName() {
+    String getDisplayName() {
         return displayName;
     }
 
-    public String getImageName() {
+    String getImageName() {
         return imageName;
     }
 
-    public static String getFolderName() {
+    static String getFolderName() {
         return "system";
     }
 }

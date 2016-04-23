@@ -1,11 +1,6 @@
 package org.fabasoad.poe.entities.buttons;
 
 import org.fabasoad.poe.entities.ElementsManager;
-import org.sikuli.script.Match;
-import org.sikuli.script.Region;
-
-import java.util.Iterator;
-import java.util.Optional;
 
 /**
  * @author Eugene Fabizhevsky
