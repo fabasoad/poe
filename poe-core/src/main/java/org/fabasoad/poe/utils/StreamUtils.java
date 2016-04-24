@@ -19,8 +19,8 @@ public class StreamUtils {
         if (nonNull(obj) && nonNull(function) && nonNull(handleException)) {
             try {
                 result = Optional.ofNullable(function.apply(obj));
-            } catch (Throwable ex) {
-                handleException.accept(ex);
+            } catch (Throwable e) {
+                handleException.accept(e);
             }
         }
         return result;

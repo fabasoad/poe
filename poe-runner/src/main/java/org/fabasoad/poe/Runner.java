@@ -18,6 +18,8 @@ import org.fabasoad.poe.cmd.OptionTest;
 import org.fabasoad.poe.core.Logger;
 import org.fabasoad.poe.entities.fleet.FleetManager;
 import org.fabasoad.poe.entities.food.FoodManager;
+import org.fabasoad.poe.entities.food.FoodType;
+import org.fabasoad.poe.entities.monsters.Monster;
 import org.fabasoad.poe.entities.resources.ResourceManager;
 import org.fabasoad.poe.entities.temp.TempManager;
 import org.fabasoad.poe.entities.validation.ValidationManager;
@@ -25,6 +27,9 @@ import org.fabasoad.poe.statistics.StatisticsCollector;
 import org.fabasoad.poe.utils.ReflectionUtils;
 import org.fabasoad.poe.utils.StreamUtils;
 import org.sikuli.script.ImagePath;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -49,25 +54,30 @@ public class Runner {
 
         setUp();
 
-        while (true) {
-            if (OptionTest.has(cmd)) {
-                TempManager.getInstance().test();
-                continue;
-            }
+        Collection<Runnable> actions = new ArrayList<>();
+        if (OptionTest.has(cmd)) {
+            actions.add(TempManager.getInstance()::test);
+        } else {
             if (!OptionSkipValidation.has(cmd)) {
-                ValidationManager.getInstance().validateAll();
+                actions.add(ValidationManager.getInstance()::validateAll);
             }
 
             if (OptionResources.has(cmd)) {
-                ResourceManager.getInstance().collect();
+                actions.add(ResourceManager.getInstance()::collect);
             }
             if (OptionFood.has(cmd)) {
-                FoodManager.getInstance().collectAndGrow(OptionCollect.parse(cmd), OptionGrow.parse(cmd));
+                Collection<FoodType> foodToCollect = OptionCollect.parse(cmd);
+                FoodType foodToGrow = OptionGrow.parse(cmd);
+                actions.add(() -> FoodManager.getInstance().collectAndGrow(foodToCollect, foodToGrow));
             }
             if (OptionFleet.has(cmd)) {
-                FleetManager.getInstance().sendFleets(OptionMonsters.parse(cmd));
+                Collection<Monster> monsters = OptionMonsters.parse(cmd);
+                actions.add(() -> FleetManager.getInstance().sendFleets(monsters));
             }
+        }
 
+        while (true) {
+            actions.forEach(Runnable::run);
             StatisticsCollector.getInstance().print();
         }
     }

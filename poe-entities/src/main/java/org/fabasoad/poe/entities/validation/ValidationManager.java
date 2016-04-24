@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +22,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static org.fabasoad.poe.entities.buttons.ButtonType.OK;
+import static org.fabasoad.poe.entities.buttons.ButtonType.NO_THANKS;
+import static org.fabasoad.poe.entities.buttons.ButtonType.RELOAD;
+import static org.fabasoad.poe.entities.buttons.ButtonType.REPEAT;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -64,6 +70,8 @@ public final class ValidationManager extends ElementsManager {
         validateLevelUp();
         validateRating();
         validateInternetConnectionError();
+        validateBotMessageShown();
+        validateAnyButtonStillNotClicked();
     }
 
     private void validateProcessIsRunning() {
@@ -110,29 +118,38 @@ public final class ValidationManager extends ElementsManager {
                 ValidationType.ANOTHER_CLIENT.getImageName()).ifPresent(ignored -> {
             saveStatistics("validateAnotherClient");
             sleep(ANOTHER_CLIENT_WAIT_TIME);
-            ButtonsManager.getInstance().click(ButtonType.RELOAD);
+            ButtonsManager.getInstance().click(RELOAD);
         });
     }
 
     private void validateServerConnectionError() {
-        validate("validateServerConnectionError", ValidationType.SERVER_CONNECTION, ButtonType.REPEAT);
+        validate("validateServerConnectionError", ValidationType.SERVER_CONNECTION, REPEAT);
     }
 
     private void validateError17() {
-        validate("validateError17", ValidationType.ERROR_17, ButtonType.RELOAD);
+        validate("validateError17", ValidationType.ERROR_17, RELOAD);
     }
 
     private void validateLevelUp() {
-        validate("validateLevelUp", ValidationType.LEVEL_UP, ButtonType.OK);
+        validate("validateLevelUp", ValidationType.LEVEL_UP, OK);
     }
 
     private void validateRating() {
-        validate("validateRating", ValidationType.RATING_1, ButtonType.NO_THANKS);
-        validate("validateRating", ValidationType.RATING_2, ButtonType.NO_THANKS);
+        validate("validateRating", ValidationType.RATING_1, NO_THANKS);
+        validate("validateRating", ValidationType.RATING_2, NO_THANKS);
     }
 
     private void validateInternetConnectionError() {
-        validate("validateInternetConnectionError", ValidationType.INTERNET_CONNECTION, ButtonType.REPEAT);
+        validate("validateInternetConnectionError", ValidationType.INTERNET_CONNECTION, REPEAT);
+    }
+
+    private void validateBotMessageShown() {
+        validate("validateBotMessageShown", ValidationType.BOT_MESSAGE, OK);
+    }
+
+    private void validateAnyButtonStillNotClicked() {
+        Arrays.asList(OK, RELOAD, REPEAT, NO_THANKS).forEach(b ->
+                ButtonsManager.getInstance().click(b, () -> saveStatistics("validateAnyButtonStillNotClicked")));
     }
 
     private void validate(String methodName,

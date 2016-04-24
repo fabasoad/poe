@@ -12,7 +12,8 @@ enum ValidationType {
     LEVEL_UP("'Level up' message", "level_up_message"),
     RATING_1("'Rating 1' message", "rating_1_message"),
     RATING_2("'Rating 2' message", "rating_2_message"),
-    INTERNET_CONNECTION("'Internet connection' error", "internet_connection_error_message");
+    INTERNET_CONNECTION("'Internet connection' error", "internet_connection_error_message"),
+    BOT_MESSAGE("'Bot message'", "bot_message");
 
     private final String displayName;
     private final String imageName;
