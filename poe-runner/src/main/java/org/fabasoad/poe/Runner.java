@@ -61,7 +61,6 @@ public class Runner {
             if (!OptionSkipValidation.has(cmd)) {
                 actions.add(ValidationManager.getInstance()::validateAll);
             }
-
             if (OptionResources.has(cmd)) {
                 actions.add(ResourceManager.getInstance()::collect);
             }

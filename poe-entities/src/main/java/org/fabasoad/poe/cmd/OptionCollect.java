@@ -2,6 +2,7 @@ package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
+import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.food.FoodType;
 
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
  * @author Yevhen Fabizhevskyi
  * @date 22.04.2016.
  */
+@UsedViaReflection
 public class OptionCollect extends Option {
 
     private static final String COMMAND = "c";

@@ -65,10 +65,10 @@ public final class FoodManager extends ViewAwareElementsManager {
     }
 
     private Optional<Iterator<Match>> findEmptyFields() {
-        final String EMPTY_FIELD_IMAGE_NAME = "empty_field";
-        final String EMPTY_FIELD_DISPLAY_NAME = "Empty field";
-
-        return findAll("food", EMPTY_FIELD_DISPLAY_NAME, EMPTY_FIELD_IMAGE_NAME);
+        return findAll(
+                FieldType.getFolderName(),
+                FieldType.EMPTY.getDisplayName(),
+                FieldType.EMPTY.getImageName());
     }
 
     private Optional<Iterator<Match>> findAllFoodToCollect(Collection<FoodType> foodTypes) {

@@ -2,12 +2,14 @@ package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
+import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.food.FoodType;
 
 /**
  * @author Yevhen Fabizhevskyi
  * @date 22.04.2016.
  */
+@UsedViaReflection
 public class OptionGrow extends Option {
 
     private static final String COMMAND = "g";

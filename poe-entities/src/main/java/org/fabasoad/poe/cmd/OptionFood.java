@@ -4,6 +4,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.tuple.Pair;
 import org.fabasoad.poe.core.Logger;
+import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.food.FoodType;
 
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  * @author Yevhen Fabizhevskyi
  * @date 21.04.2016.
  */
+@UsedViaReflection
 public class OptionFood extends Option {
 
     private static final String COMMAND = "fo";

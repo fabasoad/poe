@@ -2,6 +2,7 @@ package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
+import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.monsters.Monster;
 
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
  * @author Yevhen Fabizhevskyi
  * @date 21.04.2016.
  */
+@UsedViaReflection
 public class OptionMonsters extends Option {
 
     private static final String COMMAND = "m";
