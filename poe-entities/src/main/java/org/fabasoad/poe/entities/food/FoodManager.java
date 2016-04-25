@@ -1,7 +1,6 @@
 package org.fabasoad.poe.entities.food;
 
 import com.google.common.collect.Iterators;
-import org.apache.commons.lang3.tuple.Pair;
 import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
 import org.fabasoad.poe.entities.views.ViewType;
@@ -14,8 +13,6 @@ import org.sikuli.script.Region;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
-
-import static org.fabasoad.poe.entities.food.FoodType.*;
 
 /**
  * @author Yevhen Fabizhevskyi
