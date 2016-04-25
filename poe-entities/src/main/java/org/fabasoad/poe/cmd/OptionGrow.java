@@ -19,9 +19,9 @@ public class OptionGrow extends Option {
     }
 
     private static String buildDescription() {
-        return String.format("Command to grow the food. Used only in combination with -fo command.%1$s" +
-                "Usage: -fo -g <food>.%1$sDefault: %2$s.%1$sPossible values: %3$s",
-                System.getProperty("line.separator"), FoodType.defaultToGrowAsString(), FoodType.valuesAsString());
+        return String.format("Command to grow the food. Used only in combination with -fo command.%1$sUsage: -fo " +
+                "-%2$s <food>.%1$sDefault: %3$s.%1$sPossible values: %4$s", System.getProperty("line.separator"),
+                COMMAND, FoodType.defaultToGrowAsString(), FoodType.valuesAsString());
     }
 
     public static FoodType parse(CommandLine cmd) {

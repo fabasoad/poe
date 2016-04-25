@@ -13,18 +13,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static org.fabasoad.poe.entities.buttons.ButtonType.OK;
 import static org.fabasoad.poe.entities.buttons.ButtonType.NO_THANKS;
+import static org.fabasoad.poe.entities.buttons.ButtonType.OK;
 import static org.fabasoad.poe.entities.buttons.ButtonType.RELOAD;
 import static org.fabasoad.poe.entities.buttons.ButtonType.REPEAT;
 
@@ -44,22 +41,18 @@ public final class ValidationManager extends ElementsManager {
     private ValidationManager() {
     }
 
-    private final Map<String, Collection<String>> statistics = new HashMap<>();
+    private final Map<String, Integer> statistics = new HashMap<>();
 
     @UsedViaReflection
     public String getStatistics() {
-        return statistics.isEmpty() ? "" : statistics.entrySet().stream().map(entry -> String.format("[%s] %s: %s",
-                    getClass().getSimpleName(),
-                    entry.getKey(),
-                    entry.getValue().stream().map(v -> "[" + v + "]").collect(Collectors.joining(", "))))
+        final String template = "Validation '%s' positives count: %s";
+        return statistics.entrySet().stream()
+                .map(e -> String.format(template, e.getKey(), e.getValue()))
                 .collect(Collectors.joining(System.getProperty("line.separator")));
     }
 
     private void saveStatistics(String methodName) {
-        if (!statistics.containsKey(methodName)) {
-            statistics.put(methodName, new ArrayList<>());
-        }
-        statistics.get(methodName).add(Logger.DATE_FORMAT.format(new Date()));
+        statistics.merge(methodName, 1, Integer::sum);
     }
 
     public void validateAll() {

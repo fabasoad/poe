@@ -2,7 +2,6 @@ package org.fabasoad.poe;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -43,9 +42,8 @@ public class Runner {
     }
 
     public static void main(String[] args) throws ParseException {
-        CommandLineParser parser = new BasicParser();
         Options cmdOptions = buildOptions();
-        CommandLine cmd = parser.parse(cmdOptions, args);
+        final CommandLine cmd = new BasicParser().parse(cmdOptions, args);
 
         if (OptionHelp.has(cmd)) {
             OptionHelp.print(cmdOptions);
@@ -54,26 +52,7 @@ public class Runner {
 
         setUp();
 
-        Collection<Runnable> actions = new ArrayList<>();
-        if (OptionTest.has(cmd)) {
-            actions.add(TempManager.getInstance()::test);
-        } else {
-            if (!OptionSkipValidation.has(cmd)) {
-                actions.add(ValidationManager.getInstance()::validateAll);
-            }
-            if (OptionResources.has(cmd)) {
-                actions.add(ResourceManager.getInstance()::collect);
-            }
-            if (OptionFood.has(cmd)) {
-                Collection<FoodType> foodToCollect = OptionCollect.parse(cmd);
-                FoodType foodToGrow = OptionGrow.parse(cmd);
-                actions.add(() -> FoodManager.getInstance().collectAndGrow(foodToCollect, foodToGrow));
-            }
-            if (OptionFleet.has(cmd)) {
-                Collection<Monster> monsters = OptionMonsters.parse(cmd);
-                actions.add(() -> FleetManager.getInstance().sendFleets(monsters));
-            }
-        }
+        Collection<Runnable> actions = collectActions(cmd);
 
         while (true) {
             actions.forEach(Runnable::run);
@@ -87,6 +66,30 @@ public class Runner {
                 .map(c -> StreamUtils.map(c, Class::newInstance, Runner::logException))
                 .forEach(o -> o.ifPresent(options::addOption));
         return options;
+    }
+
+    private static Collection<Runnable> collectActions(CommandLine cmd) {
+        final Collection<Runnable> result = new ArrayList<>();
+        if (OptionTest.has(cmd)) {
+            result.add(TempManager.getInstance()::test);
+        } else {
+            if (!OptionSkipValidation.has(cmd)) {
+                result.add(ValidationManager.getInstance()::validateAll);
+            }
+            if (OptionResources.has(cmd)) {
+                result.add(ResourceManager.getInstance()::collect);
+            }
+            if (OptionFood.has(cmd)) {
+                final Collection<FoodType> foodToCollect = OptionCollect.parse(cmd);
+                final FoodType foodToGrow = OptionGrow.parse(cmd);
+                result.add(() -> FoodManager.getInstance().collectAndGrow(foodToCollect, foodToGrow));
+            }
+            if (OptionFleet.has(cmd)) {
+                final Collection<Monster> monsters = OptionMonsters.parse(cmd);
+                result.add(() -> FleetManager.getInstance().sendFleets(monsters));
+            }
+        }
+        return result;
     }
 
     private static void logException(Throwable e) {

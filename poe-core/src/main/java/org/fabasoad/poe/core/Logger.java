@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class Logger {
 
-    public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private static Logger instance = new Logger();
 
