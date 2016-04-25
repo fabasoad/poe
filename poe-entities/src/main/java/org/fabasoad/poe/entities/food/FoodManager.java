@@ -42,7 +42,7 @@ public final class FoodManager extends ViewAwareElementsManager {
 
     @UsedViaReflection
     public String getStatistics() {
-        return "Collected food count: " + statistics;
+        return statistics > 0 ? "Collected food count: " + statistics : "";
     }
 
     public void collectAndGrow(Collection<FoodType> foodToCollect, FoodType foodToGrow) {

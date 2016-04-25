@@ -62,10 +62,6 @@ public final class FleetManager extends ViewAwareElementsManager {
     public void sendFleets(Collection<Monster> monsters) {
         // Try switching view to 'OCEAN'
         trySwitchView();
-
-        // Check if repair required
-        ButtonsManager.getInstance().clickMany(ButtonType.REPAIR, () -> updateStatistics(REPAIR_STATISTICS_KEY));
-
         // Send fleets to the journey
         sendFleetsInternal(monsters);
     }
@@ -78,6 +74,9 @@ public final class FleetManager extends ViewAwareElementsManager {
             if (foundMonsters.isEmpty()) {
                 ButtonsManager.getInstance().click(ButtonType.RANDOM_SECTOR, () -> sendFleetsInternal(monsters));
             } else {
+                // Check if repair required
+                ButtonsManager.getInstance().clickMany(ButtonType.REPAIR, () -> updateStatistics(REPAIR_STATISTICS_KEY));
+
                 Iterator<Match> monstersIterator = foundMonsters.iterator();
                 while (fleetsIterator.hasNext() && monstersIterator.hasNext()) {
                     attack(fleetsIterator.next(), monstersIterator.next());
