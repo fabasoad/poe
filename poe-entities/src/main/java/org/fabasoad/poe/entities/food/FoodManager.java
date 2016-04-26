@@ -46,33 +46,22 @@ public final class FoodManager extends ViewAwareElementsManager {
         trySwitchView();
         findAllFoodToCollect(foodToCollect).ifPresent(i -> i.forEachRemaining(Region::click));
 
-        findEmptyFields().ifPresent(i -> {
+        findAll(FieldType.EMPTY.asElement()).ifPresent(i -> {
             while (i.hasNext()) {
                 i.next().click();
                 statistics++;
                 ButtonsManager.getInstance().click(
                         ButtonType.COLLECT_FOOD,
-                        () -> findToGrow(foodToGrow).ifPresent(Region::click));
+                        () -> find(foodToGrow.asElementToGrow()).ifPresent(Region::click));
             }
         });
-    }
-
-    private Optional<Match> findToGrow(FoodType foodType) {
-        return find(FoodType.getFolderName(), foodType.getDisplayName(), foodType.getGrowImageName());
-    }
-
-    private Optional<Iterator<Match>> findEmptyFields() {
-        return findAll(
-                FieldType.getFolderName(),
-                FieldType.EMPTY.getDisplayName(),
-                FieldType.EMPTY.getImageName());
     }
 
     private Optional<Iterator<Match>> findAllFoodToCollect(Collection<FoodType> foodTypes) {
         @SuppressWarnings("unchecked")
         final Iterator<Match>[] result = new Iterator[1];
         for (FoodType foodType : foodTypes) {
-            findAll(FoodType.getFolderName(), foodType.getDisplayName(), foodType.getCollectImageName()).ifPresent(i ->
+            findAll(foodType.asElementToCollect()).ifPresent(i ->
                     result[0] = Optional.ofNullable(result[0]).map(r -> Iterators.concat(r, i)).orElse(i));
         }
         return Optional.ofNullable(result[0]);

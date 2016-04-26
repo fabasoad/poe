@@ -1,5 +1,7 @@
 package org.fabasoad.poe.entities.validation;
 
+import org.apache.commons.lang3.tuple.Triple;
+
 /**
  * @author Yevhen Fabizhevskyi
  * @date 14.04.2016.
@@ -15,6 +17,7 @@ enum ValidationType {
     INTERNET_CONNECTION("'Internet connection' error", "internet_connection_error_message"),
     BOT_MESSAGE("'Bot message'", "bot_message");
 
+    public static final String VALIDATION_FOLDER = "validation";
     private final String displayName;
     private final String imageName;
 
@@ -23,15 +26,7 @@ enum ValidationType {
         this.imageName = imageName;
     }
 
-    String getDisplayName() {
-        return displayName;
-    }
-
-    String getImageName() {
-        return imageName;
-    }
-
-    static String getFolderName() {
-        return "validation";
+    public Triple<String, String, String> asElement() {
+        return Triple.of(VALIDATION_FOLDER, displayName, imageName);
     }
 }

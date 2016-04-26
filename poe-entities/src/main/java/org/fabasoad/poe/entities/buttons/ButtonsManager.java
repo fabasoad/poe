@@ -22,14 +22,14 @@ public final class ButtonsManager extends ElementsManager {
     }
 
     public void click(ButtonType buttonType, Runnable postClick) {
-        find(ButtonType.getFolderName(), buttonType.getDisplayName(), buttonType.getImageName()).ifPresent(b -> {
+        find(buttonType.asElement()).ifPresent(b -> {
             b.click();
             postClick.run();
         });
     }
 
     public void clickMany(ButtonType buttonType, Runnable postClick) {
-        findAll(ButtonType.getFolderName(), buttonType.getDisplayName(), buttonType.getImageName()).ifPresent(i -> {
+        findAll(buttonType.asElement()).ifPresent(i -> {
             while (i.hasNext()) {
                 i.next().click();
                 postClick.run();

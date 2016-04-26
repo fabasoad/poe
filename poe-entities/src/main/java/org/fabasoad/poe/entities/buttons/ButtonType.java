@@ -1,5 +1,7 @@
 package org.fabasoad.poe.entities.buttons;
 
+import org.apache.commons.lang3.tuple.Triple;
+
 /**
  * @author Yevhen Fabizhevskyi
  * @date 07.04.2016.
@@ -13,8 +15,10 @@ public enum ButtonType {
     REPAIR("'Repair' button", "repair_button"),
     COLLECT_FOOD("'Collect food' button", "collect_food_button"),
     NO_THANKS("'No, thanks' button", "no_thanks_button"),
-    MESSAGING("'Messaging' button", "messaging_button");
+    MESSAGING("'Messaging' button", "messaging_button"),
+    RESEARCH("'Research' button", "research_button");
 
+    private static final String BUTTONS_FOLDER = "buttons";
     private String displayName;
     private String imageName;
 
@@ -23,15 +27,7 @@ public enum ButtonType {
         this.imageName = imageName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public static String getFolderName() {
-        return "buttons";
+    public Triple<String, String, String> asElement() {
+        return Triple.of(BUTTONS_FOLDER, displayName, imageName);
     }
 }

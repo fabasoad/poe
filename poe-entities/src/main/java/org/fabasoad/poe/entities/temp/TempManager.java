@@ -1,5 +1,6 @@
 package org.fabasoad.poe.entities.temp;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.fabasoad.poe.entities.ElementsManager;
 
 /**
@@ -18,6 +19,6 @@ public class TempManager extends ElementsManager {
     }
 
     public void test() {
-        find("temp", "Temp circle", "circle_01");
+        find(Triple.of("temp", "Temp circle", "circle_01"));
     }
 }

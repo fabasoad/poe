@@ -1,5 +1,7 @@
 package org.fabasoad.poe.entities.resources;
 
+import org.apache.commons.lang3.tuple.Triple;
+
 /**
  * @author Yevhen Fabizhevskyi
  * @date 05.04.2016.
@@ -9,6 +11,7 @@ public enum ResourceType {
     WOOD("Wood", "iron"),
     IRON("Iron", "wood");
 
+    public static final String RESOURCES_FOLDER = "resources";
     private final String displayName;
     private final String imageName;
 
@@ -17,15 +20,7 @@ public enum ResourceType {
         this.imageName = imageName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public static String getFolderName() {
-        return "resources";
+    public Triple<String, String, String> asElement() {
+        return Triple.of(RESOURCES_FOLDER, displayName, imageName);
     }
 }

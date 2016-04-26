@@ -52,7 +52,7 @@ public final class ResourceManager extends ViewAwareElementsManager {
         @SuppressWarnings("unchecked")
         final Iterator<Match>[] result = new Iterator[1];
         for (ResourceType resource : resources) {
-            findAll(ResourceType.getFolderName(), resource.getDisplayName(), resource.getImageName()).ifPresent(i ->
+            findAll(resource.asElement()).ifPresent(i ->
                     result[0] = Optional.ofNullable(result[0]).map(r -> Iterators.concat(r, i)).orElse(i));
         }
         return Optional.ofNullable(result[0]);

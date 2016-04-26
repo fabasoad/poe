@@ -1,5 +1,7 @@
 package org.fabasoad.poe.entities.food;
 
+import org.apache.commons.lang3.tuple.Triple;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,6 +19,7 @@ public enum FoodType {
     RICE("Rice", "collect_rice", "grow_rice"),
     OLIVES("Olives", "collect_olives", "grow_olives");
 
+    public static final String FOOD_FOLDER = "food";
     private final String displayName;
     private final String collectImageName;
     private final String growImageName;
@@ -27,20 +30,12 @@ public enum FoodType {
         this.growImageName = growImageName;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public Triple<String, String, String> asElementToCollect() {
+        return Triple.of(FOOD_FOLDER, displayName, collectImageName);
     }
 
-    public String getCollectImageName() {
-        return collectImageName;
-    }
-
-    public String getGrowImageName() {
-        return growImageName;
-    }
-
-    public static String getFolderName() {
-        return "food";
+    public Triple<String, String, String> asElementToGrow() {
+        return Triple.of(FOOD_FOLDER, displayName, growImageName);
     }
 
     public static String defaultToCollectAsString() {

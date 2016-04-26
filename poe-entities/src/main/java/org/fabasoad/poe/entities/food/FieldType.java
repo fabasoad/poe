@@ -1,5 +1,7 @@
 package org.fabasoad.poe.entities.food;
 
+import org.apache.commons.lang3.tuple.Triple;
+
 /**
  * @author Yevhen Fabizhevskyi
  * @date 24.04.2016.
@@ -9,6 +11,7 @@ public enum FieldType {
     SEED("Seed field", "field_seed"),
     EMPTY("Empty field", "field_empty");
 
+    private static final String FIELDS_FOLDER = "fields";
     private final String displayName;
     private final String imageName;
 
@@ -17,15 +20,7 @@ public enum FieldType {
         this.imageName = imageName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public static String getFolderName() {
-        return "fields";
+    public Triple<String, String, String> asElement() {
+        return Triple.of(FIELDS_FOLDER, displayName, imageName);
     }
 }

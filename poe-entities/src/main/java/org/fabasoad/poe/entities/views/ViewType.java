@@ -1,5 +1,7 @@
 package org.fabasoad.poe.entities.views;
 
+import org.apache.commons.lang3.tuple.Triple;
+
 /**
  * @author Yevhen Fabizhevskyi
  * @date 16.04.2016.
@@ -9,6 +11,7 @@ public enum ViewType {
     CITY("'City' view", "ocean_view"),
     OCEAN("'Ocean' view", "city_view");
 
+    private static final String VIEWS_FOLDER = "views";
     private String displayName;
     private String imageToGoName;
 
@@ -17,15 +20,7 @@ public enum ViewType {
         this.imageToGoName = imageToGoName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getImageToGoName() {
-        return imageToGoName;
-    }
-
-    public static String getFolderName() {
-        return "views";
+    public Triple<String, String, String> asElement() {
+        return Triple.of(VIEWS_FOLDER, displayName, imageToGoName);
     }
 }

@@ -70,7 +70,7 @@ public final class FleetManager extends ViewAwareElementsManager {
         Collection<Match> foundMonsters = new ArrayList<>();
         findAllMonsters(monsters).ifPresent(i -> i.forEachRemaining(foundMonsters::add));
 
-        findFreeFleets().ifPresent(fleetsIterator -> {
+        findAll(Fleet.FREE.asElement()).ifPresent(fleetsIterator -> {
             if (foundMonsters.isEmpty()) {
                 ButtonsManager.getInstance().click(ButtonType.RANDOM_SECTOR, () -> sendFleetsInternal(monsters));
             } else {
@@ -97,13 +97,9 @@ public final class FleetManager extends ViewAwareElementsManager {
         @SuppressWarnings("unchecked")
         final Iterator<Match>[] result = new Iterator[1];
         for (Monster monster : monsters) {
-            findAll(Monster.getFolderName(), monster.getDisplayName(), monster.getImageName()).ifPresent(i ->
+            findAll(monster.asElement()).ifPresent(i ->
                     result[0] = Optional.ofNullable(result[0]).map(r -> Iterators.concat(r, i)).orElse(i));
         }
         return Optional.ofNullable(result[0]);
-    }
-
-    private Optional<Iterator<Match>> findFreeFleets() {
-        return findAll(Fleet.getFolderName(), Fleet.FREE.getDisplayName(), Fleet.FREE.getImageName());
     }
 }

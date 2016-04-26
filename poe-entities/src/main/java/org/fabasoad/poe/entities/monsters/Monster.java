@@ -1,5 +1,6 @@
 package org.fabasoad.poe.entities.monsters;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.fabasoad.poe.entities.resources.ResourceType;
 
 import java.util.Arrays;
@@ -30,6 +31,7 @@ public enum Monster {
     FIERCE_QUID_1("Fierce Quid lvl.1", "monster_fierce_quid_1", HIGH, GOLD, WOOD, IRON),
     FIERCE_QUID_2("Fierce Quid lvl.2", "monster_fierce_quid_2", VERY_HIGH, GOLD, WOOD, IRON);
 
+    private static final String MONSTERS_FOLDER = "monsters";
     private final String displayName;
     private final String imageName;
     private final DangerLevel dangerLevel;
@@ -42,16 +44,8 @@ public enum Monster {
         this.resourceTypes = resourceTypes;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public static String getFolderName() {
-        return "monsters";
+    public Triple<String, String, String> asElement() {
+        return Triple.of(MONSTERS_FOLDER, displayName, imageName);
     }
 
     public static String defaultAsString() {

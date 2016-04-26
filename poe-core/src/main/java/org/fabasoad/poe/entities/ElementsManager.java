@@ -1,5 +1,6 @@
 package org.fabasoad.poe.entities;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.fabasoad.poe.core.Logger;
 import org.fabasoad.poe.ScreenInstance;
 import org.sikuli.script.FindFailed;
@@ -16,21 +17,21 @@ import java.util.Optional;
  */
 public abstract class ElementsManager {
 
-    protected Optional<Match> find(String folderName, String displayName, String imageName) {
-        String fullImageName = String.format("%s/%s.png", folderName, imageName);
+    protected Optional<Match> find(Triple<String, String, String> element) {
+        String fullImageName = String.format("%s/%s.png", element.getLeft(), element.getRight());
         Match match = ScreenInstance.get().exists(fullImageName);
         if (match == null) {
-            Logger.getInstance().flow(getClass(), displayName + " does not exist.");
+            Logger.getInstance().flow(getClass(), element.getMiddle() + " does not exist.");
             return Optional.empty();
         }
         return Optional.of(match);
     }
 
-    protected Optional<Iterator<Match>> findAll(String folderName, String displayName, String imageName) {
-        String fullImageName = String.format("%s/%s.png", folderName, imageName);
+    protected Optional<Iterator<Match>> findAll(Triple<String, String, String> element) {
+        String fullImageName = String.format("%s/%s.png", element.getLeft(), element.getRight());
         Match match = ScreenInstance.get().exists(fullImageName);
         if (match == null) {
-            Logger.getInstance().flow(getClass(), displayName + " does not exist.");
+            Logger.getInstance().flow(getClass(), element.getMiddle() + " does not exist.");
             return Optional.empty();
         }
         Iterator<Match> foundElements;
@@ -43,7 +44,7 @@ public abstract class ElementsManager {
         if (foundElements.hasNext()) {
             return Optional.of(foundElements);
         }
-        Logger.getInstance().flow(getClass(), displayName + " is not found.");
+        Logger.getInstance().flow(getClass(), element.getMiddle() + " is not found.");
         return Optional.empty();
     }
 

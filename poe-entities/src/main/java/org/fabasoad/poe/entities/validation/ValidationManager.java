@@ -6,7 +6,6 @@ import org.fabasoad.poe.entities.ElementsManager;
 import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;
 import org.fabasoad.poe.statistics.SupportedStatistics;
-import org.sikuli.script.Match;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -84,9 +82,9 @@ public final class ValidationManager extends ElementsManager {
                 Logger.getInstance().flow(getClass(), String.format("'%s' process exists.", PROCESS_NAME));
             } else {
                 saveStatistics("validateProcessIsRunning");
-                findSystemElement(SystemElement.WIN_LOGO).ifPresent(winLogo -> {
+                find(SystemElement.WIN_LOGO.asElement()).ifPresent(winLogo -> {
                     winLogo.click();
-                    findSystemElement(SystemElement.GAME_TILE).ifPresent(gameTile -> {
+                    find(SystemElement.GAME_TILE.asElement()).ifPresent(gameTile -> {
                         gameTile.click();
 
                         final long WAIT_TIME = TimeUnit.SECONDS.toMillis(10);
@@ -99,16 +97,10 @@ public final class ValidationManager extends ElementsManager {
         }
     }
 
-    private Optional<Match> findSystemElement(SystemElement systemElement) {
-        return find(SystemElement.getFolderName(), systemElement.getDisplayName(), systemElement.getImageName());
-    }
-
     private void validateAnotherClient() {
         final long ANOTHER_CLIENT_WAIT_TIME = TimeUnit.MINUTES.toMillis(2);
 
-        find(ValidationType.getFolderName(),
-                ValidationType.ANOTHER_CLIENT.getDisplayName(),
-                ValidationType.ANOTHER_CLIENT.getImageName()).ifPresent(ignored -> {
+        find(ValidationType.ANOTHER_CLIENT.asElement()).ifPresent(ignored -> {
             saveStatistics("validateAnotherClient");
             sleep(ANOTHER_CLIENT_WAIT_TIME);
             ButtonsManager.getInstance().click(RELOAD);
@@ -148,10 +140,9 @@ public final class ValidationManager extends ElementsManager {
     private void validate(String methodName,
                           ValidationType validationType,
                           ButtonType buttonType) {
-        find(ValidationType.getFolderName(), validationType.getDisplayName(), validationType.getImageName())
-                .ifPresent(ignored -> {
-                    saveStatistics(methodName);
-                    ButtonsManager.getInstance().click(buttonType);
-                });
+        find(validationType.asElement()).ifPresent(ignored -> {
+            saveStatistics(methodName);
+            ButtonsManager.getInstance().click(buttonType);
+        });
     }
 }
