@@ -25,8 +25,8 @@ public class OptionCollect extends OptionBase {
     private static String buildDescription() {
         return String.format("Command to collect the food. Used only in combination with -fo command.%1$s" +
                 "Usage: -fo -%2$s <food_1,food_2,...>.%1$sDefault: %3$s.%1$sPossible values: %4$s",
-                System.getProperty("line.separator"), COMMAND, FoodType.defaultToCollectAsString(),
-                FoodType.valuesAsString());
+                System.getProperty("line.separator"), COMMAND,
+                DEFAULT.getProperty(COMMAND, FoodType.defaultToCollectAsString()), FoodType.valuesAsString());
     }
 
     public static Collection<FoodType> parse(CommandLine cmd) {

@@ -21,7 +21,7 @@ public class OptionGrow extends OptionBase {
     private static String buildDescription() {
         return String.format("Command to grow the food. Used only in combination with -fo command.%1$sUsage: -fo " +
                 "-%2$s <food>.%1$sDefault: %3$s.%1$sPossible values: %4$s", System.getProperty("line.separator"),
-                COMMAND, FoodType.defaultToGrowAsString(), FoodType.valuesAsString());
+                COMMAND, DEFAULT.getProperty(COMMAND, FoodType.defaultToGrowAsString()), FoodType.valuesAsString());
     }
 
     public static FoodType parse(CommandLine cmd) {
