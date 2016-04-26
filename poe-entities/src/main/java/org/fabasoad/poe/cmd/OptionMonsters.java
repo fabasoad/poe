@@ -1,7 +1,6 @@
 package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Option;
 import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.monsters.Monster;
 
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
  * @date 21.04.2016.
  */
 @UsedViaReflection
-public class OptionMonsters extends Option {
+public class OptionMonsters extends OptionBase {
 
     private static final String COMMAND = "m";
 
@@ -29,7 +28,7 @@ public class OptionMonsters extends Option {
     }
 
     public static Collection<Monster> parse(CommandLine cmd) {
-        return Arrays.stream(cmd.getOptionValue(COMMAND, Monster.defaultAsString()).split(","))
+        return Arrays.stream(getPropertyOrDefault(cmd, COMMAND, Monster.defaultAsString()).split(","))
                     .map(v -> Monster.valueOf(v.trim().toUpperCase()))
                     .collect(Collectors.toList());
     }

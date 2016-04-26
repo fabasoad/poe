@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * @date 22.04.2016.
  */
 @UsedViaReflection
-public class OptionCollect extends Option {
+public class OptionCollect extends OptionBase {
 
     private static final String COMMAND = "c";
 
@@ -30,7 +30,7 @@ public class OptionCollect extends Option {
     }
 
     public static Collection<FoodType> parse(CommandLine cmd) {
-        return Arrays.stream(cmd.getOptionValue(COMMAND, FoodType.defaultToCollectAsString()).split(","))
+        return Arrays.stream(getPropertyOrDefault(cmd, COMMAND, FoodType.defaultToCollectAsString()).split(","))
                     .map(v -> FoodType.valueOf(v.trim().toUpperCase()))
                     .collect(Collectors.toList());
     }

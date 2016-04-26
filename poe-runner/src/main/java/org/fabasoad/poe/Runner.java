@@ -27,6 +27,7 @@ import org.fabasoad.poe.utils.ReflectionUtils;
 import org.fabasoad.poe.utils.StreamUtils;
 import org.sikuli.script.ImagePath;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -63,6 +64,7 @@ public class Runner {
     private static Options buildOptions() {
         Options options = new Options();
         ReflectionUtils.getSubTypesOf(Option.class).stream()
+                .filter(c -> !Modifier.isAbstract(c.getModifiers()))
                 .map(c -> StreamUtils.map(c, Class::newInstance, Runner::logException))
                 .forEach(o -> o.ifPresent(options::addOption));
         return options;

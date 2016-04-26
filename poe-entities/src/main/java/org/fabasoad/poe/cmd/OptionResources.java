@@ -9,7 +9,7 @@ import org.fabasoad.poe.core.UsedViaReflection;
  * @date 21.04.2016.
  */
 @UsedViaReflection
-public class OptionResources extends Option {
+public class OptionResources extends OptionBase {
 
     private static final String COMMAND = "r";
 

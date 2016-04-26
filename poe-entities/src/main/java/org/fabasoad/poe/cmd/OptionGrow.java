@@ -10,7 +10,7 @@ import org.fabasoad.poe.entities.food.FoodType;
  * @date 22.04.2016.
  */
 @UsedViaReflection
-public class OptionGrow extends Option {
+public class OptionGrow extends OptionBase {
 
     private static final String COMMAND = "g";
 
@@ -25,6 +25,6 @@ public class OptionGrow extends Option {
     }
 
     public static FoodType parse(CommandLine cmd) {
-        return FoodType.valueOf(cmd.getOptionValue(COMMAND, FoodType.defaultToGrowAsString()).trim().toUpperCase());
+        return FoodType.valueOf(getPropertyOrDefault(cmd, COMMAND, FoodType.defaultToGrowAsString()).trim().toUpperCase());
     }
 }
