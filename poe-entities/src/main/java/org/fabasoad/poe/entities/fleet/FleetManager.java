@@ -94,12 +94,6 @@ public final class FleetManager extends ViewAwareElementsManager {
     }
 
     private Optional<Iterator<Match>> findAllMonsters(Collection<Monster> monsters) {
-        @SuppressWarnings("unchecked")
-        final Iterator<Match>[] result = new Iterator[1];
-        for (Monster monster : monsters) {
-            findAll(monster.asElement()).ifPresent(i ->
-                    result[0] = Optional.ofNullable(result[0]).map(r -> Iterators.concat(r, i)).orElse(i));
-        }
-        return Optional.ofNullable(result[0]);
+        return findAll(monsters.stream().map(Monster::asElement).collect(Collectors.toList()));
     }
 }

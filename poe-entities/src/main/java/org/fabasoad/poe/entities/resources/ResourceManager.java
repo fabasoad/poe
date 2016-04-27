@@ -7,8 +7,10 @@ import org.fabasoad.poe.entities.views.ViewType;
 import org.fabasoad.poe.statistics.SupportedStatistics;
 import org.sikuli.script.Match;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -35,7 +37,7 @@ public final class ResourceManager extends ViewAwareElementsManager {
 
     @UsedViaReflection
     public String getStatistics() {
-        return "Collected resources count: " + statistics;
+        return statistics > 0 ? "Collected resources count: " + statistics : "";
     }
 
     public void collect() {
@@ -49,12 +51,6 @@ public final class ResourceManager extends ViewAwareElementsManager {
     }
 
     private Optional<Iterator<Match>> findAll(ResourceType[] resources) {
-        @SuppressWarnings("unchecked")
-        final Iterator<Match>[] result = new Iterator[1];
-        for (ResourceType resource : resources) {
-            findAll(resource.asElement()).ifPresent(i ->
-                    result[0] = Optional.ofNullable(result[0]).map(r -> Iterators.concat(r, i)).orElse(i));
-        }
-        return Optional.ofNullable(result[0]);
+        return findAll(Arrays.stream(resources).map(ResourceType::asElement).collect(Collectors.toList()));
     }
 }

@@ -6,6 +6,7 @@ import org.fabasoad.poe.utils.ReflectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * This class printing statistics from all classes annotated with {@link SupportedStatistics}.
@@ -27,10 +28,15 @@ public final class StatisticsCollector {
 
     public void print() {
         System.out.println();
-        System.out.println("=============== Statistics ===============");
-        collectStatistics().stream()
+        String statistics = collectStatistics().stream()
                 .filter(s -> StringUtils.isNotEmpty(s) && !s.equals(System.getProperty("line.separator")))
-                .forEach(System.out::println);
+                .collect(Collectors.joining());
+        if (StringUtils.isEmpty(statistics)) {
+            System.out.println("=============== Statistics is empty ===============");
+        } else {
+            System.out.println("=============== Statistics ===============");
+            System.out.println(statistics);
+        }
         System.out.println();
     }
 

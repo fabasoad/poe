@@ -1,5 +1,6 @@
 package org.fabasoad.poe.entities;
 
+import com.google.common.collect.Iterators;
 import org.apache.commons.lang3.tuple.Triple;
 import org.fabasoad.poe.core.Logger;
 import org.fabasoad.poe.ScreenInstance;
@@ -8,6 +9,7 @@ import org.sikuli.script.Match;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -25,6 +27,17 @@ public abstract class ElementsManager {
             return Optional.empty();
         }
         return Optional.of(match);
+    }
+
+    protected Optional<Iterator<Match>> findAll(Collection<Triple<String, String, String>> elements) {
+        @SuppressWarnings("unchecked")
+        final Iterator<Match>[] result = new Iterator[1];
+        elements.forEach(e ->
+            result[0] = Optional.ofNullable(result[0])
+                    .map(i -> Iterators.concat(i, findAll(e).orElse(Collections.emptyIterator())))
+                    .orElse(findAll(e).orElse(null))
+        );
+        return Optional.ofNullable(result[0]);
     }
 
     protected Optional<Iterator<Match>> findAll(Triple<String, String, String> element) {

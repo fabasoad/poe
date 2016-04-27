@@ -13,6 +13,7 @@ import org.sikuli.script.Region;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -58,12 +59,6 @@ public final class FoodManager extends ViewAwareElementsManager {
     }
 
     private Optional<Iterator<Match>> findAllFoodToCollect(Collection<FoodType> foodTypes) {
-        @SuppressWarnings("unchecked")
-        final Iterator<Match>[] result = new Iterator[1];
-        for (FoodType foodType : foodTypes) {
-            findAll(foodType.asElementToCollect()).ifPresent(i ->
-                    result[0] = Optional.ofNullable(result[0]).map(r -> Iterators.concat(r, i)).orElse(i));
-        }
-        return Optional.ofNullable(result[0]);
+        return findAll(foodTypes.stream().map(FoodType::asElementToCollect).collect(Collectors.toList()));
     }
 }
