@@ -1,6 +1,5 @@
 package org.fabasoad.poe.entities.fleet;
 
-import com.google.common.collect.Iterators;
 import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;

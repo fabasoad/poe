@@ -31,15 +31,6 @@ public final class ButtonsManager extends ElementsManager {
         });
     }
 
-    public void clickMany(Collection<ButtonType> buttonType, Runnable postClick) {
-        findAll(buttonType.stream().map(ButtonType::asElement).collect(Collectors.toList())).ifPresent(i -> {
-            while (i.hasNext()) {
-                i.next().click();
-                postClick.run();
-            }
-        });
-    }
-
     public void clickMany(ButtonType buttonType, Runnable postClick) {
         findAll(buttonType.asElement()).ifPresent(i -> {
             while (i.hasNext()) {

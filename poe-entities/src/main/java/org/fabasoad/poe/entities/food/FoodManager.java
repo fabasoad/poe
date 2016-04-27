@@ -1,6 +1,5 @@
 package org.fabasoad.poe.entities.food;
 
-import com.google.common.collect.Iterators;
 import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
 import org.fabasoad.poe.entities.views.ViewType;
@@ -13,6 +12,7 @@ import org.sikuli.script.Region;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -47,18 +47,20 @@ public final class FoodManager extends ViewAwareElementsManager {
         trySwitchView();
         findAllFoodToCollect(foodToCollect).ifPresent(i -> i.forEachRemaining(Region::click));
 
-        findAll(FieldType.EMPTY.asElement()).ifPresent(i -> {
-            while (i.hasNext()) {
-                i.next().click();
-                statistics++;
-                ButtonsManager.getInstance().click(
-                        ButtonType.COLLECT_FOOD,
-                        () -> find(foodToGrow.asElementToGrow()).ifPresent(Region::click));
-            }
+        forEachEmptyField(m -> {
+            m.click();
+            statistics++;
+            ButtonsManager.getInstance().click(
+                    ButtonType.COLLECT_FOOD,
+                    () -> find(foodToGrow.asElementToGrow()).ifPresent(Region::click));
         });
     }
 
     private Optional<Iterator<Match>> findAllFoodToCollect(Collection<FoodType> foodTypes) {
         return findAll(foodTypes.stream().map(FoodType::asElementToCollect).collect(Collectors.toList()));
+    }
+
+    private void forEachEmptyField(Consumer<? super Match> consumer) {
+        findAll(FieldType.EMPTY.asElement()).ifPresent(i -> i.forEachRemaining(consumer));
     }
 }

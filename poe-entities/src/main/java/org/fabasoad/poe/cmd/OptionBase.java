@@ -16,7 +16,7 @@ abstract class OptionBase extends Option {
     protected static Properties DEFAULT = new Properties();
 
     static {
-        try (InputStream stream = OptionBase.class.getClassLoader().getResourceAsStream("properties/default.properties")) {
+        try (InputStream stream = OptionBase.class.getClassLoader().getResourceAsStream("default.properties")) {
             DEFAULT.load(stream);
         } catch (IOException e) {
             DEFAULT.clear();

@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -55,14 +54,14 @@ public final class ValidationManager extends ElementsManager {
     }
 
     public void validateAll() {
-//        validateProcessIsRunning();
-//        validateAnotherClient();
-//        validateServerConnectionError();
-//        validateError17();
-//        validateLevelUp();
-//        validateRating();
-//        validateInternetConnectionError();
-//        validateBotMessageShown();
+        validateProcessIsRunning();
+        validateAnotherClient();
+        validateServerConnectionError();
+        validateError17();
+        validateLevelUp();
+        validateRating();
+        validateInternetConnectionError();
+        validateBotMessageShown();
         validateAnyButtonStillNotClicked();
     }
 
@@ -134,8 +133,8 @@ public final class ValidationManager extends ElementsManager {
     }
 
     private void validateAnyButtonStillNotClicked() {
-        ButtonsManager.getInstance().clickMany(
-                Arrays.asList(OK, RELOAD, REPEAT, NO_THANKS), () -> saveStatistics("validateAnyButtonStillNotClicked"));
+        Arrays.asList(OK, RELOAD, REPEAT, NO_THANKS).forEach(b ->
+                ButtonsManager.getInstance().click(b, () -> saveStatistics("validateAnyButtonStillNotClicked")));
     }
 
     private void validate(String methodName,
