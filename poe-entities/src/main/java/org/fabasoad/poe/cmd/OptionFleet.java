@@ -2,6 +2,8 @@ package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
+import org.fabasoad.poe.cmd.config.OptionGroup;
+import org.fabasoad.poe.cmd.config.OptionGroupBy;
 import org.fabasoad.poe.core.UsedViaReflection;
 
 /**
@@ -9,11 +11,12 @@ import org.fabasoad.poe.core.UsedViaReflection;
  * @date 21.04.2016.
  */
 @UsedViaReflection
+@OptionGroupBy(OptionGroup.FLEET)
 public class OptionFleet extends Option {
 
     private static String COMMAND = "fl";
 
-    public OptionFleet() {
+    OptionFleet() {
         super(COMMAND, "fleet", false, "Command to send the fleet.");
     }
 

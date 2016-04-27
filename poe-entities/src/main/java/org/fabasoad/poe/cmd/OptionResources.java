@@ -1,7 +1,8 @@
 package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Option;
+import org.fabasoad.poe.cmd.config.OptionGroup;
+import org.fabasoad.poe.cmd.config.OptionGroupBy;
 import org.fabasoad.poe.core.UsedViaReflection;
 
 /**
@@ -9,11 +10,12 @@ import org.fabasoad.poe.core.UsedViaReflection;
  * @date 21.04.2016.
  */
 @UsedViaReflection
+@OptionGroupBy(OptionGroup.RESOURCES)
 public class OptionResources extends OptionBase {
 
     private static final String COMMAND = "r";
 
-    public OptionResources() {
+    OptionResources() {
         super(COMMAND, "resources", false, "Command to collect the resources.");
     }
 

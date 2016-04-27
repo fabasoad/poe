@@ -2,7 +2,6 @@ package org.fabasoad.poe;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.fabasoad.poe.cmd.OptionCollect;
@@ -14,7 +13,7 @@ import org.fabasoad.poe.cmd.OptionMonsters;
 import org.fabasoad.poe.cmd.OptionResources;
 import org.fabasoad.poe.cmd.OptionSkipValidation;
 import org.fabasoad.poe.cmd.OptionTest;
-import org.fabasoad.poe.core.Logger;
+import org.fabasoad.poe.cmd.OptionsCollector;
 import org.fabasoad.poe.entities.fleet.FleetManager;
 import org.fabasoad.poe.entities.food.FoodManager;
 import org.fabasoad.poe.entities.food.FoodType;
@@ -23,11 +22,8 @@ import org.fabasoad.poe.entities.resources.ResourceManager;
 import org.fabasoad.poe.entities.temp.TempManager;
 import org.fabasoad.poe.entities.validation.ValidationManager;
 import org.fabasoad.poe.statistics.StatisticsCollector;
-import org.fabasoad.poe.utils.ReflectionUtils;
-import org.fabasoad.poe.utils.StreamUtils;
 import org.sikuli.script.ImagePath;
 
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -43,7 +39,7 @@ public class Runner {
     }
 
     public static void main(String[] args) throws ParseException {
-        Options cmdOptions = buildOptions();
+        Options cmdOptions = OptionsCollector.getInstance().collect();
         final CommandLine cmd = new BasicParser().parse(cmdOptions, args);
 
         if (OptionHelp.has(cmd)) {
@@ -59,15 +55,6 @@ public class Runner {
             actions.forEach(Runnable::run);
             StatisticsCollector.getInstance().print();
         }
-    }
-
-    private static Options buildOptions() {
-        Options options = new Options();
-        ReflectionUtils.getSubTypesOf(Option.class).stream()
-                .filter(c -> !Modifier.isAbstract(c.getModifiers()))
-                .map(c -> StreamUtils.map(c, Class::newInstance, Runner::logException))
-                .forEach(o -> o.ifPresent(options::addOption));
-        return options;
     }
 
     private static Collection<Runnable> collectActions(CommandLine cmd) {
@@ -92,9 +79,5 @@ public class Runner {
             }
         }
         return result;
-    }
-
-    private static void logException(Throwable e) {
-        Logger.getInstance().error(Runner.class, e.getMessage());
     }
 }

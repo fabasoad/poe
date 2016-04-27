@@ -2,6 +2,8 @@ package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
+import org.fabasoad.poe.cmd.config.OptionGroup;
+import org.fabasoad.poe.cmd.config.OptionGroupBy;
 import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.food.FoodType;
 
@@ -14,11 +16,12 @@ import java.util.stream.Collectors;
  * @date 22.04.2016.
  */
 @UsedViaReflection
+@OptionGroupBy(OptionGroup.FOOD)
 public class OptionCollect extends OptionBase {
 
     private static final String COMMAND = "c";
 
-    public OptionCollect() {
+    OptionCollect() {
         super(COMMAND, "collect", true, buildDescription());
     }
 
