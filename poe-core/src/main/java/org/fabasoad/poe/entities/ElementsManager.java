@@ -6,6 +6,7 @@ import org.fabasoad.poe.core.Logger;
 import org.fabasoad.poe.ScreenInstance;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Match;
+import org.sikuli.script.Region;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,20 +43,17 @@ public abstract class ElementsManager {
 
     protected Optional<Iterator<Match>> findAll(Triple<String, String, String> element) {
         String fullImageName = String.format("%s/%s.png", element.getLeft(), element.getRight());
-        Match match = ScreenInstance.get().exists(fullImageName);
-        if (match == null) {
-            Logger.getInstance().flow(getClass(), element.getMiddle() + " does not exist.");
-            return Optional.empty();
-        }
-        Iterator<Match> foundElements;
-        try {
-            foundElements = ScreenInstance.get().findAll(fullImageName);
-        } catch (FindFailed e) {
-            Logger.getInstance().error(getClass(), e.getMessage());
-            return Optional.empty();
-        }
-        if (foundElements.hasNext()) {
-            return Optional.of(foundElements);
+        if (exists(ScreenInstance.get(), fullImageName)) {
+            Iterator<Match> foundElements;
+            try {
+                foundElements = ScreenInstance.get().findAll(fullImageName);
+            } catch (FindFailed e) {
+                Logger.getInstance().error(getClass(), e.getMessage());
+                return Optional.empty();
+            }
+            if (foundElements.hasNext()) {
+                return Optional.of(foundElements);
+            }
         }
         Logger.getInstance().flow(getClass(), element.getMiddle() + " is not found.");
         return Optional.empty();
@@ -80,7 +78,7 @@ public abstract class ElementsManager {
         }
         Collection<Match> filteredElements = new ArrayList<>();
         foundElements.forEachRemaining(m -> {
-            if (!find(m, folderName, imageNameToExclude)) {
+            if (!exists(m, String.format("%s/%s.png", folderName, imageNameToExclude))) {
                 filteredElements.add(m);
             }
         });
@@ -91,8 +89,8 @@ public abstract class ElementsManager {
         return Optional.of(filteredElements.iterator());
     }
 
-    private boolean find(Match match, String folderName, String imageName) {
-        return match.exists(String.format("%s/%s.png", folderName, imageName)) != null;
+    private boolean exists(Region region, String fullImageName) {
+        return region.exists(fullImageName) != null;
     }
 
     protected final void sleep(long millis) {
