@@ -10,7 +10,6 @@ import org.sikuli.script.Region;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -20,7 +19,7 @@ import java.util.Optional;
  */
 public abstract class ElementsManager {
 
-    protected Optional<Match> find(Triple<String, String, String> element) {
+    protected final Optional<Match> find(Triple<String, String, String> element) {
         String fullImageName = String.format("%s/%s.png", element.getLeft(), element.getRight());
         Match match = ScreenInstance.get().exists(fullImageName);
         if (match == null) {
@@ -30,18 +29,16 @@ public abstract class ElementsManager {
         return Optional.of(match);
     }
 
-    protected Optional<Iterator<Match>> findAll(Collection<Triple<String, String, String>> elements) {
+    protected final Optional<Iterator<Match>> findAll(Collection<Triple<String, String, String>> elements) {
         @SuppressWarnings("unchecked")
         final Iterator<Match>[] result = new Iterator[1];
-        elements.forEach(e ->
-            result[0] = Optional.ofNullable(result[0])
-                    .map(i -> Iterators.concat(i, findAll(e).orElse(Collections.emptyIterator())))
-                    .orElse(findAll(e).orElse(null))
-        );
+        elements.forEach(e -> findAll(e).ifPresent(i1 ->
+            result[0] = Optional.ofNullable(result[0]).map(i2 -> Iterators.concat(i1, i2)).orElse(i1)
+        ));
         return Optional.ofNullable(result[0]);
     }
 
-    protected Optional<Iterator<Match>> findAll(Triple<String, String, String> element) {
+    protected final Optional<Iterator<Match>> findAll(Triple<String, String, String> element) {
         String fullImageName = String.format("%s/%s.png", element.getLeft(), element.getRight());
         if (exists(ScreenInstance.get(), fullImageName)) {
             Iterator<Match> foundElements;

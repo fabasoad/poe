@@ -1,6 +1,5 @@
 package org.fabasoad.poe.entities.resources;
 
-import com.google.common.collect.Iterators;
 import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
 import org.fabasoad.poe.entities.views.ViewType;
@@ -42,12 +41,10 @@ public final class ResourceManager extends ViewAwareElementsManager {
 
     public void collect() {
         trySwitchView();
-        findAll(ResourceType.values()).ifPresent(i -> {
-            while (i.hasNext()) {
-                i.next().click();
-                statistics++;
-            }
-        });
+        findAll(ResourceType.values()).ifPresent(i -> i.forEachRemaining(resource -> {
+            resource.click();
+            statistics++;
+        }));
     }
 
     private Optional<Iterator<Match>> findAll(ResourceType[] resources) {

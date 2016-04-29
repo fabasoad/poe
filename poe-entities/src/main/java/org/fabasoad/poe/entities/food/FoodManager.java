@@ -47,8 +47,8 @@ public final class FoodManager extends ViewAwareElementsManager {
         trySwitchView();
         findAllFoodToCollect(foodToCollect).ifPresent(i -> i.forEachRemaining(Region::click));
 
-        forEachEmptyField(m -> {
-            m.click();
+        forEachEmptyField(field -> {
+            field.click();
             statistics++;
             ButtonsManager.getInstance().click(
                     ButtonType.COLLECT_FOOD,

@@ -2,9 +2,6 @@ package org.fabasoad.poe.entities.buttons;
 
 import org.fabasoad.poe.entities.ElementsManager;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
-
 /**
  * @author Eugene Fabizhevsky
  * @date 4/15/2016
@@ -32,11 +29,9 @@ public final class ButtonsManager extends ElementsManager {
     }
 
     public void clickMany(ButtonType buttonType, Runnable postClick) {
-        findAll(buttonType.asElement()).ifPresent(i -> {
-            while (i.hasNext()) {
-                i.next().click();
-                postClick.run();
-            }
-        });
+        findAll(buttonType.asElement()).ifPresent(i -> i.forEachRemaining(m -> {
+            m.click();
+            postClick.run();
+        }));
     }
 }
