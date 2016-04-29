@@ -8,7 +8,6 @@ import org.sikuli.script.FindFailed;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
@@ -23,7 +22,7 @@ public abstract class ElementsManager {
         String fullImageName = String.format("%s/%s.png", element.getLeft(), element.getRight());
         Match match = ScreenInstance.get().exists(fullImageName);
         if (match == null) {
-            Logger.getInstance().flow(getClass(), element.getMiddle() + " does not exist.");
+            Logger.getInstance().flow(getClass(), element.getMiddle() + " is not found.");
             return Optional.empty();
         }
         return Optional.of(match);
@@ -54,36 +53,6 @@ public abstract class ElementsManager {
         }
         Logger.getInstance().flow(getClass(), element.getMiddle() + " is not found.");
         return Optional.empty();
-    }
-
-    protected final Optional<Iterator<Match>> findAllExceptOf(String folderName,
-                                                              String displayNameToFind,
-                                                              String imageNameToFind,
-                                                              String imageNameToExclude) {
-        String fullImageName = String.format("%s/%s.png", folderName, imageNameToFind);
-        Match match = ScreenInstance.get().exists(fullImageName);
-        if (match == null) {
-            Logger.getInstance().flow(getClass(), displayNameToFind + " does not exist.");
-            return Optional.empty();
-        }
-        Iterator<Match> foundElements;
-        try {
-            foundElements = ScreenInstance.get().findAll(fullImageName);
-        } catch (FindFailed e) {
-            Logger.getInstance().error(getClass(), e.getMessage());
-            return Optional.empty();
-        }
-        Collection<Match> filteredElements = new ArrayList<>();
-        foundElements.forEachRemaining(m -> {
-            if (!exists(m, String.format("%s/%s.png", folderName, imageNameToExclude))) {
-                filteredElements.add(m);
-            }
-        });
-        if (filteredElements.isEmpty()) {
-            Logger.getInstance().flow(getClass(), displayNameToFind + " is not found.");
-            return Optional.empty();
-        }
-        return Optional.of(filteredElements.iterator());
     }
 
     private boolean exists(Region region, String fullImageName) {
