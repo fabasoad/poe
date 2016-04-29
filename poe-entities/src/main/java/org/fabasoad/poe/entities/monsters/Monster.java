@@ -17,6 +17,7 @@ import static org.fabasoad.poe.entities.monsters.DangerLevel.*;
 public enum Monster {
     BIRD_RA_1("Bird RA lvl.1", "monster_bird_ra_1", VERY_LOW, WOOD),
     BIRD_RA_2("Bird RA lvl.2", "monster_bird_ra_2", LOW, WOOD),
+    BIRD_RA_3("Bird RA lvl.3", "monster_bird_ra_3", MEDIUM, WOOD),
     FISHANGER_1("Fishanger lvl.1", "monster_fishanger_1", LOW, GOLD),
     JELLY_PIG_1("Jelly Pig lvl.1", "monster_jelly_pig_1", MEDIUM, WOOD),
     JELLY_PIG_2("Jelly Pig lvl.2", "monster_jelly_pig_2", HIGH, WOOD),
