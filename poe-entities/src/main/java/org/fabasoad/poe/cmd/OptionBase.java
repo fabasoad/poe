@@ -13,7 +13,7 @@ import java.util.Properties;
  */
 abstract class OptionBase extends Option {
 
-    protected static Properties DEFAULT = new Properties();
+    static Properties DEFAULT = new Properties();
 
     static {
         try (InputStream stream = OptionBase.class.getClassLoader().getResourceAsStream("default.properties")) {
@@ -23,11 +23,11 @@ abstract class OptionBase extends Option {
         }
     }
 
-    protected OptionBase(String opt, String longOpt, boolean hasArg, String description) throws IllegalArgumentException {
+    OptionBase(String opt, String longOpt, boolean hasArg, String description) throws IllegalArgumentException {
         super(opt, longOpt, hasArg, description);
     }
 
-    protected static String getPropertyOrDefault(CommandLine cmd, String key, String defaultValue) {
+    static String getPropertyOrDefault(CommandLine cmd, String key, String defaultValue) {
         return cmd.getOptionValue(key, DEFAULT.getProperty(key, defaultValue));
     }
 }

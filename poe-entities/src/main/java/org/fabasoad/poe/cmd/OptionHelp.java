@@ -4,8 +4,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.fabasoad.poe.cmd.config.OptionGroup;
-import org.fabasoad.poe.cmd.config.OptionGroupBy;
 import org.fabasoad.poe.core.UsedViaReflection;
 
 /**
@@ -13,7 +11,6 @@ import org.fabasoad.poe.core.UsedViaReflection;
  * @date 21.04.2016.
  */
 @UsedViaReflection
-@OptionGroupBy(OptionGroup.CONFIG)
 public class OptionHelp extends Option {
 
     private static final String COMMAND = "h";

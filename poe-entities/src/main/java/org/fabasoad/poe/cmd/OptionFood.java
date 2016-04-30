@@ -2,26 +2,14 @@ package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.lang3.tuple.Pair;
-import org.fabasoad.poe.cmd.config.OptionGroup;
-import org.fabasoad.poe.cmd.config.OptionGroupBy;
-import org.fabasoad.poe.core.Logger;
 import org.fabasoad.poe.core.UsedViaReflection;
 import org.fabasoad.poe.entities.food.FoodType;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * @author Yevhen Fabizhevskyi
  * @date 21.04.2016.
  */
 @UsedViaReflection
-@OptionGroupBy(OptionGroup.FOOD)
 public class OptionFood extends Option {
 
     private static final String COMMAND = "fo";
