@@ -28,10 +28,10 @@ public final class StatisticsCollector {
 
     public void print() {
         String newLine = System.getProperty("line.separator");
-        System.out.println();
         String statistics = collectStatistics().stream()
                 .filter(s -> StringUtils.isNotEmpty(s) && !s.equals(newLine))
                 .collect(Collectors.joining(newLine));
+        System.out.println();
         if (StringUtils.isEmpty(StringUtils.strip(statistics, newLine))) {
             System.out.println("=============== Statistics is empty ===============");
         } else {

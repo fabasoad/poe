@@ -20,6 +20,7 @@ public final class ResourceManager extends ViewAwareElementsManager {
 
     private static final ResourceManager instance = new ResourceManager();
 
+    @UsedViaReflection
     public static ResourceManager getInstance() {
         return instance;
     }

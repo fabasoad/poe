@@ -9,8 +9,10 @@ import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -29,12 +31,11 @@ public abstract class ElementsManager {
     }
 
     protected final Optional<Iterator<Match>> findAll(Collection<Triple<String, String, String>> elements) {
-        @SuppressWarnings("unchecked")
-        final Iterator<Match>[] result = new Iterator[1];
-        elements.forEach(e -> findAll(e).ifPresent(i1 ->
-            result[0] = Optional.ofNullable(result[0]).map(i2 -> Iterators.concat(i1, i2)).orElse(i1)
-        ));
-        return Optional.ofNullable(result[0]);
+        final Iterator<Match> result = elements.stream().collect(Collectors.reducing(
+                Collections.emptyIterator(),
+                e -> findAll(e).orElse(Collections.emptyIterator()),
+                Iterators::concat));
+        return result.hasNext() ? Optional.of(result) : Optional.empty();
     }
 
     protected final Optional<Iterator<Match>> findAll(Triple<String, String, String> element) {

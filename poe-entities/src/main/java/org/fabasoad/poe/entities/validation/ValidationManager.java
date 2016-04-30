@@ -32,6 +32,7 @@ public final class ValidationManager extends ElementsManager {
 
     private static final ValidationManager instance = new ValidationManager();
 
+    @UsedViaReflection
     public static ValidationManager getInstance() {
         return instance;
     }

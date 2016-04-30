@@ -31,6 +31,7 @@ public final class FleetManager extends ViewAwareElementsManager {
 
     private static final FleetManager instance = new FleetManager();
 
+    @UsedViaReflection
     public static FleetManager getInstance() {
         return instance;
     }

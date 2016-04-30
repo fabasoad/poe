@@ -24,6 +24,7 @@ public final class FoodManager extends ViewAwareElementsManager {
 
     private static final FoodManager instance = new FoodManager();
 
+    @UsedViaReflection
     public static FoodManager getInstance() {
         return instance;
     }
