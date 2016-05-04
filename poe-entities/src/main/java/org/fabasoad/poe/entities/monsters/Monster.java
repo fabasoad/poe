@@ -25,6 +25,7 @@ public enum Monster {
     KAPPA_1("Kappa lvl.1", "monster_kappa_1", LOW, IRON),
     GIANT_AGLA_KILLER_1("Giant Agla Killer lvl.1", "monster_giant_agla_killer_1", VERY_LOW, WOOD),
     GIANT_AGLA_KILLER_2("Giant Agla Killer lvl.2", "monster_giant_agla_killer_2", LOW, WOOD),
+    GIANT_AGLA_KILLER_3("Giant Agla Killer lvl.3", "monster_giant_agla_killer_3", HIGH, WOOD),
     BEAKLIMB_1("Beaklimb lvl.1", "monster_beaklimb_1", MEDIUM, GOLD),
     BEAKLIMB_2("Beaklimb lvl.2", "monster_beaklimb_2", HIGH, GOLD),
     CRAB_MUTANT_1("Crab-mutant lvl.1", "monster_crab_mutant_1", LOW, WOOD),
