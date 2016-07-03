@@ -77,7 +77,7 @@ public final class ValidationManager extends ElementsManager {
             }
 
             final String PROCESS_NAME = new String(
-                    new byte[] { 80, 105, 114, 97, 116, 101, 115, 46, 85, 65, 80, 46, 101, 120, 101 });
+                    new byte[] { 77, 77, 71, 97, 109, 101, 46, 85, 65, 80, 46, 101, 120, 101 });
 
             if (pidInfo.contains(PROCESS_NAME)) {
                 Logger.getInstance().flow(getClass(), String.format("'%s' process exists.", PROCESS_NAME));

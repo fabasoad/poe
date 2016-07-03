@@ -24,13 +24,6 @@
         <maven-jar-plugin.version>2.5</maven-jar-plugin.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>local-repository</id>
-            <url>file://D:/Sources/repository</url>
-        </repository>
-    </repositories>
-
     <build>
         <plugins>
             <plugin>
