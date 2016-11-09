@@ -4,16 +4,8 @@ import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.fabasoad.poe.cmd.OptionCollect;
-import org.fabasoad.poe.cmd.OptionFleet;
-import org.fabasoad.poe.cmd.OptionFood;
-import org.fabasoad.poe.cmd.OptionGrow;
-import org.fabasoad.poe.cmd.OptionHelp;
-import org.fabasoad.poe.cmd.OptionMonsters;
-import org.fabasoad.poe.cmd.OptionResources;
-import org.fabasoad.poe.cmd.OptionSkipValidation;
-import org.fabasoad.poe.cmd.OptionTest;
-import org.fabasoad.poe.cmd.OptionsCollector;
+import org.fabasoad.poe.cmd.*;
+import org.fabasoad.poe.entities.fleet.farm.FarmType;
 import org.fabasoad.poe.entities.fleet.FleetManager;
 import org.fabasoad.poe.entities.food.FoodManager;
 import org.fabasoad.poe.entities.food.FoodType;
@@ -75,7 +67,8 @@ public class Runner {
             }
             if (OptionFleet.has(cmd)) {
                 final Collection<Monster> monsters = OptionMonsters.parse(cmd);
-                result.add(() -> FleetManager.getInstance().sendFleets(monsters));
+                final FarmType farmType = OptionFarmType.parse(cmd);
+                result.add(() -> FleetManager.getInstance().sendFleets(farmType, monsters));
             }
         }
         return result;

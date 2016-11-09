@@ -30,7 +30,7 @@ public abstract class ElementsManager {
         return Optional.of(match);
     }
 
-    protected final Optional<Iterator<Match>> findAll(Collection<Triple<String, String, String>> elements) {
+    public final Optional<Iterator<Match>> findAll(Collection<Triple<String, String, String>> elements) {
         final Iterator<Match> result = elements.stream().collect(Collectors.reducing(
                 Collections.emptyIterator(),
                 e -> findAll(e).orElse(Collections.emptyIterator()),
@@ -38,7 +38,7 @@ public abstract class ElementsManager {
         return result.hasNext() ? Optional.of(result) : Optional.empty();
     }
 
-    protected final Optional<Iterator<Match>> findAll(Triple<String, String, String> element) {
+    public final Optional<Iterator<Match>> findAll(Triple<String, String, String> element) {
         String fullImageName = String.format("%s/%s.png", element.getLeft(), element.getRight());
         if (exists(ScreenInstance.get(), fullImageName)) {
             Iterator<Match> foundElements;

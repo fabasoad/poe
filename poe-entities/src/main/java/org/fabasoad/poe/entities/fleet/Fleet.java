@@ -6,7 +6,7 @@ import org.apache.commons.lang3.tuple.Triple;
  * @author Yevhen Fabizhevskyi
  * @date 07.04.2016.
  */
-enum Fleet {
+public enum Fleet {
     BLUE("'Blue' fleet", "fleet_blue"),
     GREEN("'Green' fleet", "fleet_green"),
     RED("'Red' fleet", "fleet_red"),

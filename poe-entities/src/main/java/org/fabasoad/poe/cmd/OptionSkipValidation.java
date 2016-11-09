@@ -14,7 +14,7 @@ public class OptionSkipValidation extends Option {
     private static final String COMMAND = "sv";
 
     OptionSkipValidation() {
-        super(COMMAND, "skipValidation", false, "Command to skip validation.");
+        super(COMMAND, "skip-validation", false, "Command to skip validation.");
     }
 
     public static boolean has(CommandLine cmd) {
