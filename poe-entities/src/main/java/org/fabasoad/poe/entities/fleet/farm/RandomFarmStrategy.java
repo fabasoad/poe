@@ -11,8 +11,6 @@ import org.sikuli.script.Match;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author efabizhevsky
@@ -44,17 +42,5 @@ class RandomFarmStrategy extends FarmStrategy {
                 }
             }
         });
-    }
-
-    private void attack(Match fleet, Match monster) {
-        statistics.ifPresent(FleetStatistics::updateAttackStatistics);
-
-        fleet.click();
-        monster.click();
-        ButtonsManager.getInstance().click(ButtonType.ATTACK);
-    }
-
-    private Optional<Iterator<Match>> findAllMonsters(Collection<Monster> monsters) {
-        return elementsManager.findAll(monsters.stream().map(Monster::asElement).collect(Collectors.toList()));
     }
 }
