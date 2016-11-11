@@ -1,6 +1,11 @@
 package org.fabasoad.poe.entities.buttons;
 
 import org.fabasoad.poe.entities.ElementsManager;
+import org.sikuli.script.Match;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * @author Eugene Fabizhevsky
@@ -19,6 +24,15 @@ public final class ButtonsManager extends ElementsManager {
 
     public void click(ButtonType buttonType) {
         click(buttonType, () -> {});
+    }
+
+    public void clickAny(ButtonType buttonType, Runnable postClick) {
+        final List<Match> result = new ArrayList<>();
+        findAll(buttonType.asElement()).ifPresent(i -> i.forEachRemaining(result::add));
+        if (!result.isEmpty()) {
+            result.get(new Random().nextInt(result.size())).click();
+            postClick.run();
+        }
     }
 
     public void click(ButtonType buttonType, Runnable postClick) {

@@ -34,7 +34,7 @@ class ClanFarmStrategy extends FarmStrategy {
         elementsManager.findAll(Fleet.FREE.asElement()).ifPresent(fleetsIterator -> {
             if (foundMonsters.isEmpty()) {
                 ButtonsManager.getInstance().click(
-                        CLAN, () -> ButtonsManager.getInstance().click(
+                        CLAN, () -> ButtonsManager.getInstance().clickAny(
                                 ANY_CLANMATE, () -> ButtonsManager.getInstance().click(
                                         VISIT, () -> sendFleets(monsters))));
             } else {
