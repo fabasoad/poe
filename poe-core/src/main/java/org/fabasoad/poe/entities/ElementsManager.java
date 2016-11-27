@@ -2,7 +2,7 @@ package org.fabasoad.poe.entities;
 
 import com.google.common.collect.Iterators;
 import org.apache.commons.lang3.tuple.Triple;
-import org.fabasoad.poe.core.Logger;
+import org.fabasoad.log.Logger;
 import org.fabasoad.poe.ScreenInstance;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Match;

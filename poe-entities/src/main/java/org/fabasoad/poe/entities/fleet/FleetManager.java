@@ -1,6 +1,6 @@
 package org.fabasoad.poe.entities.fleet;
 
-import org.fabasoad.poe.core.UsedViaReflection;
+import org.fabasoad.annotations.UsedViaReflection;
 import org.fabasoad.poe.entities.fleet.farm.FarmType;
 import org.fabasoad.poe.entities.fleet.farm.FarmStrategy;
 import org.fabasoad.poe.entities.fleet.farm.FarmStrategyFactory;

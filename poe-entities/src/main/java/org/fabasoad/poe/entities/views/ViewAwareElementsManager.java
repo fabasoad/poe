@@ -1,6 +1,6 @@
 package org.fabasoad.poe.entities.views;
 
-import org.fabasoad.poe.core.Logger;
+import org.fabasoad.log.Logger;
 import org.fabasoad.poe.entities.ElementsManager;
 
 /**

@@ -1,6 +1,6 @@
 package org.fabasoad.poe.entities.resources;
 
-import org.fabasoad.poe.core.UsedViaReflection;
+import org.fabasoad.annotations.UsedViaReflection;
 import org.fabasoad.poe.entities.views.ViewAwareElementsManager;
 import org.fabasoad.poe.entities.views.ViewType;
 import org.fabasoad.poe.statistics.SupportedStatistics;

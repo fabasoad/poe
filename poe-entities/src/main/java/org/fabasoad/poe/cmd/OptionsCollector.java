@@ -2,9 +2,9 @@ package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.fabasoad.poe.core.Logger;
-import org.fabasoad.poe.utils.ReflectionUtils;
-import org.fabasoad.poe.utils.StreamUtils;
+import org.fabasoad.log.Logger;
+import org.fabasoad.utils.ReflectionUtils;
+import org.fabasoad.utils.StreamUtils;
 
 import java.lang.reflect.Modifier;
 

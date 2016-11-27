@@ -1,7 +1,7 @@
 package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.CommandLine;
-import org.fabasoad.poe.core.UsedViaReflection;
+import org.fabasoad.annotations.UsedViaReflection;
 import org.fabasoad.poe.entities.fleet.farm.FarmType;
 
 /**

@@ -2,7 +2,7 @@ package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.fabasoad.poe.core.UsedViaReflection;
+import org.fabasoad.annotations.UsedViaReflection;
 
 /**
  * @author Yevhen Fabizhevskyi

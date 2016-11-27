@@ -1,8 +1,8 @@
 package org.fabasoad.poe.statistics;
 
 import org.apache.commons.lang3.StringUtils;
-import org.fabasoad.poe.core.Logger;
-import org.fabasoad.poe.utils.ReflectionUtils;
+import org.fabasoad.log.Logger;
+import org.fabasoad.utils.ReflectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,7 +1,7 @@
 package org.fabasoad.poe.entities.validation;
 
-import org.fabasoad.poe.core.Logger;
-import org.fabasoad.poe.core.UsedViaReflection;
+import org.fabasoad.log.Logger;
+import org.fabasoad.annotations.UsedViaReflection;
 import org.fabasoad.poe.entities.ElementsManager;
 import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;
