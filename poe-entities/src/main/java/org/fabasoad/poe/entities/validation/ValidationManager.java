@@ -1,12 +1,17 @@
 package org.fabasoad.poe.entities.validation;
 
-import org.fabasoad.log.Logger;
 import org.fabasoad.annotations.UsedViaReflection;
+import org.fabasoad.poe.ScreenInstance;
+import org.fabasoad.poe.core.LoggerInstance;
 import org.fabasoad.poe.entities.ElementsManager;
 import org.fabasoad.poe.entities.buttons.ButtonType;
 import org.fabasoad.poe.entities.buttons.ButtonsManager;
 import org.fabasoad.poe.statistics.SupportedStatistics;
+import org.sikuli.script.FindFailed;
+import org.sikuli.script.Location;
+import org.sikuli.script.Region;
 
+import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,6 +61,7 @@ public final class ValidationManager extends ElementsManager {
 
     public void validateAll() {
         validateProcessIsRunning();
+        validateScreenPlace();
         validateAnotherClient();
         validateServerConnectionError();
         validateError17();
@@ -80,7 +86,7 @@ public final class ValidationManager extends ElementsManager {
                     new byte[] { 77, 77, 71, 97, 109, 101, 46, 85, 65, 80, 46, 101, 120, 101 });
 
             if (pidInfo.contains(PROCESS_NAME)) {
-                Logger.getInstance().flow(getClass(), String.format("'%s' process exists.", PROCESS_NAME));
+                LoggerInstance.get().flow(getClass(), String.format("'%s' process exists.", PROCESS_NAME));
             } else {
                 saveStatistics("validateProcessIsRunning");
                 find(SystemElement.WIN_LOGO.asElement()).ifPresent(winLogo -> {
@@ -94,7 +100,28 @@ public final class ValidationManager extends ElementsManager {
                 });
             }
         } catch (IOException e) {
-            Logger.getInstance().error(getClass(), e.getMessage());
+            LoggerInstance.get().error(getClass(), e.getMessage());
+        }
+    }
+
+    private void validateScreenPlace() {
+        final int SCREEN_CHECK_WIDTH = 200;
+        final int SCREEN_CHECK_HEIGHT = 200;
+
+        final Rectangle screenBounds = ScreenInstance.get().getBounds();
+        final int SCREEN_DIFF_X = (int) (screenBounds.getWidth() - SCREEN_CHECK_WIDTH) / 2;
+        final int SCREEN_DIFF_Y = (int) (screenBounds.getHeight() - SCREEN_CHECK_HEIGHT) / 2;
+
+        Region region = ScreenInstance.get()
+                .newRegion(new Location(SCREEN_DIFF_X, SCREEN_DIFF_Y), SCREEN_CHECK_WIDTH, SCREEN_CHECK_HEIGHT);
+        if (!find(ValidationType.SCREEN_POINT.asElement(), region).isPresent()) {
+            find(ValidationType.SCREEN_POINT.asElement()).ifPresent(m -> {
+                try {
+                    m.dragDrop(region);
+                } catch (FindFailed e) {
+                    LoggerInstance.get().error(getClass(), e.getMessage());
+                }
+            });
         }
     }
 

@@ -1,6 +1,6 @@
 package org.fabasoad.poe.entities.views;
 
-import org.fabasoad.log.Logger;
+import org.fabasoad.poe.core.LoggerInstance;
 import org.fabasoad.poe.entities.ElementsManager;
 
 /**
@@ -14,7 +14,7 @@ public abstract class ViewAwareElementsManager extends ElementsManager {
     protected final void trySwitchView() {
         find(getViewType().asElement()).ifPresent(view -> {
             view.click();
-            Logger.getInstance().flow(getClass(), "Switched to " + getViewType().asElement().getMiddle());
+            LoggerInstance.get().flow(getClass(), "Switched to " + getViewType().asElement().getMiddle());
         });
     }
 }

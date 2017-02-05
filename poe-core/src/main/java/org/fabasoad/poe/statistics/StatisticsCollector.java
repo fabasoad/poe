@@ -1,7 +1,7 @@
 package org.fabasoad.poe.statistics;
 
 import org.apache.commons.lang3.StringUtils;
-import org.fabasoad.log.Logger;
+import org.fabasoad.poe.core.LoggerInstance;
 import org.fabasoad.utils.ReflectionUtils;
 
 import java.util.ArrayList;
@@ -27,15 +27,15 @@ public final class StatisticsCollector {
     }
 
     public void print() {
-        String newLine = System.getProperty("line.separator");
+        final String newLine = System.getProperty("line.separator");
         String statistics = collectStatistics().stream()
                 .filter(s -> StringUtils.isNotEmpty(s) && !s.equals(newLine))
                 .collect(Collectors.joining(newLine));
         System.out.println();
         if (StringUtils.isEmpty(StringUtils.strip(statistics, newLine))) {
-            System.out.println("=============== Statistics is empty ===============");
+            System.out.println("============= Statistics is empty =============");
         } else {
-            System.out.println("=============== Statistics ===============");
+            System.out.println("================= Statistics =================");
             System.out.println(statistics);
         }
         System.out.println();
@@ -81,18 +81,18 @@ public final class StatisticsCollector {
      */
     private Collection<String> collectStatistics() {
         Collection<String> result = new ArrayList<>();
-        ReflectionUtils.getTypesAnnotatedWith(SupportedStatistics.class).forEach(type -> {
+        ReflectionUtils.getTypesAnnotatedWith("org.fabasoad.poe", SupportedStatistics.class).forEach(type -> {
             SupportedStatistics annotation = type.getAnnotation(SupportedStatistics.class);
 
             try {
-                /**
+                /*
                  * The code below is equivalent to:
                  *   AnyClass.getInstance().getStatistics();
                  */
                 Object obj = type.getMethod(annotation.methodGetInstance()).invoke(null);
                 result.add(type.getMethod(annotation.methodGetStatistics()).invoke(obj).toString());
             } catch (Exception e) {
-                Logger.getInstance().error(getClass(), e.getMessage());
+                LoggerInstance.get().error(getClass(), e.getMessage());
             }
         });
         return result;

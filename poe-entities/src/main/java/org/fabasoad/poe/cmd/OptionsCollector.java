@@ -2,7 +2,7 @@ package org.fabasoad.poe.cmd;
 
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.fabasoad.log.Logger;
+import org.fabasoad.poe.core.LoggerInstance;
 import org.fabasoad.utils.ReflectionUtils;
 import org.fabasoad.utils.StreamUtils;
 
@@ -25,7 +25,7 @@ public class OptionsCollector {
 
     public Options collect() {
         Options options = new Options();
-        ReflectionUtils.getSubTypesOf(Option.class).stream()
+        ReflectionUtils.getSubTypesOf("org.fabasoad.poe", Option.class).stream()
                 .filter(c -> !Modifier.isAbstract(c.getModifiers()))
                 .map(c -> StreamUtils.map(c, Class::newInstance, OptionsCollector::logException))
                 .forEach(o -> o.ifPresent(options::addOption));
@@ -33,6 +33,6 @@ public class OptionsCollector {
     }
 
     private static void logException(Throwable e) {
-        Logger.getInstance().error(OptionsCollector.class, e.getMessage());
+        LoggerInstance.get().error(OptionsCollector.class, e.getMessage());
     }
 }

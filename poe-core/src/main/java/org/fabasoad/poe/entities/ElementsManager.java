@@ -2,8 +2,8 @@ package org.fabasoad.poe.entities;
 
 import com.google.common.collect.Iterators;
 import org.apache.commons.lang3.tuple.Triple;
-import org.fabasoad.log.Logger;
 import org.fabasoad.poe.ScreenInstance;
+import org.fabasoad.poe.core.LoggerInstance;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Match;
 import org.sikuli.script.Region;
@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -21,20 +20,23 @@ import java.util.stream.Collectors;
 public abstract class ElementsManager {
 
     protected final Optional<Match> find(Triple<String, String, String> element) {
+        return find(element, ScreenInstance.get());
+    }
+
+    protected final Optional<Match> find(Triple<String, String, String> element, Region region) {
         String fullImageName = String.format("%s/%s.png", element.getLeft(), element.getRight());
-        Match match = ScreenInstance.get().exists(fullImageName);
+        Match match = region.exists(fullImageName);
         if (match == null) {
-            Logger.getInstance().flow(getClass(), element.getMiddle() + " is not found.");
+            LoggerInstance.get().flow(getClass(), element.getMiddle() + " is not found.");
             return Optional.empty();
         }
         return Optional.of(match);
     }
 
     public final Optional<Iterator<Match>> findAll(Collection<Triple<String, String, String>> elements) {
-        final Iterator<Match> result = elements.stream().collect(Collectors.reducing(
-                Collections.emptyIterator(),
-                e -> findAll(e).orElse(Collections.emptyIterator()),
-                Iterators::concat));
+        final Iterator<Match> result = elements.stream()
+                .map(e -> findAll(e).orElse(Collections.emptyIterator()))
+                .reduce(Collections.emptyIterator(), Iterators::concat);
         return result.hasNext() ? Optional.of(result) : Optional.empty();
     }
 
@@ -45,14 +47,14 @@ public abstract class ElementsManager {
             try {
                 foundElements = ScreenInstance.get().findAll(fullImageName);
             } catch (FindFailed e) {
-                Logger.getInstance().error(getClass(), e.getMessage());
+                LoggerInstance.get().error(getClass(), e.getMessage());
                 return Optional.empty();
             }
             if (foundElements.hasNext()) {
                 return Optional.of(foundElements);
             }
         }
-        Logger.getInstance().flow(getClass(), element.getMiddle() + " is not found.");
+        LoggerInstance.get().flow(getClass(), element.getMiddle() + " is not found.");
         return Optional.empty();
     }
 
@@ -64,7 +66,7 @@ public abstract class ElementsManager {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            Logger.getInstance().error(getClass(), e.getMessage());
+            LoggerInstance.get().error(getClass(), e.getMessage());
         }
     }
 }
