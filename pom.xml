@@ -100,11 +100,6 @@
                 <version>${commons-lang3.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.reflections</groupId>
-                <artifactId>reflections</artifactId>
-                <version>${reflections.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.github.fabasoad</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>${commons-lang-fabasoad.version}</version>

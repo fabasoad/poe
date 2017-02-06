@@ -9,6 +9,7 @@ import org.fabasoad.poe.entities.buttons.ButtonsManager;
 import org.fabasoad.poe.statistics.SupportedStatistics;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Location;
+import org.sikuli.script.Match;
 import org.sikuli.script.Region;
 
 import java.awt.Rectangle;
@@ -20,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -36,6 +38,21 @@ import static org.fabasoad.poe.entities.buttons.ButtonType.REPEAT;
 public final class ValidationManager extends ElementsManager {
 
     private static final ValidationManager instance = new ValidationManager();
+    private static final String PROCESS_NAME =
+            new String(new byte[] { 77, 77, 71, 97, 109, 101, 46, 85, 65, 80, 46, 101, 120, 101});
+
+    private final Runnable[] validators = {
+        this::validateProcessIsRunning,
+        this::validateScreenPlace,
+        this::validateAnotherClient,
+        this::validateServerConnectionError,
+        this::validateError17,
+        this::validateLevelUp,
+        this::validateRating,
+        this::validateInternetConnectionError,
+        this::validateBotMessageShown,
+        this::validateAnyButtonStillNotClicked
+    };
 
     @UsedViaReflection
     public static ValidationManager getInstance() {
@@ -60,16 +77,16 @@ public final class ValidationManager extends ElementsManager {
     }
 
     public void validateAll() {
-        validateProcessIsRunning();
-        validateScreenPlace();
-        validateAnotherClient();
-        validateServerConnectionError();
-        validateError17();
-        validateLevelUp();
-        validateRating();
-        validateInternetConnectionError();
-        validateBotMessageShown();
-        validateAnyButtonStillNotClicked();
+        int counter = 0;
+        while (counter < validators.length) {
+            try {
+                validators[counter].run();
+                counter++;
+            } catch (RerunValidationException ignored) {
+                killApplication();
+                counter = 0;
+            }
+        }
     }
 
     private void validateProcessIsRunning() {
@@ -81,9 +98,6 @@ public final class ValidationManager extends ElementsManager {
             try (BufferedReader input = new BufferedReader(new InputStreamReader(taskListProcess.getInputStream()))) {
                 pidInfo = input.lines().collect(Collectors.joining());
             }
-
-            final String PROCESS_NAME = new String(
-                    new byte[] { 77, 77, 71, 97, 109, 101, 46, 85, 65, 80, 46, 101, 120, 101 });
 
             if (pidInfo.contains(PROCESS_NAME)) {
                 LoggerInstance.get().flow(getClass(), String.format("'%s' process exists.", PROCESS_NAME));
@@ -116,13 +130,16 @@ public final class ValidationManager extends ElementsManager {
                 .newRegion(new Location(SCREEN_DIFF_X, SCREEN_DIFF_Y), SCREEN_CHECK_WIDTH, SCREEN_CHECK_HEIGHT);
         if (!find(ValidationType.SCREEN_POINT.asElement(), region).isPresent()) {
             saveStatistics("validateScreenPlace");
-            find(ValidationType.SCREEN_POINT.asElement()).ifPresent(m -> {
+            Optional<Match> point = find(ValidationType.SCREEN_POINT.asElement());
+            if (point.isPresent()) {
                 try {
-                    ScreenInstance.get().dragDrop(m, region);
+                    ScreenInstance.get().dragDrop(point, region);
                 } catch (FindFailed e) {
                     LoggerInstance.get().error(getClass(), e.getMessage());
                 }
-            });
+            } else {
+                throw new RerunValidationException();
+            }
         }
     }
 
@@ -173,5 +190,13 @@ public final class ValidationManager extends ElementsManager {
             saveStatistics(methodName);
             ButtonsManager.getInstance().click(buttonType);
         });
+    }
+
+    private static void killApplication() {
+        try {
+            Runtime.getRuntime().exec("taskkill /F /IM " + PROCESS_NAME);
+        } catch (IOException e) {
+            LoggerInstance.get().error(ValidationManager.class, e.getMessage());
+        }
     }
 }
