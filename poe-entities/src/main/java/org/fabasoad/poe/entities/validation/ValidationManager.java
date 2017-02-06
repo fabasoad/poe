@@ -112,12 +112,13 @@ public final class ValidationManager extends ElementsManager {
         final int SCREEN_DIFF_X = (int) (screenBounds.getWidth() - SCREEN_CHECK_WIDTH) / 2;
         final int SCREEN_DIFF_Y = (int) (screenBounds.getHeight() - SCREEN_CHECK_HEIGHT) / 2;
 
-        Region region = ScreenInstance.get()
+        final Region region = ScreenInstance.get()
                 .newRegion(new Location(SCREEN_DIFF_X, SCREEN_DIFF_Y), SCREEN_CHECK_WIDTH, SCREEN_CHECK_HEIGHT);
         if (!find(ValidationType.SCREEN_POINT.asElement(), region).isPresent()) {
+            saveStatistics("validateScreenPlace");
             find(ValidationType.SCREEN_POINT.asElement()).ifPresent(m -> {
                 try {
-                    m.dragDrop(region);
+                    ScreenInstance.get().dragDrop(m, region);
                 } catch (FindFailed e) {
                     LoggerInstance.get().error(getClass(), e.getMessage());
                 }
