@@ -119,8 +119,8 @@ public final class ValidationManager extends ElementsManager {
     }
 
     private void validateScreenPlace() {
-        final int SCREEN_CHECK_WIDTH = 200;
-        final int SCREEN_CHECK_HEIGHT = 200;
+        final int SCREEN_CHECK_WIDTH = 150;
+        final int SCREEN_CHECK_HEIGHT = 150;
 
         final Rectangle screenBounds = ScreenInstance.get().getBounds();
         final int SCREEN_DIFF_X = (int) (screenBounds.getWidth() - SCREEN_CHECK_WIDTH) / 2;
