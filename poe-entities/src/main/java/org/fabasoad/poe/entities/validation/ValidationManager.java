@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static org.fabasoad.poe.entities.buttons.ButtonType.CLOSE_SALE;
 import static org.fabasoad.poe.entities.buttons.ButtonType.NO_THANKS;
 import static org.fabasoad.poe.entities.buttons.ButtonType.OK;
 import static org.fabasoad.poe.entities.buttons.ButtonType.RELOAD;
@@ -121,7 +122,7 @@ public final class ValidationManager extends ElementsManager {
     }
 
     private void validateSaleMessage() {
-        validate("validateSaleMessage", ValidationType.SALE_MESSAGE, SHOP);
+        validate("validateSaleMessage", ValidationType.SALE_MESSAGE, CLOSE_SALE);
     }
 
     private void validateScreenPlace() {
