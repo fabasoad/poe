@@ -25,12 +25,12 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static org.fabasoad.poe.entities.buttons.ButtonType.CLOSE;
 import static org.fabasoad.poe.entities.buttons.ButtonType.CLOSE_SALE;
 import static org.fabasoad.poe.entities.buttons.ButtonType.NO_THANKS;
 import static org.fabasoad.poe.entities.buttons.ButtonType.OK;
 import static org.fabasoad.poe.entities.buttons.ButtonType.RELOAD;
 import static org.fabasoad.poe.entities.buttons.ButtonType.REPEAT;
-import static org.fabasoad.poe.entities.buttons.ButtonType.SHOP;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -122,7 +122,7 @@ public final class ValidationManager extends ElementsManager {
     }
 
     private void validateSaleMessage() {
-        validate("validateSaleMessage", ValidationType.SALE_MESSAGE, CLOSE_SALE);
+        validate("validateSaleMessage", ValidationType.SALE_MESSAGE, CLOSE_SALE, CLOSE);
     }
 
     private void validateScreenPlace() {
@@ -192,10 +192,10 @@ public final class ValidationManager extends ElementsManager {
 
     private void validate(String methodName,
                           ValidationType validationType,
-                          ButtonType buttonType) {
+                          ButtonType... buttonTypes) {
         find(validationType.asElement()).ifPresent(ignored -> {
             saveStatistics(methodName);
-            ButtonsManager.getInstance().click(buttonType);
+            Arrays.stream(buttonTypes).forEach(ButtonsManager.getInstance()::click);
         });
     }
 

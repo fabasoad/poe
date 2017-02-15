@@ -21,7 +21,8 @@ public enum ButtonType {
     ANY_CLANMATE("'Any clanmate' button", "any_clanmate_button"),
     VISIT("'Visit' button", "visit_button"),
     SHOP("'Shop' button", "shop_button"),
-    CLOSE_SALE("'Close sale' button", "close_sale_button");
+    CLOSE_SALE("'Close sale' button", "close_sale_button"),
+    CLOSE("'Close' button", "close_button");
 
     private static final String BUTTONS_FOLDER = "buttons";
     private String displayName;
