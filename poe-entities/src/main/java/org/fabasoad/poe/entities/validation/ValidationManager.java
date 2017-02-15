@@ -29,6 +29,7 @@ import static org.fabasoad.poe.entities.buttons.ButtonType.NO_THANKS;
 import static org.fabasoad.poe.entities.buttons.ButtonType.OK;
 import static org.fabasoad.poe.entities.buttons.ButtonType.RELOAD;
 import static org.fabasoad.poe.entities.buttons.ButtonType.REPEAT;
+import static org.fabasoad.poe.entities.buttons.ButtonType.SHOP;
 
 /**
  * @author Yevhen Fabizhevskyi
@@ -43,6 +44,7 @@ public final class ValidationManager extends ElementsManager {
 
     private final Runnable[] validators = {
         this::validateProcessIsRunning,
+        this::validateSaleMessage,
         this::validateScreenPlace,
         this::validateAnotherClient,
         this::validateServerConnectionError,
@@ -116,6 +118,10 @@ public final class ValidationManager extends ElementsManager {
         } catch (IOException e) {
             LoggerInstance.get().error(getClass(), e.getMessage());
         }
+    }
+
+    private void validateSaleMessage() {
+        validate("validateSaleMessage", ValidationType.SALE_MESSAGE, SHOP);
     }
 
     private void validateScreenPlace() {

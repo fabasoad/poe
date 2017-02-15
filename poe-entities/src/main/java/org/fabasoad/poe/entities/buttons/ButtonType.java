@@ -19,7 +19,8 @@ public enum ButtonType {
     RESEARCH("'Research' button", "research_button"),
     CLAN("'Clan' button", "clan_button"),
     ANY_CLANMATE("'Any clanmate' button", "any_clanmate_button"),
-    VISIT("'Visit' button", "visit_button");
+    VISIT("'Visit' button", "visit_button"),
+    SHOP("'Shop' button", "shop_button");
 
     private static final String BUTTONS_FOLDER = "buttons";
     private String displayName;

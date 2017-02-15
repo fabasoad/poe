@@ -16,6 +16,7 @@ enum ValidationType {
     RATING_2("'Rating 2' message", "rating_2_message"),
     INTERNET_CONNECTION("'Internet connection' error", "internet_connection_error_message"),
     BOT_MESSAGE("'Bot message'", "bot_message"),
+    SALE_MESSAGE("'Sale message'", "sale_message"),
     SCREEN_POINT("Screen point", "screen_point");
 
     public static final String VALIDATION_FOLDER = "validation";
