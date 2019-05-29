@@ -1,1 +1,4 @@
 language: java
+before_install:
+  - mvn install:install-file -Dfile=fabasoad/poe/lib/sikulixsetup-1.1.0.jar -DgroupId=org.sikuli -DartifactId=sikuli-setup -Dversion=1.1.0 -Dpackaging=jar -DgeneratePom=true
+  - mvn install:install-file -Dfile=fabasoad/poe/lib/sikulixapi.jar -DgroupId=org.sikuli -DartifactId=sikuli-api -Dversion=1.2.0 -Dpackaging=jar -DgeneratePom=true
