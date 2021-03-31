@@ -23,7 +23,7 @@
         <lombok.version>1.18.12</lombok.version>
         <sikuli-api.version>1.2.0</sikuli-api.version>
         <sikuli-setup.version>1.1.0</sikuli-setup.version>
-        <guava.version>28.2-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
         <commons-cli.version>1.4</commons-cli.version>
         <commons-lang3.version>LATEST</commons-lang3.version>
         <commons-lang-fabasoad.version>0.4.5</commons-lang-fabasoad.version>
