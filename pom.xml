@@ -18,9 +18,9 @@
         <java.version>15</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <slf4j-api.version>2.0.0-alpha1</slf4j-api.version>
-        <slf4j-log4j12.version>2.0.0-alpha1</slf4j-log4j12.version>
-        <lombok.version>1.18.20</lombok.version>
+        <slf4j-api.version>2.0.5</slf4j-api.version>
+        <slf4j-log4j12.version>2.0.5</slf4j-log4j12.version>
+        <lombok.version>1.18.24</lombok.version>
         <sikuli-api.version>1.2.0</sikuli-api.version>
         <sikuli-setup.version>1.1.0</sikuli-setup.version>
         <guava.version>30.1.1-jre</guava.version>
