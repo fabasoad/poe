@@ -1,3 +1,4 @@
 # Bot for "Pirates of Everseas" game on Windows.
 
-[![Build Status](https://travis-ci.org/fabasoad/poe.svg?branch=master)](https://travis-ci.org/fabasoad/poe)
+> **This GitHub action is deprecated and no longer maintained starting from
+> `2022/11/30`.**
